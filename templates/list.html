@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>fileList</title>
+  </head>
+
+  <body>
+    <center><h1>List Page</h1></center>
+    <center><a href="{{url_for('files.main_page')}}">홈페이지</a><br></center>
+    <hr width="100%" color="black"/>
+    <center><h3>Show List!</h3></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/list.png') }}", width="70"
+        style="margin-left: auto; margin-right: auto; display: block;")/><br><br>
+
+    <ul>
+         {% for n in file_list %}
+           <center> {{n}} <br> </center>
+         {% endfor %}
+    </ul>
+  </body>
+</html>

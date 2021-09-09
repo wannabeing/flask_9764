@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>ftp_page</title>
+  </head>
+
+  <body>
+  	<center>
+	  <div>
+  		<h1>FTP Page</h1>
+  		<hr width="100%" color="black"/>
+  		<center>
+			<a href="{{url_for('files.main_page')}}">홈페이지</a>
+            <a href="{{url_for('question._list')}}">질문게시판</a>
+            <a href="{{url_for('files.main_page')}}">FTP</a>
+			<hr width="100%" color="black"/>
+			<img src="{{ url_for('static',filename='images/ftp.png') }}", width="50"
+        	style="margin-left: auto; margin-right: auto; display: block;")/>
+  			<h3>FTP Server</h3>
+  		</center>
+  		<hr width="100%" color="black"/>
+	  </div>
+  	</center>
+
+    <center>
+    <form>
+    <img src="{{ url_for('static',filename='images/file.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>
+    <a href="{{url_for('files.upload_page')}}">파일 업로드</a><br><br><br>
+
+    <img src="{{ url_for('static',filename='images/down.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>
+    <a href="{{url_for('files.down_page')}}">파일 다운로드</a><br><br><br>
+
+    <img src="{{ url_for('static',filename='images/list.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>
+    <a href="{{url_for('files.list_page')}}">파일 목록</a><br><br><br>
+    </form>
+    </center>
+  </body>
+</html>
+
