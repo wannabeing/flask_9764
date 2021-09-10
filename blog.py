@@ -29,7 +29,7 @@ def create_app():
     # 날짜 필터,
     from filter import format_datetime
     # 'datetime' 이름으로 필터 등록
-    app.jinja_env.filters['datetime'] = format_datetime()
+    app.jinja_env.filters['datetime'] = format_datetime
 
     # 에러 404 HTML 렌더링
     @app.errorhandler(404)

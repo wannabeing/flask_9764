@@ -3,21 +3,27 @@
 <html>
   <head>
 		<title>Question List</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+      <style>
+          * { font-family: 'NanumSquare', sans-serif !important;}
+      </style>
   </head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
   <body>
   	<center>
 	  <div>
   		<h1>Question Page</h1>
   		<hr width="100%" color="black"/>
   		<center>
-			<a href="{{url_for('files.main_page')}}">홈페이지</a>
+			<a href="{{url_for('main.home_page')}}">홈페이지</a>
             <a href="{{url_for('question._list')}}">질문게시판</a>
             <a href="{{url_for('files.main_page')}}">FTP</a>
 			<hr width="100%" color="black"/>
 			<img src="{{ url_for('static',filename='images/aq.png') }}", width="50"
         	style="margin-left: auto; margin-right: auto; display: block;")/>
-  			<h3>Question List</h3>
+  			<h3><a href="{{url_for('question._list')}}">Question List</a></h3>
   		</center>
   		<hr width="100%" color="black"/>
 	  </div>
@@ -39,8 +45,11 @@
             <td>{{ question_list.total - ((question_list.page-1) * question_list.per_page) - loop.index0 }}</td>
             <td>
                 <a href="{{ url_for('question.detail', question_id=question.id) }}">{{ question.subject }}</a>
+                {% if question.answer_set|length > 0 %}
+                <span class="text-danger small ml-2">{{ question.answer_set|length }}</span>
+                {% endif %}
             </td>
-            <td>{{ question.create_date }}</td>
+            <td>{{ question.create_date|datetime }}</td>
         </tr>
         {% endfor %}
         {% else %}
@@ -51,6 +60,8 @@
         </tbody>
     </table>
 </div>
+      <a href="{{ url_for('question.create') }}" class="btn btn-primary">질문하기</a>
+      <hr width="100%" color="black"/>
       <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
@@ -92,7 +103,6 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
-	  <a href="{{ url_for('question.create') }}">질문 등록하기</a>
   </center>
   </body>
 </html>

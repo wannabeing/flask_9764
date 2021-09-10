@@ -1,7 +1,22 @@
 # datetime 객체를 보기 편한 문자열로 만드는 필터파일
+from datetime import datetime, timedelta
 
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
-def format_datetime(value, fmt=''):
-    return value.strftime(fmt)
+
+def format_datetime(value, fmt='%m월 %d일'):
+    now = datetime.now()
+    time = now - value
+
+    if time < timedelta(minutes=1):
+        return '방금전'
+    elif time < timedelta(hours=1):
+        return str(int(time.seconds / 60)) + '분 전'
+    elif time < timedelta(days=1):
+        return str(int(time.seconds / 3600)) + '시간 전'
+    elif time < timedelta(days=7):
+        time = datetime.now().date() - value.date()
+        return str(time.days) + '일 전'
+    else:
+        return value.strftime(fmt)

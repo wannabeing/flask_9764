@@ -3,6 +3,10 @@
 <html>
   <head>
 		<title>Question Form</title>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+      <style>
+          body { font-family: 'NanumSquare', sans-serif !important;}
+      </style>
   </head>
   <body>
   	<center>
@@ -10,7 +14,7 @@
   		<h1>Question Page</h1>
   		<hr width="100%" color="black"/>
   		<center>
-			<a href="{{url_for('files.main_page')}}">홈페이지</a>
+			<a href="{{url_for('main.home_page')}}">홈페이지</a>
 			<hr width="100%" color="black"/>
 			<img src="{{ url_for('static',filename='images/aq.png') }}", width="50"
         	style="margin-left: auto; margin-right: auto; display: block;")/>
