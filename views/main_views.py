@@ -10,4 +10,3 @@ bp = Blueprint('main', __name__, url_prefix='/')
 def home_page():
     return redirect(url_for('login.login_page'))
 
-

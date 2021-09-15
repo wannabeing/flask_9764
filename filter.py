@@ -1,4 +1,5 @@
-# datetime 객체를 보기 편한 문자열로 만드는 필터파일
+# datetime 객체를 보기 편한 문자열로 만드는 필터.py
+
 from datetime import datetime, timedelta
 
 import locale
@@ -10,7 +11,7 @@ def format_datetime(value, fmt='%m월 %d일'):
     time = now - value
 
     if time < timedelta(minutes=1):
-        return '방금전'
+        return '방금 전'
     elif time < timedelta(hours=1):
         return str(int(time.seconds / 60)) + '분 전'
     elif time < timedelta(days=1):

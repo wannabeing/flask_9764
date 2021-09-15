@@ -1,6 +1,6 @@
 from blog import *
 from flask import Blueprint
-import os
+
 
 bp = Blueprint("login", __name__, url_prefix='/login')
 

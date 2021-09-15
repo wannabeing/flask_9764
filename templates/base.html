@@ -1,26 +1,31 @@
-<!DOCTYPE html>
-<meta charset="UTF-8">
-<html>
-  <head>
-		<title>Login Service</title>
-  </head>
-  <body>
-  	<center>
-	  <div>
-  		<h1>Login Page</h1>
-  		<hr width="100%" color="black"/>
-  		<center>
+<!doctype html>
+<html lang="ko">
 
-			<img src="{{ url_for('static',filename='images/login.png') }}", width="50"
-        	style="margin-left: auto; margin-right: auto; display: block;")/>
-  			<h3>Please LOGIN !</h3>
-  		</center>
-          <a href="{{url_for('main.home_page')}}">홈페이지</a>
-  		<hr width="100%" color="black"/>
-	  </div>
-  	</center>
-    <hr>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <!-- 네비게이션 바 -->
+    {% include 'nav.html' %}
+    <!-- 기본 템플릿 안에 삽입될 내용 Start -->
     {% block content %}
-	{% endblock %}
-  </body>
+    {% endblock %}
+    <!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- jQuery JS -->
+<script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+<!-- Bootstrap JS -->
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+
 </html>
