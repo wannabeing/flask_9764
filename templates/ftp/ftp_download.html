@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FTP Download
+{% endblock %}
+
+{% block content %}
+    <br>
+    <center><a href="{{url_for('files.main_page')}}"><h5>뒤로가기</h5></a><br></center>
+    <hr width="100%" color="black"/>
+    <center><h3>File Download</h3></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/down.png') }}", width="70"
+        style="margin-left: auto; margin-right: auto; display: block;")/><br><br>
+
+    <center>
+    <form action = "{{url_for('files.down_file')}}" method = "POST"
+         enctype = "multipart/form-data" class="d-flex justify-content-center">
+    <input type = "text" name = "file" />
+    <input type = "submit" placeholder="확장자명까지 입력" value="다운로드"/>
+    </form> <br>
+      <span class="text-danger">다운로드 받을 파일명을 입력해주세요! (확장자까지)</span>
+    </center>
+    <br>
+
+    <hr width="100%" color="black"/>
+    <center><h3>File List</h3></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/list.png') }}", width="50"
+    style="margin-left: auto; margin-right: auto; display: block;")/><br>
+
+    <ul class="d-flex justify-content-center">
+         {% for n in file_list %}
+          {{ n }} <br>
+         {% endfor %}
+    </ul>
+{% endblock %}

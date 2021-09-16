@@ -1,16 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}질문게시판{% endblock %}
+{% block title %}
+질문게시판
+{% endblock %}
+
 {% block content %}
 <center>
   	    <div>
-  	        <h1>Question Page</h1>
-  	        <hr width="100%" color="black" />
+			<br>
   	        <center>
-  	            <a href="{{url_for('main.home_page')}}">홈페이지</a>
-  	            <a href="{{url_for('question._list')}}">질문게시판</a>
-  	            <a href="{{url_for('files.main_page')}}">FTP</a>
-  	            <hr width="100%" color="black" />
   	            <img src="{{ url_for('static',filename='images/aq.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
   	            <h3><a href="{{url_for('question._list')}}">Question List</a></h3>
   	        </center>
@@ -21,10 +19,10 @@
   	    <div class="container my-3">
   	        <table class="table">
   	            <thead>
-  	                <tr class="thead-dark">
+  	                <tr class="thead-dark table-dark">
   	                    <th>번호</th>
-  	                    <th>제목</th>
-  	                    <th>작성일시</th>
+  	                    <th class="text-center">제목</th>
+  	                    <th class="text-right">작성일시</th>
   	                </tr>
   	            </thead>
   	            <tbody>
@@ -32,13 +30,14 @@
   	                {% for question in question_list.items %}
   	                <tr>
   	                    <td>{{ question_list.total - ((question_list.page-1) * question_list.per_page) - loop.index0 }}</td>
-  	                    <td>
+  	                    <td class="text-center">
   	                        <a href="{{ url_for('question.detail', question_id=question.id) }}">{{ question.subject }}</a>
-  	                        {% if question.answer_set|length > 0 %}
+  	                        <!-- 질문에 답변 개수 표시 -->
+							{% if question.answer_set|length > 0 %}
   	                        <span class="text-danger small ml-2">{{ question.answer_set|length }}</span>
   	                        {% endif %}
   	                    </td>
-  	                    <td>{{ question.create_date|datetime }}</td>
+  	                    <td class="text-right">{{ question.create_date|datetime }}</td>
   	                </tr>
   	                {% endfor %}
   	                {% else %}

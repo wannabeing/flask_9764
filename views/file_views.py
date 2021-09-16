@@ -9,13 +9,13 @@ bp = Blueprint("files", __name__, url_prefix='/files')
 # 메인 HTML 렌더링
 @bp.route('/main/')
 def main_page():
-    return render_template('index.html')
+    return render_template('ftp/ftp_main.html')
 
 
 # 업로드 HTML 렌더링
 @bp.route('/upload/')
 def upload_page():
-    return render_template('upload.html')
+    return render_template('ftp/ftp_upload.html')
 
 
 # 파일 업로드 처리
@@ -25,14 +25,14 @@ def upload_file():
         file = request.files['file'] # POST 방식으로 업로드페이지에서 넘어오면 file이라는 이름의 폼으로 전송된 파일을 가져옴
         file.save('./uploads/'+secure_filename(file.filename)) # 파일이름을 보호하고 file.save로 파일 객체를 지정한 폴더에 저장한다
         file_list = os.listdir("./uploads")
-        return render_template('check.html', file_list=file_list)
+        return render_template('ftp/ftp_check.html', file_list=file_list)
 
 
 # 다운로드 HTML 렌더링
 @bp.route('/download/')
 def down_page():
     file_list = os.listdir("./uploads")
-    return render_template('download.html', file_list=file_list)
+    return render_template('ftp/ftp_download.html', file_list=file_list)
 
 
 # 파일 다운로드 처리
@@ -57,4 +57,4 @@ def list_page():
     # html = """ <center><a href="/">홈페이지</a><br><br>"""
     # html += "file_list: {}".format(file_list) + "</center>"
     # return html
-    return render_template('list.html', file_list=file_list)
+    return render_template('ftp/ftp_list.html', file_list=file_list)

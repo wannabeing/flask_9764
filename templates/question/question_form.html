@@ -1,32 +1,24 @@
-<!DOCTYPE html>
-<meta charset="UTF-8">
-<html>
-  <head>
-		<title>Question Form</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
-      <style>
-          * { font-family: 'NanumSquare', sans-serif !important;}
-      </style>
-  </head>
-  <body>
+{% extends 'base.html' %}
+
+{% block title %}
+질문등록하기
+{% endblock %}
+
+{% block content %}
   	<center>
 	  <div>
-  		<h1>Question Page</h1>
-  		<hr width="100%" color="black"/>
   		<center>
-			<a href="{{url_for('main.home_page')}}">홈페이지</a>
-			<hr width="100%" color="black"/>
+            <br>
+
 			<img src="{{ url_for('static',filename='images/aq.png') }}" width="50"
         	style="margin-left: auto; margin-right: auto; display: block;"/>
-  			<h3>Question List</h3>
+                <center><a href="{{url_for('question._list')}}"><h5>뒤로가기</h5></a><br></center>
   		</center>
   		<hr width="100%" color="black"/>
 	  </div>
   	</center>
-<div class="container">
-    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+<div class="container text-center">
+    <h5 class="my-3 border-bottom pb-2 center">질문등록</h5>
     <form method="post" class="post-form my-3">
         {{ form.csrf_token }}
         <!-- 오류표시 Start -->
@@ -49,5 +41,4 @@
         <button type="submit" class="btn btn-primary">저장하기</button>
     </form>
 </div>
-  </body>
-</html>
+{% endblock %}
