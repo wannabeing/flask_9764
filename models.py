@@ -1,7 +1,6 @@
 from blog import db
 
 
-# Question Class는 모든 모델의 기본 클래스인 db.Model을 상속받았다.
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(200), nullable=False)
@@ -9,7 +8,6 @@ class Question(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
 
 
-# Answer Class는 모든 모델의 기본 클래스인 db.Model을 상속받았다.
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete='CASCADE'))

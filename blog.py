@@ -15,7 +15,7 @@ def create_app():
     # ORM
     db.init_app(app)
     migrate.init_app(app, db)
-    from models import Question, Answer, User
+    from models import Question, Answer
 
     # 블루프린트
     from views import main_views, file_views, login_views, question_views, answer_views
@@ -26,7 +26,7 @@ def create_app():
     app.register_blueprint(question_views.bp)
     app.register_blueprint(answer_views.bp)
 
-    # 날짜 필터,
+    # 날짜 필터
     from filter import format_datetime
     # 'datetime' 이름으로 필터 등록
     app.jinja_env.filters['datetime'] = format_datetime
