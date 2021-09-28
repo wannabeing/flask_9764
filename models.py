@@ -16,8 +16,10 @@ class Answer(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
 
 
+# id는 자동으로 증가하는 User 모델의 기본키
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)

@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<meta charset="UTF-8">
-<html>
-  <head>
-		<title>Login Service</title>
-  </head>
-  <body>
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
   	<center>
 	  <div>
-  		<h1>Login Page</h1>
-  		<hr width="100%" color="black"/>
   		<center>
-			<a href="{{url_for('files.main_page')}}">홈페이지</a>
+			<a href="{{url_for('login.main')}}">홈페이지</a>
 			<hr width="100%" color="black"/>
-			<img src="{{ url_for('static',filename='images/login.png') }}", width="50"
-        	style="margin-left: auto; margin-right: auto; display: block;")/>
-  			<h3>Please LOGIN !</h3>
+			<center>
+  	            <img src="{{ url_for('static',filename='images/login.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <h3><a href="#">로그인</a></h3>
+  	        </center>
   		</center>
   		<hr width="100%" color="black"/>
 	  </div>
   	</center>
-    <hr>
-  </body>
-</html>
+<div class="container my-3">
+    <form method="post" class="post-form">
+        {{ form.csrf_token }}
+        {% include "login/login_errors.html" %}
+        <div class="form-group">
+            <label for="username">사용자 이름</label>
+            <input type="text" class="form-control" name="username" id="username"
+                   value="{{ form.username.data or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" name="password" id="password"
+                   value="{{ form.password.data or '' }}">
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+</div>
+{% endblock %}
