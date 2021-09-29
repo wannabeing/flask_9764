@@ -11,6 +11,9 @@
   	            <img src="{{ url_for('static',filename='images/aq.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
   	            <br>
   	            <center>
+                    <!--로그인을 하지 않으면 안보이게 합니다.-->
+                    {% if not g.user %}
+                    {% else %}
   	                <a class="btn btn-outline-dark btn-primar btn-sm" href="{{url_for('question._list')}}">
   	                    <h8>질문게시판</h8>
   	                </a> <a class="btn btn-outline-dark btn-primar btn-sm" href="{{ url_for('question.create') }}">
@@ -19,19 +22,24 @@
   	                <br>
   	            </center><br>
                 <a href="{{ url_for('answer.create', question_id=question.id) }}" class="btn btn-primary">답변하기</a>
+                {% endif %}
             </center>
   	        <hr width="100%" color="black" />
   	    </div>
 
 <div class="container my-3 text-center">
     <h2 class="py-2">Q. {{ question.subject }}</h2>
-    <h5>{{ question.content }}</h5>
-    <div class="d-flex justify-content-end">
-        <div>
-            {{ question.create_date|datetime }}
-        </div>
-    </div>
     <hr width="100%" color="black" />
+        <div class="d-flex justify-content-between detail_q_title">
+        <div class="d-flex">
+            {{ question.user.username }}
+        </div>
+        <div class="d-flex">
+            {{ question.create_date|detail_datetime }}
+        </div>
+    </div> <br><br><br>
+    <h4>{{ question.content }}</h4>
+    <hr><br><br>
     <div class="alert alert-dismissible alert-primary">
         {% if question.answer_set|length == 0 %}
         <strong>아직 답변이 없습니다! 답변 해주시겠어요?</strong>
@@ -44,7 +52,7 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="toast-header">
-                <strong class="me-auto">--님 답변</strong>
+                <div class="me-auto">{{ question.user.username }}</div>
                 <small class="text-right">
                     {{ answer.create_date|datetime }}
                 </small>
@@ -55,5 +63,5 @@
         </div>
     </div>
     {% endfor %}
-</div>
+</div> <br><br>
 {% endblock %}

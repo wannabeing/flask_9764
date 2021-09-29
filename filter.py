@@ -21,3 +21,8 @@ def format_datetime(value, fmt='%m월 %d일'):
         return str(time.days) + '일 전'
     else:
         return value.strftime(fmt)
+
+
+# question_detail 에 사용할 필터
+def detail_datetime(value, fmt='%Y.%m.%d %H:%M'):
+    return value.strftime(fmt)

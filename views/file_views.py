@@ -1,6 +1,7 @@
 from blog import *
 from flask import Blueprint, request, send_file
 from werkzeug.utils import secure_filename
+from views.login_views import login_required
 import os
 
 bp = Blueprint("files", __name__, url_prefix='/files')
@@ -8,11 +9,13 @@ bp = Blueprint("files", __name__, url_prefix='/files')
 
 # 메인 HTML 렌더링
 @bp.route('/main/')
+@login_required
 def main_page():
     return render_template('ftp/ftp_main.html')
 
 
 # 업로드 HTML 렌더링
+@login_required
 @bp.route('/upload/')
 def upload_page():
     return render_template('ftp/ftp_upload.html')
@@ -20,6 +23,7 @@ def upload_page():
 
 # 파일 업로드 처리
 @bp.route('/uploadcheck/', methods =['GET', 'POST'])
+@login_required
 def upload_file():
     if request.method == 'POST':
         file = request.files['file'] # POST 방식으로 업로드페이지에서 넘어오면 file이라는 이름의 폼으로 전송된 파일을 가져옴
@@ -30,13 +34,15 @@ def upload_file():
 
 # 다운로드 HTML 렌더링
 @bp.route('/download/')
+@login_required
 def down_page():
     file_list = os.listdir("./uploads")
     return render_template('ftp/ftp_download.html', file_list=file_list)
 
 
 # 파일 다운로드 처리
-@bp.route('/fileDownload/', methods = ['GET','POST'])
+@bp.route('/fileDownload/', methods = ['GET', 'POST'])
+@login_required
 def down_file():
     if request.method == 'POST':
         sw = 0
@@ -52,9 +58,7 @@ def down_file():
 
 # 파일 리스트 HTML 렌더링
 @bp.route('/list/')
+@login_required
 def list_page():
     file_list = os.listdir("./uploads")
-    # html = """ <center><a href="/">홈페이지</a><br><br>"""
-    # html += "file_list: {}".format(file_list) + "</center>"
-    # return html
     return render_template('ftp/ftp_list.html', file_list=file_list)

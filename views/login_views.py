@@ -6,8 +6,19 @@ from blog import db
 from forms import UserCreateForm, UserLoginForm
 from models import User
 
+import functools
 
 bp = Blueprint("login", __name__, url_prefix='/login')
+
+
+# 모든 라우트함수보다 먼저 실행되면서 로그인한 사용자 정보를 조회하는 함수
+@bp.before_app_request
+def logged_in_user():
+    user_id = session.get('user_id')
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = User.query.get(user_id)
 
 
 # 로그인 메인 HTML 렌더링
@@ -54,18 +65,19 @@ def login():
     return render_template('login/login_login.html', form=form)
 
 
-# 모든 라우트함수보다 먼저 실행되면서 로그인한 사용자 정보를 조회하는 함수
-@bp.before_app_request
-def logged_in_user():
-    user_id = session.get('user_id')
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = User.query.get(user_id)
-
-
 # 로그아웃 후, 메인페이지 렌더링
 @bp.route('/logout/')
 def logout():
     session.clear()
     return redirect(url_for('login.main'))
+
+
+# 로그아웃 상태에서 게시판 이용할 때, 로그인페이지로 리다이렉트
+# 다른 함수에 @login_required 애너테이션을 지정하면, 아래 함수가 먼저 실행된다.
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('login.login'))
+        return view(**kwargs)
+    return wrapped_view

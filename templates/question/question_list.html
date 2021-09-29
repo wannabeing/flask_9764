@@ -21,16 +21,17 @@
   	        <table class="table">
   	            <thead>
   	                <tr class="thead-dark table-dark">
-  	                    <th>번호</th>
+  	                    <th class="text-center">번호</th>
   	                    <th class="text-center">제목</th>
-  	                    <th class="text-right">작성일시</th>
+						<th class="text-left">아이디</th>
+  	                    <th class="text-center">작성일시</th>
   	                </tr>
   	            </thead>
   	            <tbody>
   	                {% if question_list %}
   	                {% for question in question_list.items %}
   	                <tr>
-  	                    <td>{{ question_list.total - ((question_list.page-1) * question_list.per_page) - loop.index0 }}</td>
+  	                    <td class="text-center">{{ question_list.total - ((question_list.page-1) * question_list.per_page) - loop.index0 }}</td>
   	                    <td class="text-center">
   	                        <a href="{{ url_for('question.detail', question_id=question.id) }}">{{ question.subject }}</a>
   	                        <!-- 질문에 답변 개수 표시 -->
@@ -38,7 +39,8 @@
   	                        <span class="text-danger small ml-2">{{ question.answer_set|length }}</span>
   	                        {% endif %}
   	                    </td>
-  	                    <td class="text-right">{{ question.create_date|datetime }}</td>
+						<td>{{ question.user.username }}</td>
+  	                    <td class="text-center">{{ question.create_date|datetime }}</td>
   	                </tr>
   	                {% endfor %}
   	                {% else %}
@@ -49,7 +51,13 @@
   	            </tbody>
   	        </table>
   	    </div>
+
+		<!--로그인하지 않으면 질문하기 버튼을 가립니다.-->
+		{% if not g.user %}
+		{% else %}
   	    <a href="{{ url_for('question.create') }}" class="btn btn-primary">질문하기</a>
+		{% endif %}
+
   	    <hr width="100%" color="black" />
   	    <!-- 페이징처리 시작 -->
   	    <ul class="pagination justify-content-center">
