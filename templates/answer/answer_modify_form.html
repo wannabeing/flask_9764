@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-답변 등록하기
+답변 수정하기
 {% endblock %}
 
 {% block content %}
-  	<div>
+    <div>
   	        <center>
   	            <br>
   	            <img src="{{ url_for('static',filename='images/aq.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
@@ -21,25 +21,14 @@
             </center>
   	        <hr width="100%" color="black" />
     </div>
-
-<div class="container">
-    <div class="container my-3 text-center">
-    <h2 class="py-2">Q. {{ question.subject }}</h2>
-    <h5>{{ question.content }}</h5>
-</div>
-    <form method="post" class="post-form my-3">
+<div class="container my-3">
+    <form method="post" class="post-form">
         {{ form.csrf_token }}
-        <!-- 오류표시 Start -->
-        {% for field, errors in form.errors.items() %}
-        <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
-        </div>
-        {% endfor %}
-        <!-- 오류표시 End -->
-
+        {% include "login/login_errors.html" %}
         <div class="form-group">
             <label for="content">답변내용</label>
-            <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+            <textarea class="form-control" name="content" id="content"
+                      rows="10">{{ form.content.data or '' }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">저장하기</button>
     </form>

@@ -8,7 +8,8 @@
         <div>
   	        <center>
   	            <br>
-  	            <img src="{{ url_for('static',filename='images/aq.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <img src="{{ url_for('static',filename='images/aq.png') }}"
+                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
   	            <br>
   	            <center>
                     <!--로그인을 하지 않으면 안보이게 합니다.-->
@@ -16,30 +17,44 @@
                     {% else %}
   	                <a class="btn btn-outline-dark btn-primar btn-sm" href="{{url_for('question._list')}}">
   	                    <h8>질문게시판</h8>
-  	                </a> <a class="btn btn-outline-dark btn-primar btn-sm" href="{{ url_for('question.create') }}">
+  	                </a> <a class="btn btn-outline-dark btn-primar btn-sm"
+                              href="{{ url_for('question.create') }}">
   	                    <h8>새로운 질문하기</h8>
   	                </a>
   	                <br>
   	            </center><br>
-                <a href="{{ url_for('answer.create', question_id=question.id) }}" class="btn btn-primary">답변하기</a>
+                <a href="{{ url_for('answer.create', question_id=question.id) }}"
+                   class="btn btn-primary">답변하기</a>
                 {% endif %}
             </center>
   	        <hr width="100%" color="black" />
   	    </div>
-
 <div class="container my-3 text-center">
     <h2 class="py-2">Q. {{ question.subject }}</h2>
-    <hr width="100%" color="black" />
+        <h4>{{ question.content }}</h4> <br><hr>
         <div class="d-flex justify-content-between detail_q_title">
-        <div class="d-flex">
+            <div class="d-flex">
             {{ question.user.username }}
+            </div>
+            <div class="d-flex">
+            {% if question.modify_date %}
+                <p>{{ question.modify_date|detail_datetime }}(수정)</p>
+            {% else %}
+                {{ question.create_date|detail_datetime }}
+            {% endif %}
+            </div>
+            {% if g.user == question.user %}
+            <div class="my-3">
+                <a href="{{ url_for('question.modify', question_id=question.id) }}"
+                   class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{{ url_for('question.delete', question_id=question.id) }}">삭제</a>
+             </div>
+            {% endif %}
         </div>
-        <div class="d-flex">
-            {{ question.create_date|detail_datetime }}
-        </div>
-    </div> <br><br><br>
-    <h4>{{ question.content }}</h4>
-    <hr><br><br>
+</div>
+<hr width="100%" color="black" />
+<div class="container my-3 text-center">
     <div class="alert alert-dismissible alert-primary">
         {% if question.answer_set|length == 0 %}
         <strong>아직 답변이 없습니다! 답변 해주시겠어요?</strong>
@@ -47,21 +62,43 @@
         <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
     </div>
         {% endif %}
-
     {% for answer in question.answer_set %}
     <div class="card my-3">
         <div class="card-body">
             <div class="toast-header">
                 <div class="me-auto">{{ question.user.username }}</div>
                 <small class="text-right">
-                    {{ answer.create_date|datetime }}
+                    {% if answer.modify_date %}
+                        <p>{{ answer.modify_date|datetime }}(수정)</p>
+                    {% else %}
+                        <p>{{ answer.create_date|datetime }}</p>
+                    {% endif %}
                 </small>
             </div>
             <div class="card-body">
                 {{ answer.content }}
             </div>
+            {% if g.user == answer.user %}
+            <div class="my-3 d-flex justify-content-end">
+                <a href="{{ url_for('answer.modify', answer_id=answer.id) }}"
+                class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary "
+                data-uri="{{ url_for('answer.delete', answer_id=answer.id) }}">삭제</a>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
 </div> <br><br>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 질문을 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+</script>
 {% endblock %}
