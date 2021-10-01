@@ -6,3 +6,14 @@
     padding: 0px 35px;
 }
 
+.detail_answer_id_text {
+    font-weight: bolder;
+}
+.detail_answer_time_text {
+    margin-left: 15px;
+    font-size: smaller;
+}
+
+.h3 { font-family: 'NanumSquare',
+    sans-serif !important;
+}

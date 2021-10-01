@@ -29,13 +29,14 @@ def create_app():
     from models import Question, Answer
 
     # 블루프린트
-    from views import main_views, file_views, login_views, question_views, answer_views
+    from views import main_views, file_views, login_views, question_views, answer_views, vote_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(file_views.bp)
     app.register_blueprint(login_views.bp)
 
     app.register_blueprint(question_views.bp)
     app.register_blueprint(answer_views.bp)
+    app.register_blueprint(vote_views.bp)
 
     # 날짜 필터
     from filter import format_datetime, detail_datetime

@@ -15,12 +15,10 @@
                     <!--로그인을 하지 않으면 안보이게 합니다.-->
                     {% if not g.user %}
                     {% else %}
-  	                <a class="btn btn-outline-dark btn-primar btn-sm" href="{{url_for('question._list')}}">
-  	                    <h8>질문게시판</h8>
-  	                </a> <a class="btn btn-outline-dark btn-primar btn-sm"
-                              href="{{ url_for('question.create') }}">
-  	                    <h8>새로운 질문하기</h8>
-  	                </a>
+  	                <a class="btn btn-outline-dark btn-primar btn-sm"
+                       href="{{url_for('question._list')}}">질문게시판</a>
+                    <a class="btn btn-outline-dark btn-primar btn-sm"
+                              href="{{ url_for('question.create') }}">새로운 질문하기</a>
   	                <br>
   	            </center><br>
                 <a href="{{ url_for('answer.create', question_id=question.id) }}"
@@ -30,7 +28,12 @@
   	        <hr width="100%" color="black" />
   	    </div>
 <div class="container my-3 text-center">
-    <h2 class="py-2">Q. {{ question.subject }}</h2>
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <h2 class="py-2" style="font-weight:bolder">Q. {{ question.subject }}</h2> <br><br>
         <h4>{{ question.content }}</h4> <br><hr>
         <div class="d-flex justify-content-between detail_q_title">
             <div class="d-flex">
@@ -66,14 +69,28 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="toast-header">
-                <div class="me-auto">{{ question.user.username }}</div>
-                <small class="text-right">
+                <div class="detail_answer_id_text"> {{ question.user.username }}</div>
+                <div class="detail_answer_time_text">
                     {% if answer.modify_date %}
-                        <p>{{ answer.modify_date|datetime }}(수정)</p>
+                        {{ answer.modify_date|datetime }}(수정)
                     {% else %}
-                        <p>{{ answer.create_date|datetime }}</p>
+                        {{ answer.create_date|datetime }}
                     {% endif %}
-                </small>
+                </div>
+                <div class="d-flex" style="margin: 0px 10px">
+                    {% if answer.voter %}
+                    <a href="#" class="recommend" data-uri="{{ url_for('vote.answer', answer_id=answer.id) }}">
+                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% else %}
+                    <a href="#" class="recommend" data-uri="{{ url_for('vote.answer', answer_id=answer.id) }}">
+                        <img src="{{ url_for('static',filename='images/before_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% endif %}
+                    <div class="bg-light text-center font-weight-bolder mb-1">{{ answer.voter|length }}</div>
+                </div>
             </div>
             <div class="card-body">
                 {{ answer.content }}
@@ -95,7 +112,12 @@
 <script type='text/javascript'>
 $(document).ready(function(){
     $(".delete").on('click', function() {
-        if(confirm("정말로 질문을 삭제하시겠습니까?")) {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+    $(".recommend").on('click', function() {
+        if(confirm("정말로 추천하시겠습니까?")) {
             location.href = $(this).data('uri');
         }
     });
