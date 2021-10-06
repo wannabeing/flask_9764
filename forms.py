@@ -25,3 +25,12 @@ class UserCreateForm(FlaskForm):
 class UserLoginForm(FlaskForm):
     username = StringField('아이디', validators=[DataRequired('아이디를 정확히 입력하세용.'), Length(min=3, max=25)])
     password = PasswordField('비밀번호', validators=[DataRequired('비밀번호를 정확히 입력하세용.')])
+
+
+class BoardForm(FlaskForm):
+    subject = StringField('제목', validators=[DataRequired('제목을 입력하세용')])
+    content = TextAreaField('내용', validators=[DataRequired('내용을 입력하세용')])
+
+
+class CommentForm(FlaskForm):
+    content = TextAreaField('내용', validators=[DataRequired('내용을 입력하세용')])

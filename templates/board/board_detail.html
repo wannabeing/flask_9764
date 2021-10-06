@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ board.subject }}
+{% endblock %}
+
+{% block content %}
+        <div>
+  	        <center>
+  	            <br>
+  	            <img src="{{ url_for('static',filename='images/board.png') }}"
+                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <br>
+  	            <center>
+                    <!--로그인을 하지 않으면 안보이게 합니다.-->
+                    {% if not g.user %}
+                    {% else %}
+  	                <a class="btn btn-outline-dark btn-primar btn-sm"
+                       href="{{url_for('board._list')}}">자유게시판</a>
+                    <a class="btn btn-outline-dark btn-primar btn-sm"
+                              href="{{ url_for('board.create') }}">새로운 글쓰기</a>
+  	                <br>
+  	            </center><br>
+                {% endif %}
+            </center>
+  	        <hr width="100%" color="black" />
+  	    </div>
+<div class="container my-3 text-center">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <h2 class="py-2" style="font-weight:bolder">{{ board.subject }}</h2>
+    <hr width="100%" color="black" /><br>
+        <h4>{{ board.content }}</h4> <br>
+        <div class="d-flex justify-content-between detail_q_title">
+            <div class="d-flex">
+            {{ board.user.username }}
+            </div>
+            <div class="d-flex">
+            {% if board.modify_date %}
+                <p>{{ board.modify_date|detail_datetime }}(수정)</p>
+            {% else %}
+                {{ board.create_date|detail_datetime }}
+            {% endif %}
+            </div>
+            {% if g.user == board.user %}
+            <div class="my-3">
+                <a href="{{ url_for('board.modify', board_id=board.id) }}"
+                   class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
+             </div>
+            <div>
+                <a href="{{ url_for('comment.create', board_id=board.id) }}"
+                   class="small"><small><img src="{{ url_for('static',filename='images/comment.png') }}"
+                     width="25" style="margin-left: auto; margin-right: auto; display: block;" /></small></a>
+            </div>
+            {% endif %}
+        </div>
+</div>
+<hr width="100%" color="black" />
+            <!-- 질문 댓글 Start -->
+            {% if board.comment_set|length > 0 %}
+            <div class="my-3">
+            {% for comment in board.comment_set %}
+                <div class="py-2">
+                    <span style="white-space: pre-line;">{{ comment.content }}</span>
+                    <span>
+                        - {{ comment.user.username }}, {{ comment.create_date|datetime }}
+                        {% if comment.modify_date %}
+                        {{ comment.modify_date|datetime }}(수정)
+                        {% endif %}
+                    </span>
+                    {% if g.user == comment.user %}
+                    <a href="{{ url_for('comment.modify', comment_id=comment.id) }}" class="">수정</a>,
+                    <a href="#" class="delete"
+                       data-uri="{{ url_for('comment.delete', comment_id=comment.id) }}">삭제</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+            <!-- 질문 댓글 End -->
+ <br><br>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+    $(".recommend").on('click', function() {
+        if(confirm("정말로 추천하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+</script>
+{% endblock %}

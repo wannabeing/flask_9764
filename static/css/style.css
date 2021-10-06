@@ -17,3 +17,8 @@
 .h3 { font-family: 'NanumSquare',
     sans-serif !important;
 }
+
+.comment {
+    border-top:dotted 1px #ddd;
+    font-size:0.7em;
+}

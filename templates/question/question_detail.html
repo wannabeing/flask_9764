@@ -21,8 +21,6 @@
                               href="{{ url_for('question.create') }}">새로운 질문하기</a>
   	                <br>
   	            </center><br>
-                <a href="{{ url_for('answer.create', question_id=question.id) }}"
-                   class="btn btn-primary">답변하기</a>
                 {% endif %}
             </center>
   	        <hr width="100%" color="black" />
@@ -61,8 +59,20 @@
     <div class="alert alert-dismissible alert-primary">
         {% if question.answer_set|length == 0 %}
         <strong>아직 답변이 없습니다! 답변 해주시겠어요?</strong>
+            <!--로그인을 하지 않으면 안보이게 합니다.-->
+            {% if not g.user %}
+            {% else %}
+            <a href="{{ url_for('answer.create', question_id=question.id) }}"
+               class="btn btn-primary">답변하기</a>
+            {% endif %}
         {% else %}
-        <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
+            <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
+            <!--로그인을 하지 않으면 안보이게 합니다.-->
+            {% if not g.user %}
+            {% else %}
+            <a href="{{ url_for('answer.create', question_id=question.id) }}"
+               class="btn btn-primary">답변하기</a>
+            {% endif %}
     </div>
         {% endif %}
     {% for answer in question.answer_set %}

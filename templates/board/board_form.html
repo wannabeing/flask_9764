@@ -1,35 +1,31 @@
 {% extends 'base.html' %}
 
 {% block title %}
-답변 등록하기
+글 등록하기
 {% endblock %}
 
 {% block content %}
   	<div>
   	        <center>
   	            <br>
-  	            <img src="{{ url_for('static',filename='images/aq.png') }}"
+  	            <img src="{{ url_for('static',filename='images/board.png') }}"
                      width="50" style="margin-left: auto; margin-right: auto; display: block;" />
   	            <br>
   	            <center>
   	                <a class="btn btn-outline-dark btn-primar btn-sm"
-                       href="{{url_for('question._list')}}">
-  	                    <h8>질문게시판</h8>
+                       href="{{url_for('board._list')}}">
+  	                    <h8>자유게시판</h8>
   	                </a> <a class="btn btn-outline-dark btn-primar btn-sm"
-                              href="{{ url_for('question.create') }}">
-  	                    <h8>새로운 질문하기</h8>
+                              href="{{ url_for('board.create') }}">
+  	                    <h8>새로운 글 작성하기</h8>
   	                </a>
   	                <br>
   	            </center><br>
             </center>
   	        <hr width="100%" color="black" />
     </div>
-
-<div class="container">
-    <div class="container my-3 text-center">
-    <h2 class="py-2">Q. {{ question.subject }}</h2>
-    <h5>{{ question.content }}</h5>
-</div>
+<div class="container text-center">
+    <h5 class="my-3 border-bottom pb-2 center">게시글 등록</h5>
     <form method="post" class="post-form my-3">
         {{ form.csrf_token }}
         <!-- 오류표시 Start -->
@@ -39,10 +35,15 @@
         </div>
         {% endfor %}
         <!-- 오류표시 End -->
-
         <div class="form-group">
-            <label for="content">답변내용</label>
-            <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+            <label for="subject">제목</label>
+            <input type="text" class="form-control" name="subject" id="subject"
+                   value="{{ form.subject.data or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content"
+                      id="content" rows="10">{{ form.content.data or '' }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">등록하기</button>
     </form>
