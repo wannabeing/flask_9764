@@ -22,6 +22,10 @@ def _list():
 def detail(question_id):
     form = AnswerForm()
     question = Question.query.get_or_404(question_id)
+    # 조회수 증가를 위한 코딩, but 새로고침시에도 조회수가 올라가므로 새로운 방법을 넣어야 함.
+    question.hits += 1
+    db.session.add(question)
+    db.session.commit()
     return render_template('question/question_detail.html', question=question, form=form)
 
 
@@ -34,7 +38,8 @@ def create():
                             create_date=datetime.now(), user=g.user)
         db.session.add(question)
         db.session.commit()
-        return redirect(url_for('question.detail', question_id=question.id))
+        return redirect(url_for('question._list'))
+        # return redirect(url_for('question.detail', question_id=question.id)), 모자른 조회수 기능 때문에
     return render_template('question/question_form.html', form=form)
 
 

@@ -33,6 +33,7 @@ Login
                    value="{{ form.password.data or '' }}">
         </div>
         <button type="submit" class="btn btn-primary">로그인</button>
+        <a class="btn btn-primary" href="{{url_for('login.signup')}}">회원가입</a>
     </form>
 </div>
 {% endblock %}

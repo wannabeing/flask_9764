@@ -26,6 +26,8 @@
   	                    <th class="">제목</th>
 						<th class="">아이디</th>
   	                    <th class="">작성일시</th>
+						<th class="">조회수</th>
+						<th class="">추천수</th>
   	                </tr>
   	            </thead>
   	            <tbody>
@@ -42,6 +44,18 @@
   	                    </td>
 						<td>{{ board.user.username }}</td>
   	                    <td class="">{{ board.create_date|datetime }}</td>
+						<td class="text-center">hits</td>
+						<td class="text-center">
+							{% if board.voter|length > 0 %}
+							<span class="text-danger small ml-2">
+								{{ board.voter|length }}
+							</span>
+							{% else %}
+							<span class="small ml-2">
+								{{ board.voter|length }}
+							</span>
+							{% endif %}
+						</td>
   	                </tr>
   	                {% endfor %}
   	                {% else %}

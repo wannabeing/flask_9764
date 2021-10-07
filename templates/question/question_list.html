@@ -23,8 +23,10 @@
   	                <tr class="thead-dark table-dark">
   	                    <th class="text-center">번호</th>
   	                    <th class="text-center">제목</th>
-						<th class="text-left">아이디</th>
+						<th class="text-center">아이디</th>
   	                    <th class="text-center">작성일시</th>
+						<th class="text-center">조회수</th>
+						<th class="text-center">추천수</th>
   	                </tr>
   	            </thead>
   	            <tbody>
@@ -39,8 +41,20 @@
   	                        <span class="text-danger small ml-2">{{ question.answer_set|length }}</span>
   	                        {% endif %}
   	                    </td>
-						<td>{{ question.user.username }}</td>
+						<td class="text-center">{{ question.user.username }}</td>
   	                    <td class="text-center">{{ question.create_date|datetime }}</td>
+						<td class="text-center">{{ question.hits }}</td>
+						<td class="text-center">
+							{% if question.voter|length > 0 %}
+							<span class="text-danger small ml-2">
+								{{ question.voter|length }}
+							</span>
+							{% else %}
+							<span class="small ml-2">
+								{{ question.voter|length }}
+							</span>
+							{% endif %}
+						</td>
   	                </tr>
   	                {% endfor %}
   	                {% else %}

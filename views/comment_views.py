@@ -23,7 +23,8 @@ def create(board_id):
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('board.detail', board_id=board_id))
-    return render_template('comment/comment_form.html', form=form)
+    return redirect(url_for('board.detail', board_id=board_id))
+    # return render_template('comment/comment_form.html', form=form) 왜 오류가 안뜨지?
 
 
 @bp.route('/modify/board/<int:comment_id>', methods=('GET', 'POST'))

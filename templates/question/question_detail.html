@@ -34,14 +34,32 @@
     <h2 class="py-2" style="font-weight:bolder">Q. {{ question.subject }}</h2> <br><br>
         <h4>{{ question.content }}</h4> <br><hr>
         <div class="d-flex justify-content-between detail_q_title">
+             <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
+            <div class="d-flex" style="margin: 0px 10px">
+                    {% if question.voter %}
+                    <a href="#" class="recommend"
+                       data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% else %}
+                    <a href="#" class="recommend"
+                       data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                        <img src="{{ url_for('static',filename='images/before_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% endif %}
+                    <div class="bg-light text-center font-weight-bolder mb-1">
+                        {{ question.voter|length }}</div>
+            </div>
             <div class="d-flex">
             {{ question.user.username }}
             </div>
             <div class="d-flex">
             {% if question.modify_date %}
-                <p>{{ question.modify_date|detail_datetime }}(수정)</p>
+                <p>{{ question.modify_date|datetime }}(수정)</p>
             {% else %}
-                {{ question.create_date|detail_datetime }}
+                {{ question.create_date|datetime }}
             {% endif %}
             </div>
             {% if g.user == question.user %}
@@ -62,16 +80,24 @@
             <!--로그인을 하지 않으면 안보이게 합니다.-->
             {% if not g.user %}
             {% else %}
-            <a href="{{ url_for('answer.create', question_id=question.id) }}"
-               class="btn btn-primary">답변하기</a>
+                <!-- 로그인유저와 질문유저가 같으면 답변하기 버튼을 비활성화합니다. -->
+                {% if question.user == g.user %}
+                {% else %}
+                <a href="{{ url_for('answer.create', question_id=question.id) }}"
+                   class="btn btn-primary">답변하기</a>
+                {% endif %}
             {% endif %}
         {% else %}
             <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
             <!--로그인을 하지 않으면 안보이게 합니다.-->
             {% if not g.user %}
             {% else %}
-            <a href="{{ url_for('answer.create', question_id=question.id) }}"
-               class="btn btn-primary">답변하기</a>
+            <!-- 로그인유저와 질문유저가 같으면 답변하기 버튼을 비활성화합니다. -->
+                {% if question.user == g.user %}
+                {% else %}
+                <a href="{{ url_for('answer.create', question_id=question.id) }}"
+                   class="btn btn-primary">답변하기</a>
+                {% endif %}
             {% endif %}
     </div>
         {% endif %}
@@ -79,7 +105,7 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="toast-header">
-                <div class="detail_answer_id_text"> {{ question.user.username }}</div>
+                <div class="detail_answer_id_text">{{ g.user.username }}</div>
                 <div class="detail_answer_time_text">
                     {% if answer.modify_date %}
                         {{ answer.modify_date|datetime }}(수정)
@@ -88,6 +114,7 @@
                     {% endif %}
                 </div>
                 <div class="d-flex" style="margin: 0px 10px">
+                    <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
                     {% if answer.voter %}
                     <a href="#" class="recommend" data-uri="{{ url_for('vote.answer', answer_id=answer.id) }}">
                         <img src="{{ url_for('static',filename='images/after_like.png') }}"
