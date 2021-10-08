@@ -2,7 +2,7 @@ from flask import Blueprint, url_for, flash, g
 from werkzeug.utils import redirect
 
 from blog import db
-from models import Question, Answer, Board
+from models import Question, Answer, Board, Comment
 from views.login_views import login_required
 
 bp = Blueprint('vote', __name__, url_prefix='/vote')
@@ -36,7 +36,7 @@ def answer(answer_id):
     return redirect(url_for('question.detail', question_id=_answer.question.id))
 
 
-@bp.route('/board/<int:question_id>/')
+@bp.route('/board/<int:board_id>/')
 @login_required
 def board(board_id):
     _board = Board.query.get_or_404(board_id)
@@ -48,3 +48,17 @@ def board(board_id):
         _board.voter.append(g.user)
         db.session.commit()
     return redirect(url_for('board.detail', board_id=board_id))
+
+
+@bp.route('/vote/<int:comment_id>/')
+@login_required
+def comment(comment_id):
+    _comment = Comment.query.get_or_404(comment_id)
+    if g.user == _comment.user:
+        flash('본인이 작성한 댓글은 추천할수 없습니다')
+    elif g.user in _comment.voter:
+        flash('이미 추천했습니다.')
+    else:
+        _comment.voter.append(g.user)
+        db.session.commit()
+    return redirect(url_for('board.detail', board_id=_comment.board.id))

@@ -77,35 +77,27 @@
     <div class="alert alert-dismissible alert-primary">
         {% if question.answer_set|length == 0 %}
         <strong>아직 답변이 없습니다! 답변 해주시겠어요?</strong>
-            <!--로그인을 하지 않으면 안보이게 합니다.-->
-            {% if not g.user %}
-            {% else %}
-                <!-- 로그인유저와 질문유저가 같으면 답변하기 버튼을 비활성화합니다. -->
-                {% if question.user == g.user %}
-                {% else %}
-                <a href="{{ url_for('answer.create', question_id=question.id) }}"
-                   class="btn btn-primary">답변하기</a>
-                {% endif %}
-            {% endif %}
         {% else %}
-            <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
-            <!--로그인을 하지 않으면 안보이게 합니다.-->
-            {% if not g.user %}
-            {% else %}
-            <!-- 로그인유저와 질문유저가 같으면 답변하기 버튼을 비활성화합니다. -->
-                {% if question.user == g.user %}
-                {% else %}
-                <a href="{{ url_for('answer.create', question_id=question.id) }}"
-                   class="btn btn-primary">답변하기</a>
-                {% endif %}
-            {% endif %}
-    </div>
+        <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
         {% endif %}
+        <!--로그인을 하지 않으면 안보이게 합니다.-->
+        {% if not g.user %}
+        {% else %}
+            <!-- 로그인유저와 질문유저가 같으면 답변하기 버튼을 비활성화합니다. -->
+            {% if question.user == g.user %}
+            {% elif question.answer_set.id == g.user.id %}
+            이미 답변하셨습니다!
+            {% else %}
+            <a href="{{ url_for('answer.create', question_id=question.id) }}"
+               class="btn btn-primary">답변하기</a>
+            {% endif %}
+        {% endif %}
+    </div>
     {% for answer in question.answer_set %}
     <div class="card my-3">
         <div class="card-body">
             <div class="toast-header">
-                <div class="detail_answer_id_text">{{ g.user.username }}</div>
+                <div class="detail_answer_id_text">{{ answer.user.username }}</div>
                 <div class="detail_answer_time_text">
                     {% if answer.modify_date %}
                         {{ answer.modify_date|datetime }}(수정)
@@ -113,8 +105,8 @@
                         {{ answer.create_date|datetime }}
                     {% endif %}
                 </div>
+                <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
                 <div class="d-flex" style="margin: 0px 10px">
-                    <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
                     {% if answer.voter %}
                     <a href="#" class="recommend" data-uri="{{ url_for('vote.answer', answer_id=answer.id) }}">
                         <img src="{{ url_for('static',filename='images/after_like.png') }}"
@@ -132,14 +124,52 @@
             <div class="card-body">
                 {{ answer.content }}
             </div>
-            {% if g.user == answer.user %}
+            <!-- 댓글 입력 btn -->
+            <div class="my-3 d-flex justify-content-start">
+
+            </div>
+            <!-- 답변 작성자가 로그인유저와 같을 시, 수정/삭제 버튼 보이기 -->
             <div class="my-3 d-flex justify-content-end">
+                <a href="{{ url_for('comment.create_answer', answer_id=answer.id) }}"
+                class="btn btn-sm btn-outline-secondary">댓글입력</a>
+                {% if g.user == answer.user %}
                 <a href="{{ url_for('answer.modify', answer_id=answer.id) }}"
                 class="btn btn-sm btn-outline-secondary">수정</a>
                 <a href="#" class="delete btn btn-sm btn-outline-secondary "
                 data-uri="{{ url_for('answer.delete', answer_id=answer.id) }}">삭제</a>
+                {% endif %}
             </div>
-            {% endif %}
+            <!-- 댓글 목록 LIST -->
+            <div>
+                <details open>
+                    <summary>
+                        <small>댓글 {{ answer.comment_set|length }}</small>
+                    </summary>
+                    <hr>
+                    {% if answer.comment_set|length > 0 %}
+                    <div class="mt-3">
+                        {% for comment in answer.comment_set %}
+                        <div class="comment py-2 ">
+                            <span style="white-space: pre-line;">{{ comment.content }}</span>
+                            <span>
+                                - {{ comment.user.username }}, {{ comment.create_date|datetime }}
+                                {% if comment.modify_date %}
+                                {{ comment.modify_date|datetime }}(수정)
+                                {% endif %}
+                            </span>
+                            {% if g.user == comment.user %}
+                            <a href="{{ url_for('comment.modify_answer', comment_id=comment.id) }}"
+                               class="small">수정</a>,
+                            <a href="#" class="small delete"
+                               data-uri="{{ url_for('comment.delete_answer', comment_id=comment.id) }}">삭제</a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </details>
+            </div>
+            <!-- 댓글 목록 LIST End -->
         </div>
     </div>
     {% endfor %}

@@ -40,11 +40,14 @@
   	                        <a href="{{ url_for('board.detail', board_id=board.id) }}">
                                 {{ board.subject }}
                             </a>
-  	                        <!-- 질문에 답변 개수 표시 대신 댓글 개수를 말하자 -->
+  	                        <!-- 질문에 답변 개수 표시 -->
+							{% if board.comment_set|length > 0 %}
+  	                        <span class="text-danger small ml-2">{{ board.comment_set|length }}</span>
+  	                        {% endif %}
   	                    </td>
 						<td>{{ board.user.username }}</td>
   	                    <td class="">{{ board.create_date|datetime }}</td>
-						<td class="text-center">hits</td>
+						<td class="text-center">{{ board.hits }}</td>
 						<td class="text-center">
 							{% if board.voter|length > 0 %}
 							<span class="text-danger small ml-2">

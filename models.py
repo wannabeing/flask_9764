@@ -15,6 +15,11 @@ board_voter = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
     db.Column('board_id', db.Integer, db.ForeignKey('board.id', ondelete='CASCADE'), primary_key=True)
 )
+comment_voter = db.Table(
+    'comment_voter',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('comment_id', db.Integer, db.ForeignKey('comment.id', ondelete='CASCADE'), primary_key=True)
+)
 
 
 class Question(db.Model):
@@ -57,6 +62,7 @@ class Board(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     user = db.relationship('User', backref=db.backref('board_set'))     # 나중에 자신이 작성한 글을 user.board_set 으로 참조할 수 있다.
     modify_date = db.Column(db.DateTime(), nullable=True)
+    hits = db.Column(db.Integer, nullable=False, default='0')
     voter = db.relationship('User', secondary=board_voter, backref=db.backref('board_voter_set'))
 
 
@@ -67,5 +73,8 @@ class Comment(db.Model):
     content = db.Column(db.Text(), nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False)
     modify_date = db.Column(db.DateTime())
-    board_id = db.Column(db.Integer, db.ForeignKey('board.id', ondelete='CASCADE'), nullable=False)
+    board_id = db.Column(db.Integer, db.ForeignKey('board.id', ondelete='CASCADE'), nullable=True)
     board = db.relationship('Board', backref=db.backref('comment_set'))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id', ondelete='CASCADE'), nullable=True)
+    answer = db.relationship('Answer', backref=db.backref('comment_set'))
+    voter = db.relationship('User', secondary=comment_voter, backref=db.backref('comment_voter_set'))

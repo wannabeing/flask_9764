@@ -22,6 +22,10 @@ def _list():
 def detail(board_id):
     form = BoardForm()
     board = Board.query.get_or_404(board_id)
+    # 조회수 증가를 위한 코딩, but 새로고침시에도 조회수가 올라가므로 새로운 방법을 넣어야 함.
+    board.hits += 1
+    db.session.add(board)
+    db.session.commit()
     return render_template('board/board_detail.html', board=board, form=form)
 
 

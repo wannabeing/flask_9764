@@ -26,7 +26,8 @@ def create(question_id):
         db.session.add(answer)
         db.session.commit()
         # 답변 제출 시, 답변에 대한 질문 글 출력하기 위한 함수 호출
-        return redirect(url_for('question.detail', question_id=question_id))
+        return redirect('{}#answer_{}'.format(
+            url_for('question.detail', question_id=question_id), answer.id))
     return render_template('answer/answer_form.html', form=form, question=question)
 
 
@@ -43,7 +44,8 @@ def modify(answer_id):
             form.populate_obj(answer)
             answer.modify_date = datetime.now()  # 수정일시 저장
             db.session.commit()
-            return redirect(url_for('question.detail', question_id=answer.question.id))
+            return redirect('{}#answer_{}'.format(
+                url_for('question.detail', question_id=answer.question.id), answer.id))
     else:   # GET 요청
         form = AnswerForm(obj=answer)
     return render_template('answer/answer_modify_form.html', form=form)    # 수정하기 버튼 클릭시, 렌더링

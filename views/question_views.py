@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, g, flash
 
-from models import Question
+from models import Question, Answer, User
 from forms import QuestionForm, AnswerForm
 from datetime import datetime
 from werkzeug.utils import redirect
@@ -12,10 +12,30 @@ bp = Blueprint('question', __name__, url_prefix='/question')
 
 @bp.route('/list/')
 def _list():
-    page = request.args.get('page', type=int, default=1) # 페이지번호가 없으면 default로 페이지1을 출력한다.
+    # 입력 파라미터
+    page = request.args.get('page', type=int, default=1)
+    kw = request.args.get('kw', type=str, default='')
+
+    # 조회
     question_list = Question.query.order_by(Question.create_date.desc())
-    question_list = question_list.paginate(page, per_page=5)
-    return render_template('question/question_list.html', question_list=question_list)
+    if kw:
+        search = '%%{}%%'.format(kw)
+        sub_query = db.session.query(Answer.question_id, Answer.content, User.username) \
+            .join(User, Answer.user_id == User.id).subquery()
+        question_list = question_list \
+            .join(User) \
+            .outerjoin(sub_query, sub_query.c.question_id == Question.id) \
+            .filter(Question.subject.ilike(search) |  # 질문제목
+                    Question.content.ilike(search) |  # 질문내용
+                    User.username.ilike(search) |  # 질문작성자
+                    sub_query.c.content.ilike(search) |  # 답변내용
+                    sub_query.c.username.ilike(search)  # 답변작성자
+                    ) \
+            .distinct()
+
+    # 페이징
+    question_list = question_list.paginate(page, per_page=10)
+    return render_template('question/question_list.html', question_list=question_list, page=page, kw=kw)
 
 
 @bp.route('/detail/<int:question_id>/')
@@ -26,7 +46,7 @@ def detail(question_id):
     question.hits += 1
     db.session.add(question)
     db.session.commit()
-    return render_template('question/question_detail.html', question=question, form=form)
+    return render_template('question/question_detail.html', question=question,form=form)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
