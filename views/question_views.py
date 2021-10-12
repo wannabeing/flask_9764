@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, url_for, g, flash
 
-from models import Question, Answer, User
+from models import Question, Answer, User, question_voter
 from forms import QuestionForm, AnswerForm
 from datetime import datetime
 from werkzeug.utils import redirect
 from blog import db
 from views.login_views import login_required
+from sqlalchemy import func
 
 bp = Blueprint('question', __name__, url_prefix='/question')
 
@@ -15,27 +16,28 @@ def _list():
     # 입력 파라미터
     page = request.args.get('page', type=int, default=1)
     kw = request.args.get('kw', type=str, default='')
+    so = request.args.get('so', type=str, default='recent')
 
-    # 조회
-    question_list = Question.query.order_by(Question.create_date.desc())
-    if kw:
-        search = '%%{}%%'.format(kw)
-        sub_query = db.session.query(Answer.question_id, Answer.content, User.username) \
-            .join(User, Answer.user_id == User.id).subquery()
-        question_list = question_list \
-            .join(User) \
-            .outerjoin(sub_query, sub_query.c.question_id == Question.id) \
-            .filter(Question.subject.ilike(search) |  # 질문제목
-                    Question.content.ilike(search) |  # 질문내용
-                    User.username.ilike(search) |  # 질문작성자
-                    sub_query.c.content.ilike(search) |  # 답변내용
-                    sub_query.c.username.ilike(search)  # 답변작성자
-                    ) \
-            .distinct()
-
+    # 정렬
+    if so == 'recommend':   # 추천 수가 많은 게시물
+        sub_query = db.session.query(question_voter.c.question_id, func.count('*').label('num_voter')) \
+            .group_by(question_voter.c.question_id).subquery()
+        question_list = Question.query \
+            .outerjoin(sub_query, Question.id == sub_query.c.question_id) \
+            .order_by(sub_query.c.num_voter.desc(), Question.create_date.desc())
+    elif so == 'popular':   # 답변 수가 많은 게시물
+        sub_query = db.session.query(Answer.question_id, func.count('*').label('num_answer')) \
+            .group_by(Answer.question_id).subquery()
+        question_list = Question.query \
+            .outerjoin(sub_query, Question.id == sub_query.c.question_id) \
+            .order_by(sub_query.c.num_answer.desc(), Question.create_date.desc())
+    elif so == 'hit':   # 조회 수가 많은 게시물
+        question_list = Question.query.order_by(Question.hits.desc())
+    else:  # recent, 기존 게시물
+        question_list = Question.query.order_by(Question.create_date.desc())
     # 페이징
-    question_list = question_list.paginate(page, per_page=10)
-    return render_template('question/question_list.html', question_list=question_list, page=page, kw=kw)
+    question_list = question_list.paginate(page, per_page=5)
+    return render_template('question/question_list.html', question_list=question_list, page=page, kw=kw, so=so)
 
 
 @bp.route('/detail/<int:question_id>/')
