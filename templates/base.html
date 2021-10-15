@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="utf-8">
 
 <head>
     <!-- Required meta tags -->
@@ -25,10 +25,31 @@
 <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
 <!-- Bootstrap JS -->
 <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+<!-- SmartEditor -->
+<script type="text/javascript"
+        src="{{ url_for('static', filename='smartEditor/js/service/HuskyEZCreator.js') }}"
+        charset="utf-8"></script>
 <!-- 자바스크립트 Start -->
 {% block script %}
 {% endblock %}
 <!-- 자바스크립트 End -->
 </body>
-
+<script type="text/javascript">
+    var oEditors = [];
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors,
+        elPlaceHolder: "content",
+        sSkinURI: "/static/smartEditor/SmartEditor2Skin.html",
+        fCreator: "createSEditor2",
+        htParams : {
+            bUseToolbar : true,
+            bUseVerticalResizer : true,
+            bUseModeChanger : true,
+        },
+        fOnAppLoad : function(){
+        oEditors.getById["content"].exec("", "");
+        }
+});
+    });
+</script>
 </html>

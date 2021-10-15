@@ -43,9 +43,18 @@
         <div class="form-group">
             <label for="content">내용</label>
             <textarea class="form-control" name="content"
-                      id="content" rows="10">{{ form.content.data or '' }}</textarea>
+                      id="content" rows="10" cols="100">{{ form.content.data or '' }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">등록하기</button>
     </form>
 </div>
+<script type="text/javascript">
+var oEditors = [];
+nhn.husky.EZCreator.createInIFrame({
+ oAppRef: oEditors,
+ elPlaceHolder: "content",
+ sSkinURI: "smartEditor/SmartEditor2Skin.html",
+ fCreator: "createSEditor2"
+});
+</script>
 {% endblock %}
