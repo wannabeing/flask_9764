@@ -14,9 +14,9 @@ bp = Blueprint('question', __name__, url_prefix='/question')
 @bp.route('/list/')
 def _list():
     # 입력 파라미터
-    page = request.args.get('page', type=int, default=1)
-    kw = request.args.get('kw', type=str, default='')
-    so = request.args.get('so', type=str, default='recent')
+    page = request.args.get('page', type=int, default=1)  # 페이지번호가 없으면 default 로 페이지1을 출력한다.
+    kw = request.args.get('kw', type=str, default='')   # 검색어
+    so = request.args.get('so', type=str, default='recent')  # 정렬, default 는 최신순('recent')
 
     # 정렬
     if so == 'recommend':   # 추천 수가 많은 게시물
@@ -37,7 +37,7 @@ def _list():
         question_list = Question.query.order_by(Question.create_date.desc())
     # 페이징
     question_list = question_list.paginate(page, per_page=5)
-    return render_template('question/question_list.html', question_list=question_list, page=page, kw=kw, so=so)
+    return render_template('question/question_list.html', question_list=question_list, page=page, so=so)
 
 
 @bp.route('/detail/<int:question_id>/')
@@ -48,7 +48,7 @@ def detail(question_id):
     question.hits += 1
     db.session.add(question)
     db.session.commit()
-    return render_template('question/question_detail.html', question=question,form=form)
+    return render_template('question/question_detail.html', question=question, form=form)
 
 
 @bp.route('/create', methods=('GET', 'POST'))

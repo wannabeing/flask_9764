@@ -1,21 +1,42 @@
 from flask import Blueprint, render_template, request, url_for, g, flash
 
-from models import Board
+from models import Board, board_voter, Comment
 from forms import BoardForm
 from datetime import datetime
 from werkzeug.utils import redirect
 from blog import db
 from views.login_views import login_required
+from sqlalchemy import func
 
 bp = Blueprint('board', __name__, url_prefix='/board')
 
 
 @bp.route('/list/')
 def _list():
-    page = request.args.get('page', type=int, default=1)  # 페이지번호가 없으면 default로 페이지1을 출력한다.
-    board_list = Board.query.order_by(Board.create_date.desc())
+    page = request.args.get('page', type=int, default=1)  # 페이지번호가 없으면 default 로 페이지1을 출력한다.
+    kw = request.args.get('kw', type=str, default='')  # 검색어
+    so = request.args.get('so', type=str, default='recent')  # 정렬, default 는 최신순('recent')
+
+    # 정렬
+    if so == 'recommend':  # 추천 수가 많은 게시물
+        sub_query = db.session.query(board_voter.c.board_id, func.count('*').label('num_voter')) \
+            .group_by(board_voter.c.board_id).subquery()
+        board_list = Board.query \
+            .outerjoin(sub_query, Board.id == sub_query.c.board_id) \
+            .order_by(sub_query.c.num_voter.desc(), Board.create_date.desc())
+    elif so == 'popular':  # 답변 수가 많은 게시물
+        sub_query = db.session.query(Comment.board_id, func.count('*').label('num_board')) \
+            .group_by(Comment.board_id).subquery()
+        board_list = Board.query \
+            .outerjoin(sub_query, Board.id == sub_query.c.board_id) \
+            .order_by(sub_query.c.num_board.desc(), Board.create_date.desc())
+    elif so == 'hit':  # 조회 수가 많은 게시물
+        board_list = Board.query.order_by(Board.hits.desc())
+    else:  # recent, 기존 게시물
+        board_list = Board.query.order_by(Board.create_date.desc())
+    # 페이징
     board_list = board_list.paginate(page, per_page=5)
-    return render_template('board/board_list.html', board_list=board_list)
+    return render_template('board/board_list.html', board_list=board_list, page=page, so=so)
 
 
 @bp.route('/detail/<int:board_id>/')

@@ -36,21 +36,22 @@
         <div class="d-flex justify-content-between detail_q_title">
              <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
             <div class="d-flex" style="margin: 0px 10px">
-                    {% if question.voter %}
-                    <a href="#" class="recommend"
-                       data-uri="{{ url_for('vote.question', question_id=question.id) }}">
-                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
-                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
-                    </a>
-                    {% else %}
-                    <a href="#" class="recommend"
-                       data-uri="{{ url_for('vote.question', question_id=question.id) }}">
-                        <img src="{{ url_for('static',filename='images/before_like.png') }}"
-                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
-                    </a>
-                    {% endif %}
-                    <div class="bg-light text-center font-weight-bolder mb-1">
-                        {{ question.voter|length }}</div>
+                {% if question.voter %}
+                <a href="#" class="recommend"
+                   data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                    <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                         width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                </a>
+                {% else %}
+                <a href="#" class="recommend"
+                   data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                    <img src="{{ url_for('static',filename='images/before_like.png') }}"
+                         width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                </a>
+                {% endif %}
+                <div class="bg-light text-center font-weight-bolder mb-1">
+                    {{ question.voter|length }}
+                </div>
             </div>
             <div class="d-flex">
             {{ question.user.username }}
