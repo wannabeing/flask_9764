@@ -56,13 +56,7 @@
 						<td class="text-center">{{ question.hits }}</td>
 						<td class="text-center">
 							{% if question.voter|length > 0 %}
-							<span class="text-danger small ml-2">
-								{{ question.voter|length }}
-							</span>
-							{% else %}
-							<span class="small ml-2">
-								{{ question.voter|length }}
-							</span>
+							<span class="text-danger small ml-2">{{ question.voter|length }}</span>
 							{% endif %}
 						</td>
   	                </tr>
