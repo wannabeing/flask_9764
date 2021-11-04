@@ -25,23 +25,24 @@
             </center>
   	        <hr width="100%" color="black" />
   	    </div>
-<div class="container my-3 text-center">
+<div class="container my-3 ">
     {% for message in get_flashed_messages() %}
     <div class="alert alert-danger" role="alert">
         {{ message }}
     </div>
     {% endfor %}
     <h2 class="py-2" style="font-weight:bolder">Q. {{ question.subject }}</h2> <br><br>
-        <h4>{{ question.content }}</h4> <br><hr>
+    <div id="content">{{ question.content }}</div>
+    <br><hr>
         <div class="d-flex justify-content-between detail_q_title">
-             <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
+            <!-- 좋아요 1개 이상은 빨간하트, 0개시 빈하트를 출력합니다. -->
             <div class="d-flex" style="margin: 0px 10px">
-                {% if question.voter %}
-                <a href="#" class="recommend"
-                   data-uri="{{ url_for('vote.question', question_id=question.id) }}">
-                    <img src="{{ url_for('static',filename='images/after_like.png') }}"
-                         width="20" style="margin-left: auto; margin-right: auto; display: block;" />
-                </a>
+                {% if question.voter|length > 0 %}
+                    <a href="#" class="recommend"
+                       data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                             width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
                 {% else %}
                 <a href="#" class="recommend"
                    data-uri="{{ url_for('vote.question', question_id=question.id) }}">
@@ -123,7 +124,7 @@
                 </div>
             </div>
             <div class="card-body">
-                {{ answer.content }}
+                {{ answer.content|markdown }}
             </div>
             <!-- 댓글 입력 btn -->
             <div class="my-3 d-flex justify-content-start">
@@ -190,5 +191,7 @@ $(document).ready(function(){
         }
     });
 });
+
+CKEDITOR.replace("content");
 </script>
 {% endblock %}
