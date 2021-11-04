@@ -35,9 +35,9 @@
     <hr width="100%" color="black" /><br>
         <h4>{{ board.content }}</h4> <br>
         <div class="d-flex justify-content-between detail_q_title">
-            <!-- 좋아요 1개 이상은 빨간하트, 0개시 빈하트를 출력합니다. -->
+            <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
             <div class="d-flex" style="margin: 0px 10px">
-                    {% if board.voter|length > 0 %}
+                    {% if board.voter %}
                     <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
                         <img src="{{ url_for('static',filename='images/after_like.png') }}"
                         width="20" style="margin-left: auto; margin-right: auto; display: block;" />

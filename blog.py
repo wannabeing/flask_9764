@@ -2,8 +2,7 @@ from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from flaskext.markdown import Markdown
-from flask_simplemde import SimpleMDE
+
 import config
 
 naming_convention = {
@@ -20,13 +19,6 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
-
-    # markdown
-    app.config["SIMPLEMDE_JS_IIFE"] = True
-    app.config["SIMPLEMDE_USE_CDN"] = True
-
-    SimpleMDE(app)
-    Markdown(app, extensions=['nl2br', 'fenced_code'])
 
     # ORM
     db.init_app(app)

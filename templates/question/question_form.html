@@ -5,8 +5,6 @@
 {% endblock %}
 
 {% block content %}
-<!--{{ simplemde.css }}-->
-<!--{{ simplemde.js }}-->
   	<div>
   	        <center>
   	            <br>
@@ -45,16 +43,8 @@
         <div>
             <label for="content">내용</label>
         </div>
-        <textarea name="content" class="form-control"
-                  id="content" rows="10" cols="100">{{ form.content.data or '' }}</textarea>
-        <script>
-            ClassicEditor
-                .create( document.querySelector( '#content' ) )
-                .catch( error => {
-            console.error( error );
-            } );
-        </script>
-<!--        {{ simplemde.load }}-->
+        <textarea name="content"
+                      id="content" rows="10" cols="100">{{ form.content.data or '' }}</textarea>
         <button type="submit" class="btn btn-primary">등록하기</button>
     </form>
 </div>
