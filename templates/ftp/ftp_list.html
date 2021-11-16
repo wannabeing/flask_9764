@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FTP List
+{% endblock %}
+
+{% block content %}
+    <br>
+    <center><a href="{{url_for('files.main_page')}}"><h5>뒤로가기</h5></a><br></center>
+    <hr width="100%" color="black"/>
+    <center><h3>파일 목록</h3></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/list.png') }}", width="70"
+        style="margin-left: auto; margin-right: auto; display: block;")/><br><br>
+
+    <ul class="d-flex justify-content-center">
+         {% for n in file_list %}
+          {{ n }} <br>
+         {% endfor %}
+    </ul>
+
+{% endblock %}

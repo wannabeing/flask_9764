@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Upload Page
+{% endblock %}
+
+{% block content %}
+  <br>
+    <center><a href="{{url_for('files.main_page')}}"><h5>뒤로가기</h5></a><br></center>
+    <hr width="100%" color="black"/>
+    <center><h3>파일 업로드</h3></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/upload.png') }}", width="100"
+        style="margin-left: auto; margin-right: auto; display: block;")/>
+
+    <br><br>
+<center>
+    <form action = "{{ url_for('files.upload_file') }}" method = "POST"
+         enctype = "multipart/form-data">
+    <input type = "file" name = "file" />
+    <input class="btn btn-dark" type = "submit"/>
+    </form>
+</center>
+
+{% endblock %}

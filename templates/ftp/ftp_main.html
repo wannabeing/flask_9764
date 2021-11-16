@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FTP Page
+{% endblock %}
+
+{% block content %}
+  	<center>
+	  <div>
+  		<center>
+            <br>
+			<img src="{{ url_for('static',filename='images/ftp.png') }}", width="50"
+        	style="margin-left: auto; margin-right: auto; display: block;")/>
+  			<h3><a href="{{url_for('files.main_page')}}">FTP 게시판</a></h3>
+  		</center>
+  		<hr width="100%" color="black"/>
+	  </div>
+  	</center>
+
+<form class="d-flex justify-content-around">
+    <a href="{{url_for('files.upload_page')}}">
+        <img src="{{ url_for('static',filename='images/upload.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>파일 업로드
+    </a>
+    <a href="{{url_for('files.down_page')}}">
+        <img src="{{ url_for('static',filename='images/down.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>파일 다운로드
+    </a>
+    <a href="{{url_for('files.list_page')}}">
+        <img src="{{ url_for('static',filename='images/list.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>파일 목록
+    </a>
+</form>
+{% endblock %}

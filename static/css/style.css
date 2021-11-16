@@ -1,0 +1,32 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+@import url(https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css);
+
+
+.detail_q_title{
+    padding: 0px 35px;
+}
+
+.detail_answer_id_text {
+    font-weight: bolder;
+}
+.detail_answer_time_text {
+    margin-left: 15px;
+    font-size: smaller;
+}
+
+.h3 { font-family: 'NanumSquare',
+    sans-serif !important;
+}
+
+.comment {
+    border-top:dotted 1px #ddd;
+    font-size:0.7em;
+}
+
+#ckPrint > table > tbody > tr > td{
+    text-align: center;
+    min-width: 2em;
+    padding: 0.4em;
+    border: 1px solid black;
+    border-collapse: collapse;
+}

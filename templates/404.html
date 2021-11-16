@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>404</title>
+  </head>
+
+  <body>
+    <center><h1>Not Found Page</h1></center>
+    <center><a href="{{url_for('files.main_page')}}">홈페이지</a><br></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/404.png') }}", width="70"
+    style="margin-left: auto; margin-right: auto; display: block;")/><br>
+
+        <center><h3>페이지를 찾을 수 없습니다!</h3></center>
+    <hr width="100%" color="black"/>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+답변 수정하기
+{% endblock %}
+
+{% block content %}
+    <div>
+  	        <center>
+  	            <br>
+  	            <img src="{{ url_for('static',filename='images/aq.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <br>
+  	            <center>
+  	                <a class="btn btn-outline-dark btn-primar btn-sm" href="{{url_for('question._list')}}">
+  	                    <h8>질문게시판</h8>
+  	                </a> <a class="btn btn-outline-dark btn-primar btn-sm" href="{{ url_for('question.create') }}">
+  	                    <h8>새로운 질문하기</h8>
+  	                </a>
+  	                <br>
+  	            </center><br>
+            </center>
+  	        <hr width="100%" color="black" />
+    </div>
+<div class="container my-3">
+    <form method="post" class="post-form">
+        {{ form.csrf_token }}
+        {% include "login/login_errors.html" %}
+        <div class="form-group">
+            <label for="content">답변내용</label>
+            <textarea class="form-control" name="content" id="content"
+                      rows="10">{{ form.content.data or '' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
+{% endblock %}

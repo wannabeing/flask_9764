@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>OCR Service</title>
+  </head>
+
+  <body>
+    <center><h1>OCR Page</h1></center>
+    <center><a href="{{url_for('files.main_page')}}">홈페이지</a><br></center>
+    <hr width="100%" color="black"/>
+    <center><h3>Please upload your IMG file !</h3></center>
+    <hr width="100%" color="black"/>
+
+    <img src="{{ url_for('static',filename='images/ocr.png') }}", width="100"
+        style="margin-left: auto; margin-right: auto; display: block;")/>
+
+    <br><br><center>
+    <form action = "{{ url_for('files.upload_file') }}" method = "POST"
+         enctype = "multipart/form-data">
+    <input type = "file" name = "file" />
+    <input type = "submit"/>
+    </form></center>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ board.subject }}
+{% endblock %}
+
+{% block content %}
+        <div>
+  	        <center>
+  	            <br>
+  	            <img src="{{ url_for('static',filename='images/board.png') }}"
+                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <br>
+  	            <center>
+                    <!--로그인을 하지 않으면 안보이게 합니다.-->
+                    {% if not g.user %}
+                    {% else %}
+  	                <a class="btn btn-outline-dark btn-primar btn-sm"
+                       href="{{url_for('board._list')}}">자유게시판</a>
+                    <a class="btn btn-outline-dark btn-primar btn-sm"
+                              href="{{ url_for('board.create') }}">새로운 글 작성</a>
+  	                <br>
+  	            </center><br>
+                {% endif %}
+            </center>
+  	        <hr width="100%" color="black" />
+  	    </div>
+<div class="container my-3 text-center">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <h2 class="py-2" style="font-weight:bolder">{{ board.subject }}</h2>
+    <hr width="100%" color="black" /><br>
+        <h4>{{ board.content }}</h4> <br>
+        <div class="d-flex justify-content-between detail_q_title">
+            <!-- 좋아요 1개 이상은 빨간하트, 0개시 빈하트를 출력합니다. -->
+            <div class="d-flex" style="margin: 0px 10px">
+                    {% if board.voter|length > 0 %}
+                    <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
+                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% else %}
+                    <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
+                        <img src="{{ url_for('static',filename='images/before_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% endif %}
+                    <div class="bg-light text-center font-weight-bolder mb-1">{{ board.voter|length }}</div>
+            </div>
+            <div class="d-flex">
+            {{ board.user.username }}
+            </div>
+            <div class="d-flex">
+            {% if board.modify_date %}
+                <p>{{ board.modify_date|datetime }}(수정)</p>
+            {% else %}
+                {{ board.create_date|datetime }}
+            {% endif %}
+            </div>
+            {% if g.user == board.user %}
+            <div class="my-3">
+                <a href="{{ url_for('board.modify', board_id=board.id) }}"
+                   class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
+            </div>
+            {% endif %}
+        </div>
+</div>
+<hr width="100%" color="black" />
+<!-- 댓글 폼 출력 -->
+<form action="{{ url_for('comment.create_board', board_id=board.id) }}" method="post" class="my-3">
+        {{ form.csrf_token }}
+        <!-- 오류표시 Start -->
+        {% for field, errors in form.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
+        <!-- 오류표시 End -->
+        <div class="form-group">
+            <textarea {% if not g.user %}disabled{% endif %}
+                    name="content" id="content" class="form-control" rows="3"></textarea>
+        </div>
+        <input type="submit" value="댓글작성" class="btn btn-primary center">
+    </form>
+<!-- 댓글 LIST Start -->
+{% if board.comment_set|length > 0 %}
+<div class="my-3 text-center">
+    {% for comment in board.comment_set %}
+    <div class="py-2">
+        <span style="white-space: pre-line;">{{ comment.content }}</span>
+        <span>
+            - {{ comment.user.username }}, {{ comment.create_date|datetime }}
+            {% if comment.modify_date %}
+            {{ comment.modify_date|datetime }}(수정)
+            {% endif %}
+        </span>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<!-- 댓글 LIST End -->
+<br><br>
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+    $(".recommend").on('click', function() {
+        if(confirm("추천하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+</script>
+{% endblock %}

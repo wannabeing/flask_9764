@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ question.subject }}
+{% endblock %}
+
+{% block content %}
+        <div>
+  	        <center>
+  	            <br>
+  	            <img src="{{ url_for('static',filename='images/aq.png') }}"
+                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <br>
+  	            <center>
+                    <!--로그인을 하지 않으면 안보이게 합니다.-->
+                    {% if not g.user %}
+                    {% else %}
+  	                <a class="btn btn-outline-dark btn-primar btn-sm"
+                       href="{{url_for('question._list')}}">질문게시판</a>
+                    <a class="btn btn-outline-dark btn-primar btn-sm"
+                              href="{{ url_for('question.create') }}">새로운 질문하기</a>
+  	                <br>
+  	            </center><br>
+                {% endif %}
+            </center>
+  	        <hr width="100%" color="black" />
+  	    </div>
+<div class="container my-3 ">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <h2 class="py-2" style="font-weight:bolder">Q. {{ question.subject }}</h2> <br><br>
+    <div id="ckPrint">{{ question.content|markdown }}</div>
+    <br><hr>
+        <div class="d-flex justify-content-between detail_q_title">
+            <!-- 좋아요 1개 이상은 빨간하트, 0개시 빈하트를 출력합니다. -->
+            <div class="d-flex" style="margin: 0px 10px">
+                {% if question.voter|length > 0 %}
+                    <a href="#" class="recommend"
+                       data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                             width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                {% else %}
+                <a href="#" class="recommend"
+                   data-uri="{{ url_for('vote.question', question_id=question.id) }}">
+                    <img src="{{ url_for('static',filename='images/before_like.png') }}"
+                         width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                </a>
+                {% endif %}
+                <div class="bg-light text-center font-weight-bolder mb-1">
+                    {{ question.voter|length }}
+                </div>
+            </div>
+            <div class="d-flex">
+            {{ question.user.username }}
+            </div>
+            <div class="d-flex">
+            {% if question.modify_date %}
+                <p>{{ question.modify_date|datetime }}(수정)</p>
+            {% else %}
+                {{ question.create_date|datetime }}
+            {% endif %}
+            </div>
+            {% if g.user == question.user %}
+            <div class="my-3">
+                <a href="{{ url_for('question.modify', question_id=question.id) }}"
+                   class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{{ url_for('question.delete', question_id=question.id) }}">삭제</a>
+             </div>
+            {% endif %}
+        </div>
+</div>
+<hr width="100%" color="black" />
+<div class="container my-3 text-center">
+    <div class="alert alert-dismissible alert-primary">
+        {% if question.answer_set|length == 0 %}
+        <strong>아직 답변이 없습니다! 답변 해주시겠어요?</strong>
+        {% else %}
+        <strong>{{ question.answer_set|length }}개의 답변이 있습니다.</strong>
+        {% endif %}
+        <!--로그인을 하지 않으면 안보이게 합니다.-->
+        {% if not g.user %}
+        {% else %}
+            <!-- 로그인유저와 질문유저가 같으면 답변하기 버튼을 비활성화합니다. -->
+            {% if question.user == g.user %}
+            {% elif question.answer_set.id == g.user.id %}
+            이미 답변하셨습니다!
+            {% else %}
+            <a href="{{ url_for('answer.create', question_id=question.id) }}"
+               class="btn btn-primary">답변하기</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% for answer in question.answer_set %}
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="toast-header">
+                <div class="detail_answer_id_text">{{ answer.user.username }}</div>
+                <div class="detail_answer_time_text">
+                    {% if answer.modify_date %}
+                        {{ answer.modify_date|datetime }}(수정)
+                    {% else %}
+                        {{ answer.create_date|datetime }}
+                    {% endif %}
+                </div>
+                <!-- 좋아요를 누르면 빨간하트, 안누르면 빈 하트로 표시합니다. 또한 좋아요 개수를 표시합니다. -->
+                <div class="d-flex" style="margin: 0px 10px">
+                    {% if answer.voter %}
+                    <a href="#" class="recommend" data-uri="{{ url_for('vote.answer', answer_id=answer.id) }}">
+                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% else %}
+                    <a href="#" class="recommend" data-uri="{{ url_for('vote.answer', answer_id=answer.id) }}">
+                        <img src="{{ url_for('static',filename='images/before_like.png') }}"
+                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
+                    </a>
+                    {% endif %}
+                    <div class="bg-light text-center font-weight-bolder mb-1">{{ answer.voter|length }}</div>
+                </div>
+            </div>
+            <div class="card-body">
+                {{ answer.content|markdown }}
+            </div>
+            <!-- 댓글 입력 btn -->
+            <div class="my-3 d-flex justify-content-start">
+
+            </div>
+            <!-- 답변 작성자가 로그인유저와 같을 시, 수정/삭제 버튼 보이기 -->
+            <div class="my-3 d-flex justify-content-end">
+                <a href="{{ url_for('comment.create_answer', answer_id=answer.id) }}"
+                class="btn btn-sm btn-outline-secondary">댓글입력</a>
+                {% if g.user == answer.user %}
+                <a href="{{ url_for('answer.modify', answer_id=answer.id) }}"
+                class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary "
+                data-uri="{{ url_for('answer.delete', answer_id=answer.id) }}">삭제</a>
+                {% endif %}
+            </div>
+            <!-- 댓글 목록 LIST -->
+            <div>
+                <details open>
+                    <summary>
+                        <small>댓글 {{ answer.comment_set|length }}</small>
+                    </summary>
+                    <hr>
+                    {% if answer.comment_set|length > 0 %}
+                    <div class="mt-3">
+                        {% for comment in answer.comment_set %}
+                        <div class="comment py-2 ">
+                            <span style="white-space: pre-line;">{{ comment.content }}</span>
+                            <span>
+                                - {{ comment.user.username }}, {{ comment.create_date|datetime }}
+                                {% if comment.modify_date %}
+                                {{ comment.modify_date|datetime }}(수정)
+                                {% endif %}
+                            </span>
+                            {% if g.user == comment.user %}
+                            <a href="{{ url_for('comment.modify_answer', comment_id=comment.id) }}"
+                               class="small">수정</a>,
+                            <a href="#" class="small delete"
+                               data-uri="{{ url_for('comment.delete_answer', comment_id=comment.id) }}">삭제</a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </details>
+            </div>
+            <!-- 댓글 목록 LIST End -->
+        </div>
+    </div>
+    {% endfor %}
+</div> <br><br>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+    $(".recommend").on('click', function() {
+        if(confirm("정말로 추천하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+data = document.querySelector('#ckPrint').innerHTML;
+console.log(data);
+data = data.replaceAll("&lt;","<");
+data = data.replaceAll("&gt;",">");
+data = data.replaceAll("&amp;lt;","<");
+data = data.replaceAll("&amp;gt;",">");
+data = data.replaceAll("&amp;nbsp;","<");
+data = data.replaceAll("&amp;amp","&");
+document.querySelector('#ckPrint').innerHTML = data;
+console.log(data);
+</script>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}
+자유게시판
+{% endblock %}
+
+{% block content %}
+	<center>
+  	    <div>
+			<br>
+  	        <center>
+  	            <img src="{{ url_for('static',filename='images/board.png') }}" width="50"
+                     style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <h3><a href="{{url_for('board._list')}}">자유게시판</a></h3>
+  	        </center>
+  	        <hr width="100%" color="black" />
+  	    </div>
+  	</center>
+
+  	<center>
+  	    <div class="container my-3">
+			<div class="row justify-content-between my-3">
+				<div class="col-2">
+            		<select class="form-control so">
+                		<option value="recent" {% if so=='recent' %}selected{% endif %}>최신순</option>
+                		<option value="recommend" {% if so=='recommend' %}selected{% endif %}>추천순</option>
+                		<option value="popular" {% if so=='popular' %}selected{% endif %}>인기순</option>
+						<option value="hit" {% if so=='hit' %}selected{% endif %}>조회순</option>
+            		</select>
+        		</div>
+    		</div>
+  	        <table class="table">
+  	            <thead>
+  	                <tr class="thead-dark table-dark">
+  	                    <th class="">번호</th>
+  	                    <th class="">제목</th>
+						<th class="">아이디</th>
+  	                    <th class="">작성일시</th>
+						<th class="">조회수</th>
+						<th class="">추천수</th>
+  	                </tr>
+  	            </thead>
+  	            <tbody>
+  	                {% if board_list %}
+  	                {% for board in board_list.items %}
+  	                <tr>
+  	                    <td class="">
+                            {{ board_list.total - ((board_list.page-1) * board_list.per_page) - loop.index0 }}</td>
+  	                    <td class="">
+  	                        <a href="{{ url_for('board.detail', board_id=board.id) }}">
+                                {{ board.subject }}
+                            </a>
+  	                        <!-- 질문에 답변 개수 표시 -->
+							{% if board.comment_set|length > 0 %}
+  	                        <span class="text-danger small ml-2">{{ board.comment_set|length }}</span>
+  	                        {% endif %}
+  	                    </td>
+						<td>{{ board.user.username }}</td>
+  	                    <td class="">{{ board.create_date|datetime }}</td>
+						<td class="text-center">{{ board.hits }}</td>
+						<td class="text-center">
+							{% if board.voter|length > 0 %}
+							<span class="text-danger small ml-2">
+								{{ board.voter|length }}
+							</span>
+							{% else %}
+							<span class="small ml-2">
+								{{ board.voter|length }}
+							</span>
+							{% endif %}
+						</td>
+  	                </tr>
+  	                {% endfor %}
+  	                {% else %}
+  	                <tr>
+  	                    <td colspan="3">글이 없습니다.</td>
+  	                </tr>
+  	                {% endif %}
+  	            </tbody>
+  	        </table>
+  	    </div>
+        <a href="{{ url_for('board.create') }}" class="btn btn-primary">글쓰기</a>
+  	    <hr width="100%" color="black" />
+  	    <!-- 페이징처리 시작 -->
+  	    <ul class="pagination justify-content-center">
+  	        <!-- 이전페이지 -->
+  	        {% if board_list.has_prev %}
+  	        <li class="page-item">
+  	            <a class="page-link" href="?page={{ board_list.prev_num }}">이전</a>
+  	        </li>
+  	        {% else %}
+  	        <li class="page-item disabled">
+  	            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+  	        </li>
+  	        {% endif %}
+  	        {% for page_num in board_list.iter_pages() %}
+  	        {% if page_num %}
+  	        {% if page_num != board_list.page %}
+  	        <li class="page-item">
+  	            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+  	        </li>
+  	        {% else %}
+  	        <li class="page-item active" aria-current="page">
+  	            <a class="page-link" href="#">{{ page_num }}</a>
+  	        </li>
+  	        {% endif %}
+  	        {% else %}
+  	        <li class="disabled">
+  	            <a class="page-link" href="#">...</a>
+  	        </li>
+  	        {% endif %}
+  	        {% endfor %}
+  	        <!-- 다음페이지 -->
+  	        {% if board_list.has_next %}
+  	        <li class="page-item">
+  	            <a class="page-link" href="?page={{ board_list.next_num }}">다음</a>
+  	        </li>
+  	        {% else %}
+  	        <li class="page-item disabled">
+  	            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+  	        </li>
+  	        {% endif %}
+  	    </ul>
+  	    <!-- 페이징처리 끝 -->
+  	</center>
+<form id="searchForm" method="get" action="{{ url_for('board._list') }}">
+	<input type="hidden" id="kw" name="kw" value="{{ kw or '' }}">
+	<input type="hidden" id="page" name="page" value="{{ page }}">
+	<input type="hidden" id="so" name="so" value="{{ so }}">
+</form>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".so").on('change', function() {
+        $("#so").val($(this).val());
+        $("#page").val(1);
+        $("#searchForm").submit();
+    });
+});
+</script>
+{% endblock %}
