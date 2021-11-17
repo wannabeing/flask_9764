@@ -1,0 +1,73 @@
+.ocr_container {
+    margin: 25px 0;
+}
+.ocr_upload {
+    width: auto;
+    margin-bottom: 25px;
+}
+.ocr_upload .ocr_upload-text {
+    font-size : 20px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    margin-bottom: -2px;
+    padding-top: 8px;
+}
+.ocr_upload .ocr_upload-warning {
+    font-size: 16px;
+    font-weight: normal;
+    color: #b2b2b2;
+}
+.ocr_upload .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 45%;
+    color: #999999;
+    border-radius: 5px;
+}
+.ocr_upload label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+/* 기존 input file 디자인 없애기 */
+.ocr_upload input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+.ocr_thumbnail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 50px;
+    padding: 15px;
+    height: 350px;
+}
+.byunhwan_btn {
+    margin-top: 25px;
+    padding: 10px 20px;
+    background-color: #999999;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+.thumbNail {
+    width: auto;
+    height: 250px;
+}
+.visible {
+    display: none;
+}

@@ -32,7 +32,7 @@
     </div>
     {% endfor %}
     <h2 class="py-2" style="font-weight:bolder">Q. {{ question.subject }}</h2> <br><br>
-    <div id="content">{{ question.content }}</div>
+    <div id="ckPrint">{{ question.content|markdown }}</div>
     <br><hr>
         <div class="d-flex justify-content-between detail_q_title">
             <!-- 좋아요 1개 이상은 빨간하트, 0개시 빈하트를 출력합니다. -->
@@ -191,7 +191,15 @@ $(document).ready(function(){
         }
     });
 });
-
-CKEDITOR.replace("content");
+data = document.querySelector('#ckPrint').innerHTML;
+console.log(data);
+data = data.replaceAll("&lt;","<");
+data = data.replaceAll("&gt;",">");
+data = data.replaceAll("&amp;lt;","<");
+data = data.replaceAll("&amp;gt;",">");
+data = data.replaceAll("&amp;nbsp;","<");
+data = data.replaceAll("&amp;amp","&");
+document.querySelector('#ckPrint').innerHTML = data;
+console.log(data);
 </script>
 {% endblock %}

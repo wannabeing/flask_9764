@@ -5,16 +5,24 @@ Main
 {% endblock %}
 
 {% block content %}
-    <center>
-  	    <div>
-			<br>
-  	        <center>
-  	            <img src="{{ url_for('static',filename='images/login.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
-  	            <h3><a href="#">Main</a></h3>
-  	        </center>
-  	        <hr width="100%" color="black" />
-  	    </div>
-  	</center>
+<center><br>
+	<div class="d-flex justify-content-around">
+		<a href="{{url_for('question._list')}}">
+        <img src="{{ url_for('static',filename='images/aq.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>질문게시판
+    	</a>
+    	<a href="{{url_for('files.down_page')}}">
+        <img src="{{ url_for('static',filename='images/board.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>자유게시판
+    	</a>
+    	<a href="{{url_for('ocr.main_page')}}">
+        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
+        style="margin-left: auto; margin-right: auto; display: block;")/>오씨알
+    	</a>
+	</div>
+</center>
+
+	<hr width="100%" color="black"/>
 	{% if g.user %}
     <center>
         <div>

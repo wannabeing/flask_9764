@@ -22,3 +22,11 @@
     border-top:dotted 1px #ddd;
     font-size:0.7em;
 }
+
+#ckPrint > table > tbody > tr > td{
+    text-align: center;
+    min-width: 2em;
+    padding: 0.4em;
+    border: 1px solid black;
+    border-collapse: collapse;
+}

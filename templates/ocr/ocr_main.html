@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ocr_style.css') }}">
+{% endblock %}
+
+{% block title %}
+OCR Page
+{% endblock %}
+
+{% block content %}
+<center>
+  <div>
+	<center><br>
+        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
+             style="margin-left: auto; margin-right: auto; display: block;")/>
+    </center>
+      <hr width="100%" color="black"/>
+  </div>
+</center>
+<div class="ocr_container">
+    <div class="ocr_topText">
+        <center>
+            <h1>OCR로
+            이미지를 텍스트로 변환하기</h1>
+            <h5>이미지를 첨부하여 변환된 결과를 변환하기 버튼을 클릭하여 확인해보세요.</h5>
+        </center>
+    </div>
+    <div class="ocr_upload">
+        <center>
+<!--            <form action = "{{ url_for('files.upload_file') }}" method = "POST"-->
+<!--                  enctype = "multipart/form-data">-->
+<!--            <input type = "file" name = "file" />-->
+<!--            <input class="btn btn-dark" type = "submit"/>-->
+<!--            </form>-->
+            <p class="ocr_upload-text">
+                OCR 이미지
+                <span class="ocr_upload-warning">
+                ※ *.png / *.jpg (이미지파일)로 업로드해주세요 ※
+                </span>
+            </p>
+            <input type="text" class="upload-name" value="이미지를 업로드 하세요"
+                   placeholder="이미지를 업로드 하세요" disabled>
+            <label for="upload-file">파일찾기</label>
+            <input type="file" id="upload-file">
+            <a href="{{ url_for('ocr.check') }}">asdf</a>
+        </center>
+    </div><hr width="100%" color="black"/>
+</div>
+<div class="ocr_thumbnail visible">
+    <img src="" class="thumbNail">
+    <form action = "{{ url_for('files.upload_file') }}" method = "POST"
+          enctype = "multipart/form-data">
+        <label class="byunhwan_btn" for="file">변환하기</label>
+        <input id="file" type="submit" style="display: none;">
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/ocr_script.js') }}"></script>
+{% endblock %}

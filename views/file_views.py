@@ -3,7 +3,7 @@ from flask import Blueprint, request, send_file
 from werkzeug.utils import secure_filename
 from views.login_views import login_required
 import os
-
+import blog
 bp = Blueprint("files", __name__, url_prefix='/files')
 
 

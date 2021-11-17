@@ -26,3 +26,8 @@ def format_datetime(value, fmt='%m월 %d일'):
 # question_detail 에 사용할 필터
 def detail_datetime(value, fmt='%Y.%m.%d %H:%M'):
     return value.strftime(fmt)
+
+
+# 숫자 ,(콤마) 붙이는 필터
+def simple_number(value):
+    return '{:,}'.format(value)
