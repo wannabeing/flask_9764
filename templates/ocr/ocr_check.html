@@ -20,7 +20,7 @@ OCR Check Page
         <span>하단 첨부버튼으로 이미지 파일을 첨부하여 결과를 확인해보세요.</span>
         <form action = "{{ url_for('files.upload_file') }}" method = "POST"
          enctype = "multipart/form-data">
-            <input type = "file" name = "file" />
+            <input type = "file" name = "file"/>
             <input class="btn btn-dark" type = "submit"/>
         </form>
         </center>

@@ -16,11 +16,15 @@ Upload Page
 
     <br><br>
 <center>
-    <form action = "{{ url_for('files.upload_file') }}" method = "POST"
-         enctype = "multipart/form-data">
-    <input type = "file" name = "file" />
-    <input class="btn btn-dark" type = "submit"/>
+    <div>
+        <form id="test" action = "{{ url_for('files.upload_file') }}" method = "POST"
+              enctype = "multipart/form-data">
+            <input type = "file" name = "file" />
     </form>
+    </div>
+    <div>
+        <input form="test" class="btn btn-dark" type = "submit"/>
+    </div>
 </center>
 
 {% endblock %}
