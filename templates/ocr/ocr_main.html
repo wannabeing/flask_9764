@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block title %}
-OCR Page
+OCR PAGE
 {% endblock %}
 
 {% block content %}
@@ -29,7 +29,15 @@ OCR Page
         <center>
             <span class="ocr_upload-text">
                 OCR 이미지
-            </span>
+            </span><br>
+            <form id="ocr_form" action="{{ url_for('ocr.print') }}" method="POST"
+                  enctype="multipart/form-data">
+                <input type="text" class="upload-name" value="이미지를 업로드 하세요"
+                   placeholder="이미지를 업로드 하세요" disabled >
+                <label for="file">파일찾기</label>
+                <input type="file" id="file" name="file">
+            </form>
+            <br>
             <span class="ocr_upload-warning">
                 ※ *.png / *.jpg
                 <strong class="point_color">
@@ -37,14 +45,13 @@ OCR Page
                 </strong>
                 로 업로드해주세요 ※
             </span> <br>
-            <form id="ocr_form" action="{{ url_for('ocr.check') }}" method="POST"
-                  enctype="multipart/form-data">
-                <input type="text" class="upload-name" value="이미지를 업로드 하세요"
-                   placeholder="이미지를 업로드 하세요" disabled >
-                <label for="file">파일찾기</label>
-                <input type="file" id="file" name="file">
-            </form>
-            <a href="{{ url_for('ocr.check') }}">home</a>
+            <span class="ocr_upload-warning">
+                ※ 파일 이름은
+                <strong class="point_color">
+                    영문
+                </strong>
+                으로 업로드해주세요. ※
+            </span>
         </center>
     </div><hr width="100%" color="black"/>
 </div>
@@ -61,5 +68,5 @@ OCR Page
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', filename='js/ocr_script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ocr/ocr_main.js') }}"></script>
 {% endblock %}

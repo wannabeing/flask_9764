@@ -52,6 +52,9 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    fir_joo = db.Column(db.String(6), nullable=False)
+    sec_joo = db.Column(db.String(7), nullable=False)
+    number = db.Column(db.String(50), nullable=False)
 
 
 class Board(db.Model):

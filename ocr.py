@@ -8,7 +8,7 @@ LIMIT_PX = 1024
 LIMIT_BYTE = 1024*1024  # 1MB
 LIMIT_BOX = 40
 
-hdg = 'hdg.jpg'
+# hdg = 'hdg.jpg'
 
 
 def kakao_ocr_resize(image_path: str):
@@ -57,15 +57,17 @@ def kakao_ocr(image_path: str, appkey: str):
 
 
 def main():
-    image_path, appkey = hdg, 'f26d1496764a6965cdd632f3d5da106a'
-    resize_impath = kakao_ocr_resize(image_path)
-    if resize_impath is not None:
-        image_path = resize_impath
-        print("원본 대신 리사이즈된 이미지를 사용합니다.")
-
-    output = kakao_ocr(image_path, appkey).json()
-    print(output)
-    print("[OCR] output:\n{}\n".format(json.dumps(output, ensure_ascii=False, sort_keys=True, indent=2)))
+    # image_path, appkey = hdg, 'f26d1496764a6965cdd632f3d5da106a'
+    # resize_impath = kakao_ocr_resize(image_path)
+    # if resize_impath is not None:
+    #     image_path = resize_impath
+    #     print("원본 대신 리사이즈된 이미지를 사용합니다.")
+    #
+    # output = kakao_ocr(image_path, appkey).json()
+    # print(output)
+    # print("[OCR] output:\n{}\n".format(json.dumps(output,
+    # ensure_ascii=False, sort_keys=True, indent=2)))
+    print('Hello World!')
 
 if __name__ == "__main__":
     main()
