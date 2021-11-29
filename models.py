@@ -48,13 +48,13 @@ class Answer(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)    # id는 자동으로 증가하는 User 모델의 기본키
-    username = db.Column(db.String(150), unique=True, nullable=False)
+    username = db.Column(db.String(150), unique=True, nullable=False)  # 아이디
     password = db.Column(db.String(200), nullable=False)
-    name = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(150), nullable=False)  # 실명
     email = db.Column(db.String(120), unique=True, nullable=False)
-    fir_joo = db.Column(db.String(6), nullable=False)
-    sec_joo = db.Column(db.String(7), nullable=False)
-    number = db.Column(db.String(50), nullable=False)
+    fir_joo = db.Column(db.String(6), nullable=False)  # 주민번호 앞자리
+    sec_joo = db.Column(db.String(7), nullable=False)  # 주민번호 뒷자리
+    tel = db.Column(db.String(50), nullable=False)  # 휴대폰 번호
 
 
 class Board(db.Model):
@@ -63,7 +63,7 @@ class Board(db.Model):
     content = db.Column(db.Text(), nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-    user = db.relationship('User', backref=db.backref('board_set'))     # 나중에 자신이 작성한 글을 user.board_set 으로 참조할 수 있다.
+    user = db.relationship('User', backref=db.backref('board_set'))  # 나중에 자신이 작성한 글을 user.board_set 으로 참조할 수 있다.
     modify_date = db.Column(db.DateTime(), nullable=True)
     hits = db.Column(db.Integer, nullable=False, default='0')
     voter = db.relationship('User', secondary=board_voter, backref=db.backref('board_voter_set'))

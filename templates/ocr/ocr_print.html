@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ocr_style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ocr/ocr_print.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -25,14 +25,62 @@ OCR PRINT
         <h5>변환된 결과입니다.</h5>
         <h6>변환된 이미지는 <strong class="point_color">{{kind}}</strong>이며,
             파일이름은 <strong class="point_color">{{name}}</strong>입니다.</h6>
+        {{ ocr }}
     </center>
 </div>
 <hr width="100%" color="black"/>
-<center>
-<h5>
-{{ ocr }}
-</h5>
-</center>
+<!-- 전체 div -->
+<div class="area">
+    <!-- left: 왼쪽 출력 div -->
+    <div class="img_area">
+        <img class="img" src="/static/ocr_img/{{name}}" alt="" width="50%">
+    </div>
+    <div class="modal">
+        <span class="close">&times;</span>
+        <img class="modal_content">
+    </div>
+
+    <!-- right: 오른쪽 출력 div -->
+    <div class="text_area">
+
+        <!-- 폼 출력 div -->
+        <div class="form_area">
+            <form name="ocr_form" id="ocr_form" action="{{url_for('ocr.check')}}" method="POST"></form>
+            <!-- 아이디/비밀번호 area -->
+            <div class="idpw_area">
+                <h3><label for="username">아이디</label></h3>
+                <input type="text" id="username" name="username" form="ocr_form">
+                <span class="error_box">필수 정보입니다.</span>
+                <h3><label for="password">비밀번호</label></h3>
+                <input type="password" id="password" name="password" form="ocr_form">
+                <span class="error_box">필수 정보입니다.</span>
+            </div>
+
+            <!-- 주민등록번호 area -->
+            <div class="joo_area">
+                <div class="joo_area_label">
+                    <h3><label for="fir_joo">주민등록번호</label></h3>
+                </div>
+
+                <div class="joo_area_input">
+                    <input form="ocr_form" type="text" id="fir_joo" name="fir_joo" value="{{ fir_joo }}"
+                           maxlength="6" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                    <input form="ocr_form" type="text" id="sec_joo" name="sec_joo" value="{{ sec_joo }}"
+                           maxlength="7" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                </div>
+                <span class="error_box">올바른 주민등록번호를 입력해주세요.</span>
+            </div>
+
+        </div>
+
+        <!-- 버튼 div -->
+        <div class="btn_area">
+            <h3><label class="btn" for="submit">전송하기</label></h3>
+            <input form="ocr_form" type="submit" name="submit" id="submit" style="display: none;">
+        </div>
+
+    </div>
+</div>
 {% endblock %}
 {% block script %}
 <script src="{{ url_for('static', filename='js/ocr/ocr_print.js') }}"></script>

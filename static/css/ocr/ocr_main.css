@@ -1,0 +1,131 @@
+.ocr_container {
+    margin: 25px 0;
+}
+.ocr_upload {
+    width: auto;
+    margin-bottom: 25px;
+}
+.ocr_upload-text {
+    padding-right: 10px;
+    font-size : 20px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    margin-bottom: -2px;
+    padding-top: 8px;
+}
+.ocr_upload-warning {
+    font-size: 16px;
+    font-weight: normal;
+    color: #787878;
+}
+.upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 45%;
+    color: #999999;
+    border-radius: 5px;
+}
+.ocr_upload label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #2b70f8;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+.ocr_thumbnail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 50px;
+    padding: 15px;
+    height: 350px;
+}
+.ocr_thumbnail label {
+    margin-top: 25px;
+    padding: 10px 20px;
+    background-color: #2b70f8;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+.thumbNail {
+      width: auto;
+      height: 250px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+}
+.thumbNail:hover{
+      opacity: 0.8;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.modal_content {
+    margin: auto;
+    display: block;
+    width: 50%; height: auto;
+    max-width: 1000px;
+    border-radius: 10px;
+    animation-name: zoom;
+    animation-duration: 1s;
+}
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.close:hover, .close:focus{
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* 기존 input file 디자인 없애기 */
+.ocr_upload input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+/* 기존 input submit 디자인 없애기*/
+.ocr_thumbnail input[type="submit"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+.visible {
+    display: none;
+}
+.point_color {
+    color: #2b70f8;
+}
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
