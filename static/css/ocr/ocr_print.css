@@ -9,7 +9,6 @@ h3 {
 label {
     cursor: pointer;
 }
-
 .area {
     display: flex;
     width: 100%;
@@ -26,7 +25,7 @@ label {
     margin: 0px 25px;
     margin-top: 25px;
     width: 50%;
-    height: 45vh;
+    height: auto;
 }
 .img_area img {
     display: block;
@@ -61,8 +60,8 @@ label {
     border-radius: 5px;
     border: 0.8px solid #3e6595;
     margin-top: 25px;
-    padding: 15px 0px;
 }
+/* label과 input 상하 간격 띄우기 */
 .form_area label {
     margin: 0; padding: 0;
     margin-bottom: 5px;
@@ -72,41 +71,55 @@ label {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    margin-top: 15px;
+    height: 60%;
+    margin-left: 25px;
 }
 .idpw_area label {
     display: flex;
-    margin-left: 25px;
-    margin-top: 25px;
-}
-.idpw_area input {
-    display: flex;
-    margin-left: 25px;
-    width: 150px;
-    height: 30px;
+    margin-top: 15px;
 }
 .idpw_area>h3 {
     margin: 0; padding: 0;
 }
+.idpw_area input {
+    display: flex;
+    width: 150px;
+    height: 30px;
+}
+
+.idpw_area #username {
+    color: gray;
+    background-color: #f9f9f9;
+}
+.pwval_area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: #2b70f8;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 
 .joo_area{
     display: flex;
     flex-direction: column;
-    height: 10vh;
-    margin-bottom: 25px;
+    margin-top: 20px;
+    margin-left: 25px;
+    height: 40%;
 }
 .joo_area label {
     display: flex;
-    margin-top: 15px;
-    margin-left: 25px;
 }
 .joo_area_label h3 {
     margin: 0; padding: 0;
 }
 .joo_area_input {
     display: flex;
-    margin-left: 25px;
 }
 .joo_area_input input {
     width: 170px;
@@ -114,26 +127,50 @@ label {
     margin-right: 10px;
 }
 
-.btn_area {
+.val_area {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    margin-top: 55px;
+    width: 120px;
+    height: 30px;
+    padding-top: 7px; /* text를 중앙에 위치하기 위해 */
     background-color: #2b70f8;
+    color: white;
     border-radius: 5px;
     cursor: pointer;
+    margin: 10px 0px;
+}
+.btn_area {
+    width: 100%;
+    margin-top: 15px;
 }
 .btn {
+    width: 100%;
+    height: 50px;
+    background-color: #2b70f8;
+    border-radius: 5px;
     color: white;
 }
+.btn:hover {
+    color: white;
+}
+.btn:focus {
+    box-shadow: none;
+}
+
+
 
 .error_box {
     display: none;
-    margin-left: 25px;
     font-size: 12px;
     color: red;
+}
+.error_joo {
+    display: flex;
+    margin-bottom: 5px;
+}
+.alert_box {
+    display: flex;
+    font-size: 12px;
 }
 .point_color {
     color: #2b70f8;
@@ -171,4 +208,22 @@ label {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
+}
+/* 기존 input button 디자인 없애기*/
+input[type="button"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+/* 기존 input submit 디자인 없애기 */
+input[type="submit"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
 }

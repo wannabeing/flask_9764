@@ -25,7 +25,6 @@ OCR PRINT
         <h5>변환된 결과입니다.</h5>
         <h6>변환된 이미지는 <strong class="point_color">{{kind}}</strong>이며,
             파일이름은 <strong class="point_color">{{name}}</strong>입니다.</h6>
-        {{ ocr }}
     </center>
 </div>
 <hr width="100%" color="black"/>
@@ -43,45 +42,58 @@ OCR PRINT
     <!-- right: 오른쪽 출력 div -->
     <div class="text_area">
 
-        <!-- 폼 출력 div -->
+        <!-- 네모 폼 출력 div -->
         <div class="form_area">
-            <form name="ocr_form" id="ocr_form" action="{{url_for('ocr.check')}}" method="POST"></form>
+
             <!-- 아이디/비밀번호 area -->
             <div class="idpw_area">
-                <h3><label for="username">아이디</label></h3>
-                <input type="text" id="username" name="username" form="ocr_form">
-                <span class="error_box">필수 정보입니다.</span>
-                <h3><label for="password">비밀번호</label></h3>
-                <input type="password" id="password" name="password" form="ocr_form">
-                <span class="error_box">필수 정보입니다.</span>
+                <!-- 아이디 area -->
+                <h3><label for="username" class="margin25">아이디</label></h3>
+                <input type="text" id="username" name="username" disabled value="{{ g_user }}">
+                <!-- 비밀번호 area -->
+                <h3><label for="password" class="margin25">비밀번호</label></h3>
+                <input type="password" id="password" name="password">
+                <span class="error_box" id="pw_error">비밀번호가 맞지 않습니다.</span>
+                 <!-- 비밀번호 인증 area -->
+                <div class="pwval_area">
+                    <h3><label for="pw_btn" id="pw_label">비밀번호 확인</label></h3>
+                    <input type="submit" id="pw_btn" name="pw_btn">
+                </div>
             </div>
 
             <!-- 주민등록번호 area -->
             <div class="joo_area">
+                <!-- 제목 area -->
                 <div class="joo_area_label">
                     <h3><label for="fir_joo">주민등록번호</label></h3>
+                    <span class="alert_box point_color">변환된 주민등록번호를 확인해주세요.</span>
                 </div>
 
                 <div class="joo_area_input">
-                    <input form="ocr_form" type="text" id="fir_joo" name="fir_joo" value="{{ fir_joo }}"
+                    <input type="text" id="fir_joo" name="fir_joo" value="{{ fir_joo }}"
                            maxlength="6" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
-                    <input form="ocr_form" type="text" id="sec_joo" name="sec_joo" value="{{ sec_joo }}"
+                    <input type="text" id="sec_joo" name="sec_joo" value="{{ sec_joo }}"
                            maxlength="7" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                 </div>
-                <span class="error_box">올바른 주민등록번호를 입력해주세요.</span>
+                <span class="error_box" id="joo_error">주민등록번호가 유효하지 않습니다.</span>
+                 <!-- 유효성 검사 area -->
+                <div class="val_area" >
+                    <h3><label for="val_btn" id="val_label">유효성검사</label></h3>
+                    <input type="submit" id="val_btn" name="val_btn">
+                </div>
             </div>
 
         </div>
 
         <!-- 버튼 div -->
         <div class="btn_area">
-            <h3><label class="btn" for="submit">전송하기</label></h3>
-            <input form="ocr_form" type="submit" name="submit" id="submit" style="display: none;">
+            <button type="submit" class="btn" id="submit" name="submit">전송하기</button>
         </div>
-
     </div>
 </div>
 {% endblock %}
 {% block script %}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ url_for('static', filename='js/ocr/ocr_print.js') }}"></script>
 {% endblock %}

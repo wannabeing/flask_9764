@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+test
+{% endblock %}
+
+
+{% block content %}
+
+
+<div>
+    <input type="password" id="password" name="password" placeholder="password">
+    <input type="submit" id="pw_btn" name="pw_btn">
+</div>
+<div>
+    <input type="text" id="joo" name="joo">
+    <input type="submit" id="joo_btn" name="joo_btn">
+</div>
+
+{{ test }}
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/ocr/test.js') }}"></script>
+{% endblock %}

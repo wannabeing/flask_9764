@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for
+from flask import Blueprint, url_for, flash
 from werkzeug.utils import redirect
 
 bp = Blueprint('main', __name__, url_prefix='/')
