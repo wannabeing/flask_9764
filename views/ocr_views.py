@@ -43,7 +43,7 @@ def print():
             elif result['kind'] == 'joo':  # 데이터의 종류가 joo 일 경우
                 return jsonify(result="success", data=result)
 
-            elif result['kind'] == 'submit':
+            elif result['kind'] == 'submit':  # 데이터의 종류가 submit 일 경우
                 user.fir_joo = result['fir_joo']
                 user.sec_joo = result['sec_joo']
                 db.session.commit()
@@ -101,7 +101,8 @@ def pw():
             return jsonify(result="success", data=result)
         elif result['kind'] == 'joo':  # 데이터의 종류가 joo 일 경우
             return jsonify(result="success", data=result)
-    return render_template('test.html')
+    return render_template('test.html', test=request.base_url)
+    return redirect('http://127.0.0.1:5000/ocr/pw/')
 
     # pw = request.form["password"]
     # user = User.query.filter_by(username=g.user.username).first()

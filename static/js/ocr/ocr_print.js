@@ -10,7 +10,8 @@ window.addEventListener('load', ()=> {
 
     // 비밀번호 확인 버튼 클릭 시
     pw_btn.addEventListener('click', ()=> {
-    const postdata = {          // flask 에 전달할 input 값/종류를 JSON 형태로 선언
+    // flask 에 전달할 input 값/종류를 JSON 형태로 선언
+    const postdata = {
         'password':pw_input.value, 'kind': 'password'
         }
         $.ajax({
@@ -70,7 +71,8 @@ window.addEventListener('load', ()=> {
             successAlert(); // 성공 알림창 함수 실행
             disabled(joo_input1, joo_input2, joo_btn, joo_area, joo_label, joo_error); // 비활성화 하기
             joo_status = false;
-            const postdata = {  // flask 에 전달할 input 값/종류를 JSON 형태로 선언
+            // flask 에 전달할 input 값/종류를 JSON 형태로 선언
+            const postdata = {
                 'kind': 'joo'
             }
             $.ajax({
@@ -85,7 +87,8 @@ window.addEventListener('load', ()=> {
                 }
             })
         }
-        else {  // 주민등록번호가 유효하지 않을 때
+        // 주민등록번호가 유효하지 않을 때
+        else {
             failedAlert();  // 실패 알림창 함수 실행
             error_msg(joo_input1, joo_input2, joo_error); // 에러메시지 관련 함수 실행
         }
@@ -95,13 +98,13 @@ window.addEventListener('load', ()=> {
 
    // 전송하기를 위한 변수 선언
    const sub_btn = document.querySelector("#submit");
-//    String a ="{{ url_for('ocr.check')}}";
+
    // 전송하기 버튼 클릭 시
    sub_btn.addEventListener('click', ()=> {
         // 두개의 인증 모두 했는지 확인
         if(pw_status==false && joo_status==false){
-            const postdata = {  // flask 에 전달할 input 값/종류를 JSON 형태로 선언
-
+            // flask 에 전달할 input 값/종류를 JSON 형태로 선언
+            const postdata = {
             'fir_joo': joo_input1.value, 'sec_joo': joo_input2.value, 'kind': 'submit'
             }
             $.ajax({

@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, render_template, flash, request, session, g
+from flask import Blueprint, url_for, render_template, flash, request, session, g, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
 
@@ -30,26 +30,40 @@ def main():
 # 회원가입 HTML 렌더링, POST = 계정등록, GET = 회원가입 템플릿 렌더링
 @bp.route('/signup/', methods=('GET', 'POST'))
 def signup():
-    form = UserCreateForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if not user:
-            user = User(username=form.username.data,
-                        name=form.name.data,
-                        password=generate_password_hash(form.password1.data),
-                        email=form.email.data)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('login.main'))
-        else:
-            flash('이미 존재하는 사용자입니다.')
-    return render_template('login/login_sign.html', form=form)
+    if request.method == 'POST':
+        if request.get_json():
+            result = request.get_json()
+
+            if result['kind'] == 'id':
+                id = result['data']
+                if User.query.filter_by(username=id).first() is None:
+                    return jsonify(result="success", kind="id")
+                else:
+                    return jsonify(result="error", kind="id")
+
+
+
+    # form = UserCreateForm()
+    # if request.method == 'POST' and form.validate_on_submit():
+    #     user = User.query.filter_by(username=form.username.data).first()
+    #     if not user:
+    #         user = User(username=form.username.data,
+    #                     name=form.name.data,
+    #                     password=generate_password_hash(form.password1.data),
+    #                     email=form.email.data)
+    #         db.session.add(user)
+    #         db.session.commit()
+    #         return redirect(url_for('login.main'))
+    #     else:
+    #         flash('이미 존재하는 사용자입니다.')
+    return render_template('login/login_sign.html')
 
 
 # 로그인 HTML 렌더링, POST = 로그인, GET = 로그인 템플릿 렌더링
 @bp.route('/login/', methods=('GET', 'POST'))
 def login():
     form = UserLoginForm()
+    url = request.args.get('url')
     if request.method == 'POST' and form.validate_on_submit():
         error = None
         user = User.query.filter_by(username=form.username.data).first()
@@ -60,7 +74,12 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for('login.main'))
+            # 이전 페이지(GET)가 None 이면 login.main redirect
+            # else 이면 이전 페이지로 redirect
+            if url is None:
+                return redirect(url_for('login.main'))
+            else:
+                return redirect(url)
         flash(error)
     return render_template('login/login_login.html', form=form)
 
@@ -78,6 +97,8 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('login.login'))
+            return redirect(url_for('login.login', url=request.url))
         return view(**kwargs)
     return wrapped_view
+
+

@@ -1,0 +1,236 @@
+input {
+    border-radius: 5px;
+    border: 0.8px solid #3e6595;
+}
+h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+}
+label {
+    cursor: pointer;
+}
+.header h3 {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+.area {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.text_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 50%;
+    height: auto;
+}
+
+.form_area {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 0.8px solid #3e6595;
+    margin-top: 25px;
+    padding-top: 25px;
+}
+/* label과 input 상하 간격 띄우기 */
+.form_area label {
+    margin: 0; padding: 0;
+    margin-bottom: 5px;
+}
+.id_area {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    height: 40%;
+}
+.id_area_label {
+    display: flex;
+}
+.id_area_label h3 {
+    margin: 0; padding: 0;
+}
+.id_area_input {
+    display: flex
+}
+.id_area_input input {
+    width: 150px;
+    height: 30px;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+.id_area_input label{
+    width: 120px;
+    height: 30px;
+    padding-top: 7px; /* text를 중앙에 위치하기 위해 */
+    background-color: #3e6595;
+    color: white;
+    border-radius: 5px;
+}
+.id_area_input label:hover {
+    background-color: #2b70f8;
+}
+
+.idpw_area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60%;
+    margin-left: 25px;
+    margin-bottom: 5px;
+}
+.idpw_area label{
+    display: flex;
+    margin-top: 15px;
+}
+.idpw_area>h3 {
+    margin: 0; padding: 0;
+}
+.idpw_area input{
+    display: flex;
+    width: 150px;
+    height: 30px;
+
+}
+
+.idval_area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: #3e6595;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.id_area_input span {
+    font-size: 14px;
+    font-weight: 700;
+}
+.joo_area{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 25px;
+    height: 40%;
+}
+.joo_area label {
+    display: flex;
+}
+.joo_area_label h3 {
+    margin: 0; padding: 0;
+}
+.joo_area_input {
+    display: flex;
+}
+.joo_area_input input {
+    width: 170px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.tel_area{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-left: 25px;
+    height: 40%;
+}
+.tel_area label {
+    display: flex;
+}
+.tel_area_label h3 {
+    margin: 0; padding: 0;
+}
+.tel_area_input {
+    display: flex;
+}
+.tel_area_input input {
+    width: 70px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+
+.val_area {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    height: 30px;
+    padding-top: 7px; /* text를 중앙에 위치하기 위해 */
+    background-color: #3e6595;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0px;
+}
+.val_area:hover {
+    background-color: #2b70f8;
+}
+.btn_area {
+    width: 100%;
+    margin-top: 15px;
+}
+.btn {
+    width: 100%;
+    height: 50px;
+    background-color: #3e6595;
+    border-radius: 5px;
+    color: white;
+}
+.btn:hover {
+    color: white;
+    background-color: #2b70f8;
+}
+.btn:focus {
+    box-shadow: none;
+}
+
+.error_box {
+    display: flex;
+    font-size: 12px;
+    color: red;
+}
+.error_joo {
+    display: flex;
+    margin-bottom: 5px;
+}
+.alert_box {
+    display: flex;
+    font-size: 12px;
+}
+.point_color {
+    color: #2b70f8;
+}
+.second_color {
+    color: #3e6595;
+}
+/* 기존 input button 디자인 없애기*/
+input[type="button"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+/* 기존 input submit 디자인 없애기 */
+input[type="submit"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
