@@ -31,15 +31,22 @@ def main():
 @bp.route('/signup/', methods=('GET', 'POST'))
 def signup():
     if request.method == 'POST':
-        if request.get_json():
+        if request.get_json():  # 비동기통신일 때 (유효성검사)
             result = request.get_json()
 
-            if result['kind'] == 'id':
+            if result['kind'] == 'id':  # 아이디 중복 확인일 때
                 id = result['data']
                 if User.query.filter_by(username=id).first() is None:
-                    return jsonify(result="success", kind="id")
+                    return jsonify(result="success", kind="id")  # 성공시
                 else:
-                    return jsonify(result="error", kind="id")
+                    return jsonify(result="error", kind="id")  # 실패시
+
+            elif result['kind'] == 'email':  # 이메일 중복 확인일 때
+                email = result['data']
+                if User.query.filter_by(email=email).first() is None:
+                    return jsonify(result="success", kind="email")   # 성공시
+                else:
+                    return jsonify(result="error", kind="email")   # 실패시
 
 
 
@@ -100,5 +107,3 @@ def login_required(view):
             return redirect(url_for('login.login', url=request.url))
         return view(**kwargs)
     return wrapped_view
-
-

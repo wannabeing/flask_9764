@@ -1,9 +1,8 @@
 window.addEventListener('load', ()=> {
 
-    const id_btn = document.querySelector("#id_btn");
-    const id_input = document.querySelector("#id");
-    const id_error = document.querySelector("#id_error");
-    const id_regex =  /^[A-za-z0-9]{4,12}$/g;
+    const id_btn = document.querySelector("#id_btn"); // 아이디 중복확인 버튼
+    const id_input = document.querySelector("#id"); // 아이디 입력창
+    const id_regex =  /^[A-za-z0-9]{4,12}$/g;   // 아이디 유효성 검사
     let id_status = false;
 
     // 아이디 중복확인 버튼 클릭 시
@@ -32,8 +31,39 @@ window.addEventListener('load', ()=> {
         else {
             Alert('no');
         }
+    });
 
+    const email_btn = document.querySelector("#email_btn");
+    const email_input = document.querySelector("#email_input");
+    const email_regex = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    let email_status = false;
 
+    // 이메일 중복확인 버튼 클릭 시
+    email_btn.addEventListener('click', ()=> {
+        if(email_regex.test(email_input.value)){
+            const postdata = {
+                'data': email_input.value, 'kind': 'email'
+            }
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(postdata),
+                dataType : 'JSON',
+                contentType: "application/json",
+                success: function(result){
+                    // 인증성공시 json으로 받은 result 변수를 알림함수에 넘긴다.
+                    Alert(result);
+                    email_status = true;
+                },
+                error: function(result){
+                    // 중복시 json으로 받은 result 변수를 알림함수에 넘긴다.
+                    Alert(result);
+                    email_status = false;
+                }
+            })
+        }
+        else {
+            Alert('no');
+        }
     });
 
     function Alert(result){
@@ -43,11 +73,22 @@ window.addEventListener('load', ()=> {
             if(result['kind']=="id"){
                 Swal.fire({
                     icon: 'success',
-                    title: '사용가능',
+                    title: '인증완료',
                     text: '사용 가능한 아이디입니다.',
                     confirmButtonColor: '#2b70f8',
                     width: '25rem',
                 });
+            }
+            else if (result['kind']=="email"){
+                Swal.fire({
+                    icon: 'success',
+                    title: '인증완료',
+                    text: '사용 가능한 이메일입니다..',
+                    confirmButtonColor: '#2b70f8',
+                    width: '25rem',
+                });
+            }
+            else {
             }
         }
         // 실패 알림창
@@ -62,13 +103,22 @@ window.addEventListener('load', ()=> {
                     width: '25rem',
                 });
             }
+            else if (result['kind']=="email"){
+                Swal.fire({
+                    icon: 'error',
+                    title: '중복',
+                    text: '중복된 이메일입니다..',
+                    confirmButtonColor: '#2b70f8',
+                    width: '25rem',
+                });
+            }
         }
         // 해당되지 않는 알림창
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'ERROR',
-                text: '유효하지 않은 값입니다.',
+                title: '에러',
+                text: '유효하지 않습니다. 다시 시도해주세요!',
                 confirmButtonColor: '#2b70f8',
                 width: '25rem',
             });
