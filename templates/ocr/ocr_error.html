@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ocr/ocr_main.css') }}">
+{% endblock %}
+
+{% block title %}
+OCR ERROR
+{% endblock %}
+
+{% block content %}
+<center>
+  <div>
+	<center><br>
+        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
+             style="margin-left: auto; margin-right: auto; display: block;")/>
+    </center>
+      <hr width="100%" color="black"/>
+  </div>
+</center>
+<div class="ocr_container">
+    <div class="ocr_topText">
+        <center>
+            <h1>NON Type Error</h1>
+            <h5>이미지파일을 읽어들일 수 없습니다. 다른 이미지파일을 사용해주세요.</h5>
+        </center>
+    </div>
+    <div class="ocr_upload">
+        <center>
+            <span class="ocr_upload-text">
+                OCR 이미지
+            </span>
+        </center>
+    </div><hr width="100%" color="black"/>
+</div>
+{% endblock %}

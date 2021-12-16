@@ -94,7 +94,7 @@ window.addEventListener('load', ()=> {
         }
 
 
-   });
+    });
 
    // 전송하기를 위한 변수 선언
    const sub_btn = document.querySelector("#submit");

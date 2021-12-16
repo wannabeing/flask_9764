@@ -33,7 +33,7 @@
   	                <tr class="thead-dark table-dark">
   	                    <th class="text-center">번호</th>
   	                    <th class="text-center">제목</th>
-						<th class="text-center">아이디</th>
+						<th class="text-center">이름</th>
   	                    <th class="text-center">작성일시</th>
 						<th class="text-center">조회수</th>
 						<th class="text-center">추천수</th>
@@ -51,7 +51,7 @@
   	                        <span class="text-danger small ml-2">{{ question.answer_set|length }}</span>
   	                        {% endif %}
   	                    </td>
-						<td class="text-center">{{ question.user.username }}</td>
+						<td class="text-center">{{ question.user.name }}</td>
   	                    <td class="text-center">{{ question.create_date|datetime }}</td>
 						<td class="text-center">{{ question.hits }}</td>
 						<td class="text-center">

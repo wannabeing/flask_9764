@@ -54,7 +54,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     fir_joo = db.Column(db.String(6), nullable=False)  # 주민번호 앞자리
     sec_joo = db.Column(db.String(7), nullable=False)  # 주민번호 뒷자리
-    tel = db.Column(db.String(50), nullable=False)  # 휴대폰 번호
+    tel = db.Column(db.String(50), nullable=False)  # 휴대폰 번호, 휴대폰인증이 있다면 unique=True 넣어야 됨
 
 
 class Board(db.Model):

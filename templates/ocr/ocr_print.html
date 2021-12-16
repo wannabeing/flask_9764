@@ -8,15 +8,13 @@ OCR PRINT
 {% endblock %}
 
 {% block content %}
-<center>
-  <div>
-	<center><br>
-        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
-             style="margin-left: auto; margin-right: auto; display: block;")/>
-    </center>
-      <hr width="100%" color="black"/>
-  </div>
-</center>
+ <div class="header">
+     <br>
+     <img src="{{ url_for('static',filename='images/ocr.png') }}" class="basic_img" />
+     <h3>회원가입</h3>
+     {{ test }}
+     <hr width="100%" color="black">
+ </div>
 <div class="ocr_container">
     <center>
         <h1>OCR로

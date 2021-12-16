@@ -23,6 +23,11 @@ appkey = 'f26d1496764a6965cdd632f3d5da106a'  # OCR 을 위한 API Key
 def main_page():
     return render_template('ocr/ocr_main.html')
 
+@bp.route('/error/')
+@login_required
+def error():
+    return render_template('ocr/ocr_error.html')
+
 
 @bp.route('/print/', methods=['POST', 'GET'])
 @login_required
@@ -56,7 +61,6 @@ def print():
             file = request.files["file"]  # name=file, input=file 가져오기
             file.save('./static/ocr_img/' + secure_filename(file.filename))
             path = os.getcwd() + "/static/ocr_img/" + file.filename
-            # path = 'C:/projects/blogproject/static/ocr_img/' + file.filename
 
             # dumps()는 Python객체(dict)를 JSON문자열로 변환 / lodas는 그 반대
             ocr_result = ocr.kakao_ocr(path, appkey).json()
@@ -68,6 +72,10 @@ def print():
                 ocr_array.append(ocr_result['result'][i]['recognition_words'][0])
             ocr_str = ''.join(ocr_array)
             ocr_str = ocr_str.replace(' ', '')
+
+            # 이미지 파일이 NoneType 으로 받아질 때
+            if file:
+                return redirect(url_for('ocr.error'))
 
             # 운전면허증/주민등록증 구분하여 html에 kind로 넘기고, msg에 ocr로 변환한 변수 값(str)을 넘긴다.
             if re.search(r'(자동차)', ocr_str) != None:
@@ -92,6 +100,7 @@ def print():
                                    name=file.filename, fir_joo=fir_joo, sec_joo=sec_joo)
 
 
+# 테스트용 라우트 함수
 @bp.route('/pw/', methods=['POST', 'GET'])
 @login_required
 def pw():
@@ -116,32 +125,6 @@ def check():
     user = User.query.filter_by(username=g.user.username).first()
     return render_template('ocr/ocr_check.html', username=user.username, name=user.name,
                            fir_joo=user.fir_joo, sec_joo=user.sec_joo)
-
-
-
-        # username = request.form["username"]  # form에서 name='username' 가져오기
-        # password = request.form["password"]  # form에서 name='password' 가져오기
-        # fir_joo = request.form["fir_joo"]    # form에서 name='fir_joo' 가져오기
-        # sec_joo = request.form["sec_joo"]    # form에서 name='sec_joo' 가져오기
-        #
-        # # form에서 name='username'과 같은 username인 User의 DB 가져오기
-        # user = User.query.filter_by(username=username).first()
-
-        # post
-
-
-        # # 여기 고쳐야 댐
-        # if user:
-        #     if check_password_hash(user.password, password):
-        #         user.fir_joo = fir_joo
-        #         user.sec_joo = sec_joo
-        #         db.session.commit()
-        #     else:
-        #         flash('비밀번호가 틀립니다.')
-        # else:
-        #     flash('존재하지 않는 사용자입니다.')
-        # return render_template('ocr/ocr_check.html', username=username, name=user.name,
-        #                        fir_joo=fir_joo, sec_joo=sec_joo)
 
 
 # 정규표현식으로 주민등록번호 부분 추출해서 return 값으로 넘기는 함수

@@ -48,21 +48,17 @@ def signup():
                 else:
                     return jsonify(result="error", kind="email")   # 실패시
 
-
-
-    # form = UserCreateForm()
-    # if request.method == 'POST' and form.validate_on_submit():
-    #     user = User.query.filter_by(username=form.username.data).first()
-    #     if not user:
-    #         user = User(username=form.username.data,
-    #                     name=form.name.data,
-    #                     password=generate_password_hash(form.password1.data),
-    #                     email=form.email.data)
-    #         db.session.add(user)
-    #         db.session.commit()
-    #         return redirect(url_for('login.main'))
-    #     else:
-    #         flash('이미 존재하는 사용자입니다.')
+            elif result['kind'] == 'submit':    # 회원가입 폼 전송
+                user = User(username=result['id'],
+                            password=generate_password_hash(result['pw']),
+                            name=result['name'], email=result['email'],
+                            fir_joo=result['fir_joo'], sec_joo=result['sec_joo'],
+                            tel=result['tel'])
+                db.session.add(user)
+                db.session.commit()
+                return jsonify()
+            else:
+                pass
     return render_template('login/login_sign.html')
 
 

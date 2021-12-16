@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="d-flex">
-            {{ question.user.username }}
+            {{ question.user.name }}
             </div>
             <div class="d-flex">
             {% if question.modify_date %}
@@ -99,7 +99,7 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="toast-header">
-                <div class="detail_answer_id_text">{{ answer.user.username }}</div>
+                <div class="detail_answer_id_text">{{ answer.user.name }}</div>
                 <div class="detail_answer_time_text">
                     {% if answer.modify_date %}
                         {{ answer.modify_date|datetime }}(수정)
@@ -154,7 +154,7 @@
                         <div class="comment py-2 ">
                             <span style="white-space: pre-line;">{{ comment.content }}</span>
                             <span>
-                                - {{ comment.user.username }}, {{ comment.create_date|datetime }}
+                                - {{ comment.user.name }}, {{ comment.create_date|datetime }}
                                 {% if comment.modify_date %}
                                 {{ comment.modify_date|datetime }}(수정)
                                 {% endif %}
