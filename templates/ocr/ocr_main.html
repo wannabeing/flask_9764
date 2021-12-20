@@ -8,54 +8,39 @@ OCR PAGE
 {% endblock %}
 
 {% block content %}
-<center>
-  <div>
-	<center><br>
-        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
-             style="margin-left: auto; margin-right: auto; display: block;")/>
-    </center>
-      <hr width="100%" color="black"/>
-  </div>
-</center>
-<div class="ocr_container">
-    <div class="ocr_topText">
-        <center>
-            <h1>OCR로
-            이미지를 텍스트로 변환하기</h1>
-            {{ test }}
-            <h5>이미지를 첨부하여 변환된 결과를 변환하기 버튼을 클릭하여 확인해보세요.</h5>
-        </center>
-    </div>
-    <div class="ocr_upload">
-        <center>
-            <span class="ocr_upload-text">
-                OCR 이미지
-            </span><br>
-            <form id="ocr_form" action="{{ url_for('ocr.print') }}" method="POST"
-                  enctype="multipart/form-data">
-                <input type="text" class="upload-name" value="이미지를 업로드 하세요"
-                   placeholder="이미지를 업로드 하세요" disabled >
-                <label for="file">파일찾기</label>
-                <input type="file" id="file" name="file">
-            </form>
-            <br>
-            <span class="ocr_upload-warning">
-                ※ *.png / *.jpg
-                <strong class="point_color">
-                    이미지파일
-                </strong>
-                로 업로드해주세요 ※
-            </span> <br>
-            <span class="ocr_upload-warning">
-                ※ 파일 이름은
-                <strong class="point_color">
-                    영문
-                </strong>
-                으로 업로드해주세요. ※
-            </span>
-        </center>
-    </div><hr width="100%" color="black"/>
+<div>
+    <br>
+    <img src="{{ url_for('static',filename='images/ocr.png') }}" class="basic_img"/>
+    <hr width="100%" color="black"/>
 </div>
+
+<div class="top">
+    <h1>OCR로 이미지를 텍스트로 변환하기</h1>
+    <h5>이미지를 첨부하여 변환된 결과를 확인해보세요.</h5><br>
+    <form id="ocr_form" action="{{ url_for('ocr.print') }}" method="POST"
+          enctype="multipart/form-data">
+        <input type="text" class="upload-name" value="이미지를 업로드 하세요"
+               placeholder="이미지를 업로드 하세요" disabled >
+        <label for="file" class="upload-btn btn">파일찾기</label>
+        <input type="file" id="file" name="file">
+    </form>
+    <span class="ocr_upload-warning">
+        ※ *.png / *.jpg
+        <strong class="point_color">
+            이미지파일
+        </strong>
+        로 업로드해주세요 ※
+    </span>
+    <span class="ocr_upload-warning">
+        ※ 파일 이름은
+        <strong class="point_color">
+            영문
+        </strong>
+        으로 업로드해주세요. ※
+    </span>
+    <hr width="100%" color="black"/>
+</div>
+
 <div class="ocr_thumbnail visible">
     <img src="" class="thumbNail">
     <strong>클릭시 확대됩니다.</strong>
@@ -63,7 +48,7 @@ OCR PAGE
         <span class="close">&times;</span>
         <img class="modal_content">
     </div>
-    <label for="ocr_submit">변환하기</label>
+    <label for="ocr_submit" class="btn">변환하기</label>
     <input id="ocr_submit" form="ocr_form" type="submit">
 </div>
 {% endblock %}

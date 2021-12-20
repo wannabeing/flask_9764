@@ -73,21 +73,25 @@ def print():
             ocr_str = ''.join(ocr_array)
             ocr_str = ocr_str.replace(' ', '')
 
-            # 이미지 파일이 NoneType 으로 받아질 때
-            if file:
-                return redirect(url_for('ocr.error'))
-
             # 운전면허증/주민등록증 구분하여 html에 kind로 넘기고, msg에 ocr로 변환한 변수 값(str)을 넘긴다.
             if re.search(r'(자동차)', ocr_str) != None:
                 ocr_msg = ocr_str
                 ocr_kind = "운전면허증"
-                joo = getJoomin(ocr_msg)  # 함수를 써서 간략히 표현
+                joo = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_msg)[0]
                 fir_joo = joo.split('-')[0]
                 sec_joo = joo.split('-')[1]
             elif re.search(r'(주민)', ocr_str) != None:
+                # if ocr_str:
+                #     ocr_str = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_str)[0]
+                #     return render_template('ocr/ocr_error.html', test=ocr_str)
                 ocr_msg = ocr_str
                 ocr_kind = "주민등록증"
-                joo = getJoomin(ocr_msg)  # 함수를 써서 간략히 표현
+
+                if re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_msg):
+                    joo = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_msg)[0]
+                else:
+                    return render_template('ocr/ocr_print.html', kind=ocr_kind, g_user=g.user.username,
+                                           name=file.filename, fir_joo='', sec_joo='')
                 fir_joo = joo.split('-')[0]
                 sec_joo = joo.split('-')[1]
             else:

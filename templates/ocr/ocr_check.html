@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ocr/ocr_check.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ocr/ocr_main.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -8,35 +8,21 @@ OCR Check Page
 {% endblock %}
 
 {% block content %}
-<center>
-  <div>
-	<center><br>
-        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
-             style="margin-left: auto; margin-right: auto; display: block;")/>
-    </center>
-      <hr width="100%" color="black"/>
-  </div>
-</center>
-<div class="ocr_container">
-    <div class="ocr_left">
-        <center>
-        <span>하단 첨부버튼으로 이미지 파일을 첨부하여 결과를 확인해보세요.</span>
-        <form action = "{{ url_for('files.upload_file') }}" method = "POST"
-         enctype = "multipart/form-data">
-            <input type = "file" name = "file"/>
-            <input class="btn btn-dark" type = "submit"/>
-        </form>
-        </center>
-    </div><hr width="100%" color="black"/>
+
+<div>
+    <br>
+    <img src="{{ url_for('static',filename='images/ocr.png') }}" class="basic_img"/>
+    <hr width="100%" color="black"/>
 </div>
-<div class="ocr_container">
-    <div class="ocr_left">
-        <img src="{{path}}", style="margin-left: auto; margin-right: auto; display: block;")/>
-    </div>
-    <div class="output">
-        {{ username }}({{ name }}) 님의 주민등록번호는 {{ fir_joo }} - {{ sec_joo }} 입니다.
-    </div>
+
+<div class="top">
+    <h1>OCR로
+        이미지를 텍스트로 변환하기
+    </h1>
+    <h5>변환된 주민등록번호입니다.</h5><br>
+    <h6><span class="point_color 18p">{{name}}</span>님의 주민등록번호는</h6>
+    <h6><span class="point_color 18p">{{fir_joo}}</span>-
+        <span class="point_color 18p">{{sec_joo}}</span>입니다.</h6>
 </div>
-{% endblock %}
-{% block script %}
+<hr width="100%" color="black"/>
 {% endblock %}

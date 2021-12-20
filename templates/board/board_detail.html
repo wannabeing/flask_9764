@@ -4,106 +4,134 @@
 {{ board.subject }}
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/board/board_detail.css') }}">
+{% endblock %}
+
 {% block content %}
-        <div>
-  	        <center>
-  	            <br>
-  	            <img src="{{ url_for('static',filename='images/board.png') }}"
-                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
-  	            <br>
-  	            <center>
-                    <!--로그인을 하지 않으면 안보이게 합니다.-->
-                    {% if not g.user %}
-                    {% else %}
-  	                <a class="btn btn-outline-dark btn-primar btn-sm"
-                       href="{{url_for('board._list')}}">자유게시판</a>
-                    <a class="btn btn-outline-dark btn-primar btn-sm"
-                              href="{{ url_for('board.create') }}">새로운 글 작성</a>
-  	                <br>
-  	            </center><br>
-                {% endif %}
-            </center>
-  	        <hr width="100%" color="black" />
-  	    </div>
-<div class="container my-3 text-center">
+<!--logo 상단 -->
+<div class="top">
+    <br>
+    <img src="{{ url_for('static',filename='images/board.png') }}" class="basic_img"/>
+    board
+    <br>
+<hr width="100%" color="black" />
+</div>
+<!--  flash 오류 메시지 출력 장소  -->
     {% for message in get_flashed_messages() %}
     <div class="alert alert-danger" role="alert">
         {{ message }}
-    </div>
-    {% endfor %}
-    <h2 class="py-2" style="font-weight:bolder">{{ board.subject }}</h2>
-    <hr width="100%" color="black" /><br>
-        <h4>{{ board.content }}</h4> <br>
-        <div class="d-flex justify-content-between detail_q_title">
-            <!-- 좋아요 1개 이상은 빨간하트, 0개시 빈하트를 출력합니다. -->
-            <div class="d-flex" style="margin: 0px 10px">
-                    {% if board.voter|length > 0 %}
-                    <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
-                        <img src="{{ url_for('static',filename='images/after_like.png') }}"
-                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
-                    </a>
-                    {% else %}
-                    <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
-                        <img src="{{ url_for('static',filename='images/before_like.png') }}"
-                        width="20" style="margin-left: auto; margin-right: auto; display: block;" />
-                    </a>
-                    {% endif %}
-                    <div class="bg-light text-center font-weight-bolder mb-1">{{ board.voter|length }}</div>
-            </div>
-            <div class="d-flex">
-            {{ board.user.username }}
-            </div>
-            <div class="d-flex">
-            {% if board.modify_date %}
-                <p>{{ board.modify_date|datetime }}(수정)</p>
-            {% else %}
-                {{ board.create_date|datetime }}
-            {% endif %}
-            </div>
-            {% if g.user == board.user %}
-            <div class="my-3">
-                <a href="{{ url_for('board.modify', board_id=board.id) }}"
-                   class="btn btn-sm btn-outline-secondary">수정</a>
-                <a href="#" class="delete btn btn-sm btn-outline-secondary"
-                   data-uri="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
-            </div>
-            {% endif %}
-        </div>
-</div>
-<hr width="100%" color="black" />
-<!-- 댓글 폼 출력 -->
-<form action="{{ url_for('comment.create_board', board_id=board.id) }}" method="post" class="my-3">
-        {{ form.csrf_token }}
-        <!-- 오류표시 Start -->
-        {% for field, errors in form.errors.items() %}
-        <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
-        </div>
         {% endfor %}
-        <!-- 오류표시 End -->
-        <div class="form-group">
-            <textarea {% if not g.user %}disabled{% endif %}
-                    name="content" id="content" class="form-control" rows="3"></textarea>
+    </div>
+<!-- 글 제목 및 글 내용 -->
+<div class="board_body">
+    <!-- 글 제목 -->
+    <div class="board_subject">
+        <span class="subject_font">{{ board.subject }}</span>
+    </div>
+
+    <br>
+    <!-- 작성자 프로필, 이름, 작성일자, 추천수, 조회수  -->
+    <div class="board_pndh">
+        <div class="board_pn">
+            <!--  작성자 프로필 이미지  -->
+            <img class="board_profile" src="{{url_for('static', filename='images/success.jpg')}}">
+            <!--  작성자 이름  -->
+            <span class="board_name">{{ board.user.name }} </span>
         </div>
-        <input type="submit" value="댓글작성" class="btn btn-primary center">
-    </form>
-<!-- 댓글 LIST Start -->
-{% if board.comment_set|length > 0 %}
-<div class="my-3 text-center">
+        <!--  글 작성일자(수정일자)  -->
+        {% if board.modify_date %}
+            <span class="board_date">{{ board.modify_date|datetime }}(수정)</span>
+        {% else %}
+            <span class="board_date">{{ board.create_date|datetime }}</span>
+        {% endif %}
+        <!-- 추천 수 -->
+        <span class="board_voter_length">추천 수 {{ board.voter|length }} </span>
+        <!-- 조회 수 -->
+        <span class="board_voter_length">조회 수 {{ board.hits }} </span>
+    </div>
+
+    <hr width="100%" color="black" />
+
+    <!-- 글 내용  -->
+    <span class="board_content">{% autoescape false %} {{ board.content }}{% endautoescape %}</span>
+
+    <!-- 글 추천 -->
+    <div class="board_voter">
+        <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
+            <img class="voter_img" src="{{ url_for('static',filename='images/cool.png') }}"/>
+        </a>
+        <p class="voter_text">COOL</p>
+    </div>
+    <!-- 글 수정, 삭제 -->
+    {% if g.user == board.user %}
+    <div class="board_md">
+        <a href="{{ url_for('board.modify', board_id=board.id) }}"
+           class="md_btn">수정</a>
+        <a href="#" class="md_btn delete"
+           data-uri="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
+    </div>
+    {% endif %}
+
+
+    <span class="comment_head">댓글 999개</span>
+
+    {% if board.comment_set|length > 0 %}
     {% for comment in board.comment_set %}
-    <div class="py-2">
-        <span style="white-space: pre-line;">{{ comment.content }}</span>
-        <span>
-            - {{ comment.user.username }}, {{ comment.create_date|datetime }}
+    <!-- 댓글 LIST -->
+    <div class="comment_list">
+        <!-- 댓글 작성자 프로필, 이름, 작성일자, 추천수 -->
+
+        <div class="comment_pndr board_pndh">
+            <div class="board_pn">
+            <!--  댓글 작성자 프로필 이미지  -->
+            <img class="board_profile" src="{{url_for('static', filename='images/success.jpg')}}">
+            <!--  댓글 작성자 이름  -->
+            <span class="board_name">{{ comment.user.name }}</span>
+            </div>
+            <!--  댓글 작성일자(수정일자)  -->
             {% if comment.modify_date %}
-            {{ comment.modify_date|datetime }}(수정)
+                <span class="board_date">{{ comment.modify_date|datetime }}(수정)</span>
+            {% else %}
+                <span class="board_date">{{ comment.create_date|datetime }}</span>
             {% endif %}
-        </span>
+            <!-- 댓글 추천 수 -->
+            <span class="board_voter_length">
+                <img class="voter_img comment_img" src="{{ url_for('static',filename='images/cool.png') }}"/>
+                    9999
+            </span>
+        </div>
+
+        <!-- 댓글 내용 -->
+        <div class="comment_body">
+            <span class="comment_content">{{ comment.content }}</span>
+        </div>
     </div>
     {% endfor %}
+    {% endif %}
+
+
+    <!-- 댓글 폼 출력 -->
+    <div class="comment_form">
+        <form action="{{ url_for('comment.create_board', board_id=board.id) }}"
+              method="post" id="comment_form">
+            {{ form.csrf_token }}
+            <!-- 오류표시 Start -->
+            {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger" role="alert">
+                <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            </div>
+            {% endfor %}
+            <!-- 오류표시 End -->
+            <textarea form="comment_form" {% if not g.user %}disabled{% endif %}
+                  name="content" id="content" class="form-control" rows="3"></textarea>
+
+        </form>
+    </div>
+    <input form="comment_form" type="submit" value="댓글쓰기" class="comment_btn">
 </div>
-{% endif %}
-<!-- 댓글 LIST End -->
+
+
 <br><br>
 {% endblock %}
 

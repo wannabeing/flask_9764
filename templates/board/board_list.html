@@ -21,7 +21,7 @@
   	    <div class="container my-3">
 			<div class="row justify-content-between my-3">
 				<div class="col-2">
-            		<select class="form-control so">
+            		<select class="form-control">
                 		<option value="recent" {% if so=='recent' %}selected{% endif %}>작성순</option>
                 		<option value="recommend" {% if so=='recommend' %}selected{% endif %}>추천순</option>
                 		<option value="popular" {% if so=='popular' %}selected{% endif %}>댓글순</option>
@@ -32,21 +32,21 @@
   	        <table class="table">
   	            <thead>
   	                <tr class="thead-dark table-dark">
-  	                    <th class="">번호</th>
-  	                    <th class="">제목</th>
-						<th class="">아이디</th>
-  	                    <th class="">작성일시</th>
-						<th class="">조회수</th>
-						<th class="">추천수</th>
+  	                    <th class="text-center">번호</th>
+  	                    <th class="text-center">제목</th>
+						<th class="text-center">이름</th>
+  	                    <th class="text-center">작성일시</th>
+						<th class="text-center">조회수</th>
+						<th class="text-center">추천수</th>
   	                </tr>
   	            </thead>
   	            <tbody>
   	                {% if board_list %}
   	                {% for board in board_list.items %}
   	                <tr>
-  	                    <td class="">
+  	                    <td class="text-center">
                             {{ board_list.total - ((board_list.page-1) * board_list.per_page) - loop.index0 }}</td>
-  	                    <td class="">
+  	                    <td class="text-center">
   	                        <a href="{{ url_for('board.detail', board_id=board.id) }}">
                                 {{ board.subject }}
                             </a>
@@ -55,8 +55,8 @@
   	                        <span class="text-danger small ml-2">{{ board.comment_set|length }}</span>
   	                        {% endif %}
   	                    </td>
-						<td>{{ board.user.username }}</td>
-  	                    <td class="">{{ board.create_date|datetime }}</td>
+						<td class="text-center">{{ board.user.name }}</td>
+  	                    <td class="text-center">{{ board.create_date|datetime }}</td>
 						<td class="text-center">{{ board.hits }}</td>
 						<td class="text-center">
 							{% if board.voter|length > 0 %}

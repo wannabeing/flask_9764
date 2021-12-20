@@ -94,6 +94,9 @@ def logout():
     return redirect(url_for('login.main'))
 
 
+
+
+
 # 로그아웃 상태에서 게시판 이용할 때, 로그인페이지로 리다이렉트
 # 다른 함수에 @login_required 애너테이션을 지정하면, 아래 함수가 먼저 실행된다.
 def login_required(view):

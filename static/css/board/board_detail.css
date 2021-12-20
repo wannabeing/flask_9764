@@ -1,0 +1,210 @@
+.board_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 15%;
+    padding: 0;
+    margin-top: 20px;
+}
+/* 글 제목 */
+.board_subject{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-style: solid none;
+    background-color: #4e4e4e;
+    color: white;
+}
+/* 제목 폰트 */
+.subject_font {
+    font-size: 30px;
+    font-weight: normal;
+}
+/* pnd : profile/name/date/hits */
+.board_pndh{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.board_pndh span {
+    font-family: 'NanumSquare';
+    sans-serif !important;
+    font-size: 12px;
+    font-weight: 600;
+}
+/* pn : profile/name */
+.board_pn {
+    display: flex;
+    align-items: center;
+}
+/*  작성자 프로필 이미지 */
+.board_profile{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 0;
+    margin-left: auto;
+    vertical-align: baseline; /* 기본 값, 부모요소의 기준선에 맞춤 */
+    border-collapse: collapse; /* 기본 값, 부모요소의 기준선에 맞춤 */
+}
+/* 작성자 이름,작성일자,추천수 */
+.board_name {
+    margin-left: 10px;
+}
+.board_date{
+    margin-left: 30px;
+}
+.board_voter_length {
+    margin-left: 30px;
+    cursor: pointer;
+}
+/* 글 내용 */
+.board_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 100px;
+}
+/* 추천 이미지, 글 */
+.board_voter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* 추천 이미지 */
+.voter_img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: #2b70f8;
+}
+.voter_img:hover {
+    background-color: #3e6595;
+}
+/* 추천 텍스트 (COOL) */
+.voter_text{
+    color: #2b70f8;
+}
+/* md : modify(수정), delete(삭제) 버튼 */
+.board_md{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* 수정, 삭제 버튼 */
+.md_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 30px;
+    background-color: #4e4e4e;
+    border-radius: 5px;
+    color: white;
+    font-size: 10px;
+    margin: 0px 3px;
+    margin-bottom: 15px;
+}
+.md_btn:hover {
+    color: white;
+    background-color: #3e6595;
+}
+.md_btn:focus {
+    box-shadow: none;
+}
+
+/* 댓글리스트 */
+.comment_list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-style: none none solid none ;
+}
+/* 댓글 펴기, 접기 */
+.comment_head {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-style: solid none;
+    cursor: pointer;
+    font-family: 'NanumSquare';
+    sans-serif !important;
+    font-size: 14px;
+    font-weight: 300;
+    background-color: #4e4e4e;
+    color: white;
+}
+/* 댓글 작성자 프로필, 이름, 작성일자, 추천수 */
+.comment_pndr {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 5px 0px;
+}
+/* 댓글 프로필 */
+.comment_img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+/* 댓글 내용 */
+.comment_body {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    margin: 10px;
+}
+/* 댓글 폰트 */
+.comment_content {
+    font-family: 'NanumSquare';
+    sans-serif !important;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: pre-line; /* 공백문자 그대로 출력 */
+}
+
+/* 댓글 쓰기 폼 */
+.comment_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-top: 25px;
+}
+/* 댓글 쓰기 버튼 */
+.comment_btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #4e4e4e;
+    font-size: 14px;
+    margin: 0px 3px;
+    margin-top: 10px;
+}
+.comment_btn:hover {
+    color: white;
+    background-color: #3e6595;
+}
+.comment_btn:focus {
+    box-shadow: none;
+}

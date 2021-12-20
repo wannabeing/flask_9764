@@ -1,24 +1,60 @@
 {% extends 'base.html' %}
+
 {% block title %}
 test
 {% endblock %}
 
-
 {% block content %}
-
-
-<div>
-    <input type="password" id="password" name="password" placeholder="password">
-    <input type="submit" id="pw_btn" name="pw_btn">
+<!--{{ simplemde.css }}-->
+<!--{{ simplemde.js }}-->
+  	<div>
+  	        <center>
+  	            <br>
+  	            <img src="{{ url_for('static',filename='images/aq.png') }}"
+                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
+  	            <br>
+  	            <center>
+  	                <a class="btn btn-outline-dark btn-primar btn-sm"
+                       href="{{url_for('question._list')}}">
+  	                    <h8>test</h8>
+  	                </a> <a class="btn btn-outline-dark btn-primar btn-sm"
+                              href="{{ url_for('question.create') }}">
+  	                    <h8>새로운 test</h8>
+  	                </a>
+  	                <br>
+  	            </center><br>
+            </center>
+  	        <hr width="100%" color="black" />
+    </div>
+<div class="container text-center">
+    <h5 class="my-3 border-bottom pb-2 center">TEST</h5>
+    <form method="post" class="post-form my-3">
+        {{ form.csrf_token }}
+        <!-- 오류표시 Start -->
+        {% for field, errors in form.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
+        <!-- 오류표시 End -->
+        <div class="form-group">
+            <label for="subject">제목</label>
+            <input type="text" class="form-control" name="subject" id="subject"
+                   value="{{ form.subject.data or '' }}">
+        </div>
+        <div>
+            <label>내용</label>
+        </div>
+        <div name="content"
+                  id="summernote" rows="10" cols="100">{{ form.content.data or '' }}</div>
+        <br><br>
+    </form>
+    <button type="submit" id="btn" class="btn btn-primary">등록하기</button>
 </div>
-<div>
-    <input type="text" id="joo" name="joo">
-    <input type="submit" id="joo_btn" name="joo_btn">
-</div>
-
-{{ test }}
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', filename='js/ocr/test.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="{{ url_for('static', filename='js/editor_test.js') }}"></script>
 {% endblock %}

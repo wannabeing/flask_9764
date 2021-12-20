@@ -11,19 +11,15 @@ OCR PRINT
  <div class="header">
      <br>
      <img src="{{ url_for('static',filename='images/ocr.png') }}" class="basic_img" />
-     <h3>회원가입</h3>
-     {{ test }}
      <hr width="100%" color="black">
  </div>
-<div class="ocr_container">
-    <center>
-        <h1>OCR로
-            이미지를 텍스트로 변환하기
-        </h1>
-        <h5>변환된 결과입니다.</h5>
-        <h6>변환된 이미지는 <strong class="point_color">{{kind}}</strong>이며,
-            파일이름은 <strong class="point_color">{{name}}</strong>입니다.</h6>
-    </center>
+<div class="top">
+    <h1>OCR로
+        이미지를 텍스트로 변환하기
+    </h1>
+    <h5>변환된 결과입니다.</h5>
+    <h6>변환된 이미지는 <span class="point_color 18p">{{kind}}</span>이며,
+        파일이름은 <span class="point_color 18p">{{name}}</span>입니다.</h6>
 </div>
 <hr width="100%" color="black"/>
 <!-- 전체 div -->

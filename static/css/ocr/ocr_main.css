@@ -1,44 +1,69 @@
-.ocr_container {
-    margin: 25px 0;
+/* 로고 밑 header 부분 */
+.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.ocr_upload {
-    width: auto;
-    margin-bottom: 25px;
+/* 버튼 관련 */
+.btn {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    background-color: #3e6595;
+    border-radius: 5px;
+    color: white;
 }
-.ocr_upload-text {
-    padding-right: 10px;
-    font-size : 20px;
-    font-weight: bold;
-    letter-spacing: -1px;
-    margin-bottom: -2px;
-    padding-top: 8px;
+.btn:hover {
+    color: white;
+    background-color: #2b70f8;
 }
+.btn:focus {
+    box-shadow: none;
+}
+/* 기존 input button 디자인 없애기*/
+input[type="button"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+/* 기존 input submit 디자인 없애기 */
+input[type="submit"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+
+/* top 부분 경고문자 */
 .ocr_upload-warning {
     font-size: 16px;
     font-weight: normal;
     color: #787878;
 }
+
+/* top 부분 파일이름 나타내는 input */
 .upload-name {
-    display: inline-block;
+    width: 250px;
     height: 40px;
     padding: 0 10px;
     vertical-align: middle;
     border: 1px solid #dddddd;
-    width: 45%;
     color: #999999;
     border-radius: 5px;
 }
-.ocr_upload label {
+/* top 부분 파일찾기 버튼 */
+.upload-btn {
     display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    vertical-align: middle;
-    background-color: #2b70f8;
-    cursor: pointer;
     height: 40px;
-    margin-left: 10px;
-    border-radius: 5px;
 }
+/* body 부분 그림 나오는 곳 */
 .ocr_thumbnail {
     display: flex;
     flex-direction: column;
@@ -48,14 +73,7 @@
     padding: 15px;
     height: 350px;
 }
-.ocr_thumbnail label {
-    margin-top: 25px;
-    padding: 10px 20px;
-    background-color: #2b70f8;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-}
+
 .thumbNail {
       width: auto;
       height: 250px;
@@ -101,8 +119,8 @@
     text-decoration: none;
     cursor: pointer;
 }
-/* 기존 input file 디자인 없애기 */
-.ocr_upload input[type="file"] {
+
+#ocr_form input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -110,15 +128,7 @@
     overflow: hidden;
     border: 0;
 }
-/* 기존 input submit 디자인 없애기*/
-.ocr_thumbnail input[type="submit"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-}
+
 .visible {
     display: none;
 }

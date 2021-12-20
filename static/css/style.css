@@ -30,9 +30,39 @@
     border: 1px solid black;
     border-collapse: collapse;
 }
+
+/* 맨위 로고 이미지 사이즈 클래스 */
 .basic_img {
     display: block;
     width: 50px;
     margin-left: auto;
     margin-right: auto;
 }
+/* 폰트 사이즈 클래스 */
+.14p {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+}
+.18p {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+/* 로고 밑 header 부분 */
+.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.table {
+    background-color: white;
+    border-collapse: collapse;
+}
+
+table {
+    font-size: 15px;
+    font-weight: 700;
+}
+a { text-decoration:none }

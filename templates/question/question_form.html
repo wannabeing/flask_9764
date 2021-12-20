@@ -47,7 +47,19 @@
         </div>
         <textarea name="content"
                   id="content" rows="10" cols="100">{{ form.content.data or '' }}</textarea>
+<!--        {{ simplemde.load }}-->
+        <br><br>
+        <button type="submit" id="btn" class="btn btn-primary">등록하기</button>
+    </form>
+</div>
         <script>
+        const btn = document.querySelector("#btn");
+        btn.addEventListener('click', ()=> {
+            const content = document.querySelector('#content');
+            alert(content.value);
+
+        });
+
     ClassicEditor
 	.create( document.querySelector( '#content' ), {
 		toolbar: {
@@ -115,9 +127,4 @@
 		console.error( error );
 	} );
         </script>
-<!--        {{ simplemde.load }}-->
-        <br><br>
-        <button type="submit" class="btn btn-primary">등록하기</button>
-    </form>
-</div>
 {% endblock %}

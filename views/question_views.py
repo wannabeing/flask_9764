@@ -65,6 +65,12 @@ def create():
     return render_template('question/question_form.html', form=form)
 
 
+@bp.route('/test/')
+def test():
+    form = QuestionForm()
+    return render_template('test.html', form=form)
+
+
 # GET = 수정 버튼 클릭
 @bp.route('/modify/<int:question_id>', methods=('GET', 'POST'))
 @login_required
