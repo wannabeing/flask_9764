@@ -52,7 +52,11 @@
         <button type="submit" id="btn" class="btn btn-primary">등록하기</button>
     </form>
 </div>
-        <script>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='ck/build/ckeditor.js') }}"></script>
+<script>
         const btn = document.querySelector("#btn");
         btn.addEventListener('click', ()=> {
             const content = document.querySelector('#content');
@@ -128,3 +132,4 @@
 	} );
         </script>
 {% endblock %}
+

@@ -1,3 +1,4 @@
+// 썸머노트 (에디터)
 $('#summernote').summernote({
         placeholder: '여기에 내용을 적어주세요.',
         tabsize: 1,
@@ -13,5 +14,3 @@ $('#summernote').summernote({
           ['view', ['fullscreen', 'codeview', 'help']]
         ]
 });
-
-

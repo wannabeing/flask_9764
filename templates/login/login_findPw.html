@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Find PW
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login/login_login.css') }}">
+<style>
+    /* 아이디/ 새 비밀번호 띄우기 위해 */
+    .btn{
+        margin: 25px 0px;
+    }
+
+    /* 아이디/새 비밀번호 폰트 */
+    .content_label {
+        font-family: 'NanumSquare';
+    	font-size: 18px;
+    	font-weight: 700;
+    }
+
+    /* 비밀번호 변경 버튼 색 변경 */
+    #btn_change {
+        background-color: #3e6595;
+    }
+
+    /* 새 비밀번호 입력 구역 나누기 */
+    .pw_change_area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* 숨기기 */
+    .hide {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+ <div class="header">
+     <br>
+     <img src="{{ url_for('static',filename='images/login.png') }}" class="basic_img" />
+     <h3>비밀번호 찾기</h3>
+     <hr width="100%" color="black">
+ </div>
+
+
+<div class="content_body">
+    <div class="content">
+        <!-- 아이디 입력 -->
+        <label class="content_label">아이디</label>
+        <input class="input" type="text" id="username"
+               placeholder=" 아이디(영문 대소문자와 숫자를 조합한 4-12자리)">
+        <!-- 자동완성 방지용 -->
+        <input type="password" class="hide">
+        <!-- 비밀번호 찾기 버튼 -->
+        <button type="submit" class="btn" id="btn_find">비밀번호 찾기</button>
+
+        <!-- 비밀번호 변경 -->
+        <div class="pw_change_area hide">
+            <hr width="100%">
+            <label class="content_label">새 비밀번호</label>
+            <input class="input" type="password" id="password"
+                   placeholder=" 비밀번호(영문,숫자,특수문자를 조합한 8-20자리)"
+                   autocomplete="new-password">
+            <!-- 자동완성 방지용 -->
+            <input type="password" class="hide">
+            <!-- 비밀번호 변경 버튼 -->
+            <button type="submit" class="btn" id="btn_change">비밀번호 변경</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/login/login_findPw.js') }}"></script>
+{% endblock %}

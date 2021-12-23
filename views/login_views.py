@@ -66,7 +66,7 @@ def signup():
 @bp.route('/login/', methods=('GET', 'POST'))
 def login():
     form = UserLoginForm()
-    url = request.args.get('url')
+    url = request.args.get('url')   # login_required 함수에서 가져옴, 로그인창 전 url
     if request.method == 'POST' and form.validate_on_submit():
         error = None
         user = User.query.filter_by(username=form.username.data).first()
@@ -94,7 +94,42 @@ def logout():
     return redirect(url_for('login.main'))
 
 
+# 아이디 찾기 페이지 렌더링
+@bp.route('/findUser/', methods=('GET', 'POST'))
+def findUser():
+    # POST = 아이디 찾기 버튼을 눌렀을 경우
+    if request.method == 'POST':
+        result = request.get_json()
+        user = User.query.filter_by(name=result['name'], email=result['email']).first()
+        # 이름/이메일이 맞다면 다음 페이지로 렌더링
+        if user:
+            return jsonify(result="success", username=user.username, name=user.name)
+        # 이름/이메일 주소가 틀렸으므로 Alert 출력
+        else:
+            return jsonify(result="fail")
+    # GET = 아이디 찾기 페이지 렌더링
+    return render_template('login/login_findUser.html')
 
+
+# 비밀번호 찾기 페이지 렌더링
+@bp.route('/findPw/', methods=('GET', 'POST'))
+def findPw():
+    # POST = 비밀번호 찾기 버튼 클릭시
+    if request.method == 'POST':
+        result = request.get_json()
+        user = User.query.filter_by(username=result['username']).first()
+
+        # 비밀번호 찾기 클릭 시
+        if user and result['kind'] == 'find':
+            return jsonify(result="find")
+        # 비밀번호 변경 클릭 시
+        elif user and result['kind'] == 'change':
+            return jsonify(result="change")
+        else:
+            return jsonify(result="fail")
+
+    # GET = 비밀번호 찾기 페이지 렌더링
+    return render_template('login/login_findPw.html')
 
 
 # 로그아웃 상태에서 게시판 이용할 때, 로그인페이지로 리다이렉트

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Find ID
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login/login_login.css') }}">
+<style>
+    .btn{
+        margin-top: 25px;
+    }
+    .content_label {
+        font-family: 'NanumSquare';
+    	font-size: 18px;
+    	font-weight: 700;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+ <div class="header">
+     <br>
+     <img src="{{ url_for('static',filename='images/login.png') }}" class="basic_img" />
+     <h3>아이디 찾기</h3>
+     <hr width="100%" color="black">
+ </div>
+
+<div class="content_body">
+    <div class="content">
+        <label class="content_label">이름</label>
+        <input class="input" type="text" id="name" placeholder=" 이름">
+        <label class="content_label">이메일 주소</label>
+        <input class="input" type="email" id="email" placeholder=" ex@example.com"
+               autocomplete="false">
+        <!-- 아이디 찾기 버튼 -->
+        <button type="submit" class="btn">아이디 찾기</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/login/login_findUser.js') }}"></script>
+{% endblock %}

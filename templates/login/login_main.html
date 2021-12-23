@@ -4,42 +4,120 @@
 Main
 {% endblock %}
 
+{% block head %}
+<style>
+	.top_nav {
+		width: 100%;
+		display: flex;
+		justify-content: space-evenly;
+	}
+	.main {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+	}
+	span {
+		font-family: 'NanumSquare';
+    	font-size: 18px;
+    	font-weight: 700;
+    	margin: 0;
+    	padding: 5px 3px;
+	}
+	.bold {
+		font-weight: 900;
+	}
+	.main_time{
+		display: flex;
+		align-items: center;
+		margin-top: 25px;
+	}
+	.a_btn {
+		display: flex;
+		align-items: center;
+		width: auto;
+    	height: 35px;
+    	background-color: #4e4e4e;
+    	color: white;
+    	font-family: 'NanumSquare';
+    	font-size: 18px;
+    	font-weight: 700;
+    	border-radius: 8px;
+    	padding: 20px;
+    	margin-right: 5px;
+    	cursor: pointer;
+	}
+	.a_btn:hover {
+    	color: white;
+    	background-color: #2b70f8;
+	}
+	.a_btn:focus {
+    	box-shadow: none;
+	}
+	.area {
+		width: auto;
+		padding: 15px;
+		border-radius: 20px;
+		border: 0.8px solid #3e6595;
+	}
+	.timer_font {
+		font-size: 14px;
+		font-weight: 400;
+		padding: 15px;
+	}
+	.hide {
+		display: none;
+	}
+</style>
+{% endblock %}
+
 {% block content %}
-<center><br>
-	<div class="d-flex justify-content-around">
+<div class="top"><br>
+	<div class="top_nav">
 		<a href="{{url_for('question._list')}}">
-        <img src="{{ url_for('static',filename='images/aq.png') }}", width="50"
-        style="margin-left: auto; margin-right: auto; display: block;")/>질문게시판
+        <img src="{{ url_for('static',filename='images/aq.png') }}",
+			 class="basic_img"/>질문게시판
     	</a>
     	<a href="{{url_for('board._list')}}">
-        <img src="{{ url_for('static',filename='images/board.png') }}", width="50"
-        style="margin-left: auto; margin-right: auto; display: block;")/>자유게시판
+        <img src="{{ url_for('static',filename='images/board.png') }}",
+			 class="basic_img"/>자유게시판
     	</a>
     	<a href="{{url_for('ocr.main_page')}}">
-        <img src="{{ url_for('static',filename='images/ocr.png') }}", width="50"
-        style="margin-left: auto; margin-right: auto; display: block;")/>오씨알
+        <img src="{{ url_for('static',filename='images/ocr.png') }}",
+			 class="basic_img"/>오씨알(신분증)
     	</a>
 	</div>
-</center>
+</div>
+<hr width="100%" color="black"/>
 
-	<hr width="100%" color="black"/>
-	{% if g.user %}
-    <center>
-        <div>
-		    <p> {{ g.user.name }}님 안녕하세요.</p>
-		    <p>아이디 : {{ g.user.username }}</p>
-			<p>이메일 : {{ g.user.email }}</p>
-			<a href="{{ url_for('login.logout') }}" class="btn btn-primary">로그아웃</a>
-	    </div>
-    </center>
-	{% else %}
-    <center>
-        <div>
-		    <p>로그인 하지 않은 상태입니다.</p>
-		    <p>서비스를 이용하려면 로그인해주세요.</p>
-			<a href="{{url_for('login.signup')}}" class="btn btn-primary">회원가입</a>
-			<a href="{{url_for('login.login')}}" class="btn btn-primary">로그인</a>
-	    </div>
-    </center>
-	{% endif %}
+<!-- 유저가 로그인 되었을 때만 JS 실행 -->
+{% if g.user %}
+	<div class="main">
+		<div>
+			<span class="bold"> {{ g.user.name }}</span>
+			<span>님 안녕하세요.</span>
+		</div>
+		<span>아이디 : {{ g.user.username }}</span>
+		<span>이메일 : {{ g.user.email }}</span>
+		<a href="{{ url_for('login.logout') }}" class="a_btn" id="logout">로그아웃</a>
+		<div class="main_time area hide" id="time_area">
+			<span id="timer" class="timer_font">9분59초</span>
+			<a class="a_btn timer_font" id="time_btn">시간연장</a>
+		</div>
+	</div>
+
+	<script src="{{ url_for('static', filename='js/login/login_timer.js') }}"></script>
+
+<!-- 로그인이 안되었을 때 -->
+{% else %}
+	<div class="main">
+		<span>로그인 하지 않은 상태입니다.</span>
+		<span>서비스를 이용하려면 로그인해주세요.</span>
+		<div class="main_time">
+			<a href="{{url_for('login.signup')}}" class="a_btn">회원가입</a>
+			<a href="{{url_for('login.login')}}" class="a_btn">로그인</a>
+		</div>
+	</div>
+{% endif %}
+
 {% endblock %}

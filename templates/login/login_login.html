@@ -4,32 +4,48 @@
 Login
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login/login_login.css') }}">
+{% endblock %}
+
 {% block content %}
-  	<center>
-	  <div>
-			<center>
-  	            <img src="{{ url_for('static',filename='images/login.png') }}" width="50" style="margin-left: auto; margin-right: auto; display: block;" />
-  	            <h3>로그인</h3>
-  	        </center>
-  		<hr width="100%" color="black"/>
-	  </div>
-  	</center>
-<div class="container my-3">
-    <form method="post" class="post-form">
-        {{ form.csrf_token }}
-        {% include "login/login_errors.html" %}
-        <div class="form-group">
-            <label for="username">사용자 이름</label>
-            <input type="text" class="form-control" name="username" id="username"
-                   value="{{ form.username.data or '' }}">
+ <div class="header">
+     <br>
+     <img src="{{ url_for('static',filename='images/login.png') }}" class="basic_img" />
+     <h3>로그인</h3>
+     <hr width="100%" color="black">
+ </div>
+
+<div class="content_body">
+    <div class="content">
+        <form method="post" id="content_form">
+            {{ form.csrf_token }}
+            {% include "login/login_errors.html" %}
+        </form>
+
+        <input class="input" type="text" name="username" id="username" placeholder=" 아이디 (영문 대소문자와 숫자를 조합한 4-12자리)"
+                value="{{ form.username.data or '' }}" form="content_form">
+        <input class="input" type="password" name="password" id="password" placeholder=" 비밀번호 (영문,숫자,특수문자를 조합한 8-20자리)"
+                autocomplete="new-password" value="{{ form.password.data or '' }}" form="content_form">
+        <!-- 저장 및 찾기 -->
+        <div class="content_cf">
+            <!-- 아이디 저장 -->
+            <div class="content_check">
+                <input type="checkbox" class="checkbox" id="checkbox">
+                <label for="checkbox">아이디 저장</label>
+            </div>
+            <!-- 아이디/비밀번호 찾기 -->
+            <div class="content_find">
+                <a href="{{url_for('login.findUser')}}">아이디 찾기</a>
+                <a href="{{url_for('login.findPw')}}">비밀번호 찾기</a>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">비밀번호</label>
-            <input type="password" class="form-control" name="password" id="password"
-                   value="{{ form.password.data or '' }}">
-        </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
-        <a class="btn btn-primary" href="{{url_for('login.signup')}}">회원가입</a>
-    </form>
+        <!-- 로그인/회원가입 버튼 -->
+        <button type="submit" class="btn" form="content_form">로그인</button>
+        <span class="content_sign_text">회원이 아니시라면?</span>
+        <button type="button" class="btn sign_btn"
+                onclick="location.href='{{url_for('login.signup')}}'">회원가입</button>
+    </div>
 </div>
 {% endblock %}
+

@@ -48,7 +48,7 @@
         <!-- 추천 수 -->
         <span class="board_voter_length">추천 수 {{ board.voter|length }} </span>
         <!-- 조회 수 -->
-        <span class="board_voter_length">조회 수 {{ board.hits }} </span>
+        <span class="board_hits">조회 수 {{ board.hits }} </span>
     </div>
 
     <hr width="100%" color="black" />
@@ -58,7 +58,7 @@
 
     <!-- 글 추천 -->
     <div class="board_voter">
-        <a href="#" class="recommend" data-uri="{{ url_for('vote.board', board_id=board.id) }}">
+        <a href="#" class="board_recommend" data-boardre="{{ url_for('vote.board', board_id=board.id) }}">
             <img class="voter_img" src="{{ url_for('static',filename='images/cool.png') }}"/>
         </a>
         <p class="voter_text">COOL</p>
@@ -68,48 +68,58 @@
     <div class="board_md">
         <a href="{{ url_for('board.modify', board_id=board.id) }}"
            class="md_btn">수정</a>
-        <a href="#" class="md_btn delete"
-           data-uri="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
+        <a href="#" class="md_btn board_delete"
+           data-boarddel="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
     </div>
     {% endif %}
 
+    <a class="comment_head">댓글 {{ board.comment_set|length }}개</a>
 
-    <span class="comment_head">댓글 999개</span>
-
-    {% if board.comment_set|length > 0 %}
-    {% for comment in board.comment_set %}
     <!-- 댓글 LIST -->
-    <div class="comment_list">
-        <!-- 댓글 작성자 프로필, 이름, 작성일자, 추천수 -->
-
-        <div class="comment_pndr board_pndh">
-            <div class="board_pn">
-            <!--  댓글 작성자 프로필 이미지  -->
-            <img class="board_profile" src="{{url_for('static', filename='images/success.jpg')}}">
-            <!--  댓글 작성자 이름  -->
-            <span class="board_name">{{ comment.user.name }}</span>
+    <ul class="comment_ul">
+        {% if board.comment_set|length > 0 %}
+        {% for comment in board.comment_set %}
+        <li>
+            <div class="comment_list">
+                <!-- 댓글 작성자 프로필, 이름, 작성일자, 추천수 -->
+                <div class="comment_pndr board_pndh">
+                    <!-- 이미지, 이름 묶음 -->
+                    <div class="board_pn">
+                        <!--  댓글 작성자 프로필 이미지  -->
+                        <img class="board_profile" src="{{url_for('static', filename='images/success.jpg')}}">
+                        <!--  댓글 작성자 이름  -->
+                        <span class="board_name">{{ comment.user.name }}</span>
+                    </div>
+                    <!-- 작성일자, 추천수 묶음 -->
+                    <div class="board_dv">
+                        <!--  댓글 작성일자(수정일자)  -->
+                        {% if comment.modify_date %}
+                            <span class="">{{ comment.modify_date|datetime }}(수정)</span>
+                        {% else %}
+                            <span class="">{{ comment.create_date|datetime }}</span>
+                        {% endif %}
+                        <!-- 댓글 추천 수 -->
+                        <span class="comment_voter_length">
+                            <img class="voter_img comment_img"
+                                 src="{{ url_for('static',filename='images/cool.png') }}"/>
+                            9999
+                        </span>
+                    </div>
+                </div>
+                <!-- 댓글 내용 -->
+                <div class="comment_body">
+                    <!-- 글 작성자 본인이 댓글달면 텍스트가 파란색 -->
+                    {% if board.user_id == comment.user_id %}
+                        <span class="comment_content comment_content_me ">{{ comment.content }}</span>
+                    {% else %}
+                        <span class="comment_content">{{ comment.content }}</span>
+                    {% endif %}
+                </div>
             </div>
-            <!--  댓글 작성일자(수정일자)  -->
-            {% if comment.modify_date %}
-                <span class="board_date">{{ comment.modify_date|datetime }}(수정)</span>
-            {% else %}
-                <span class="board_date">{{ comment.create_date|datetime }}</span>
-            {% endif %}
-            <!-- 댓글 추천 수 -->
-            <span class="board_voter_length">
-                <img class="voter_img comment_img" src="{{ url_for('static',filename='images/cool.png') }}"/>
-                    9999
-            </span>
-        </div>
-
-        <!-- 댓글 내용 -->
-        <div class="comment_body">
-            <span class="comment_content">{{ comment.content }}</span>
-        </div>
-    </div>
-    {% endfor %}
-    {% endif %}
-
+        </li>
+        {% endfor %}
+        {% endif %}
+    </ul>
 
     <!-- 댓글 폼 출력 -->
     <div class="comment_form">
@@ -136,18 +146,5 @@
 {% endblock %}
 
 {% block script %}
-<script type='text/javascript'>
-$(document).ready(function(){
-    $(".delete").on('click', function() {
-        if(confirm("삭제하시겠습니까?")) {
-            location.href = $(this).data('uri');
-        }
-    });
-    $(".recommend").on('click', function() {
-        if(confirm("추천하시겠습니까?")) {
-            location.href = $(this).data('uri');
-        }
-    });
-});
-</script>
+<script src="{{ url_for('static', filename='js/board/board_detail.js') }}"></script>
 {% endblock %}

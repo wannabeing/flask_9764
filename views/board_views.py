@@ -40,6 +40,7 @@ def _list():
 
 
 @bp.route('/detail/<int:board_id>/')
+@login_required
 def detail(board_id):
     form = BoardForm()
     board = Board.query.get_or_404(board_id)

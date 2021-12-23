@@ -9,7 +9,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
-    <script src="{{ url_for('static', filename='ck/build/ckeditor.js') }}"></script>
     {% block head %}
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
@@ -22,10 +21,13 @@
     {% block content %}
     {% endblock %}
     <!-- 기본 템플릿 안에 삽입될 내용 End -->
-<!-- jQuery JS -->
-<script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
-<!-- Bootstrap JS -->
-<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+    <!-- jQuery JS -->
+    <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+    <!-- SweetAlert(경고창) -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- 자바스크립트 Start -->
 {% block script %}
 {% endblock %}

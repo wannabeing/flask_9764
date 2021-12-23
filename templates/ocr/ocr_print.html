@@ -18,8 +18,13 @@ OCR PRINT
         이미지를 텍스트로 변환하기
     </h1>
     <h5>변환된 결과입니다.</h5>
-    <h6>변환된 이미지는 <span class="point_color 18p">{{kind}}</span>이며,
+    {% if ocr_kind != null %}
+        <h6>변환된 이미지는 <span class="point_color 18p">{{kind}}</span>이며,
+            파일이름은 <span class="point_color 18p">{{name}}</span>입니다.</h6>
+    {% else %}
+        <h6>변환된 이미지는 <span class="point_color 18p">{{kind}}알 수 없음</span>이며,
         파일이름은 <span class="point_color 18p">{{name}}</span>입니다.</h6>
+    {% endif %}
 </div>
 <hr width="100%" color="black"/>
 <!-- 전체 div -->
@@ -87,7 +92,5 @@ OCR PRINT
 </div>
 {% endblock %}
 {% block script %}
-
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ url_for('static', filename='js/ocr/ocr_print.js') }}"></script>
 {% endblock %}

@@ -235,8 +235,8 @@ window.addEventListener('load', ()=> {
             });
         } else {
             Swal.fire({
-                icon: 'warning',
-                title: '오류',
+                icon: 'error',
+                title: '에러',
                 text: '입력한 값을 확인해주세요.',
                 confirmButtonColor: '#2b70f8',
                 width: '25rem',
@@ -299,7 +299,7 @@ window.addEventListener('load', ()=> {
         // 아무것도 해당되지 않는 알림창
         else {
             Swal.fire({
-                icon: 'warning',
+                icon: 'error',
                 title: '에러',
                 text: '다시 시도해주세요!',
                 confirmButtonColor: '#2b70f8',

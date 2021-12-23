@@ -62,65 +62,50 @@ def print():
             file.save('./static/ocr_img/' + secure_filename(file.filename))
             path = os.getcwd() + "/static/ocr_img/" + file.filename
 
-            # dumps()는 Python객체(dict)를 JSON문자열로 변환 / lodas는 그 반대
-            ocr_result = ocr.kakao_ocr(path, appkey).json()
-            # dumps = json.dumps(ocr_result, ensure_ascii=False)
-            # loads = json.loads(dumps)
+            try:
+                # dumps()는 Python객체(dict)를 JSON문자열로 변환 / lodas는 그 반대
+                ocr_result = ocr.kakao_ocr(path, appkey).json()
+                # dumps = json.dumps(ocr_result, ensure_ascii=False)
+                # loads = json.loads(dumps)
 
-            ocr_array = []
-            for i in range(len(ocr_result['result'])):
-                ocr_array.append(ocr_result['result'][i]['recognition_words'][0])
-            ocr_str = ''.join(ocr_array)
-            ocr_str = ocr_str.replace(' ', '')
+                ocr_array = []
+                for i in range(len(ocr_result['result'])):
+                    ocr_array.append(ocr_result['result'][i]['recognition_words'][0])
+                ocr_str = ''.join(ocr_array)
+                ocr_str = ocr_str.replace(' ', '')
 
-            # 운전면허증/주민등록증 구분하여 html에 kind로 넘기고, msg에 ocr로 변환한 변수 값(str)을 넘긴다.
-            if re.search(r'(자동차)', ocr_str) != None:
-                ocr_msg = ocr_str
-                ocr_kind = "운전면허증"
-                joo = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_msg)[0]
-                fir_joo = joo.split('-')[0]
-                sec_joo = joo.split('-')[1]
-            elif re.search(r'(주민)', ocr_str) != None:
-                # if ocr_str:
-                #     ocr_str = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_str)[0]
-                #     return render_template('ocr/ocr_error.html', test=ocr_str)
-                ocr_msg = ocr_str
-                ocr_kind = "주민등록증"
+                # 운전면허증/주민등록증 구분하여 html에 kind로 넘기고, msg에 ocr로 변환한 변수 값(str)을 넘긴다.
 
-                if re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_msg):
-                    joo = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_msg)[0]
+                match = re.match(r'(주민)', ocr_str)[0]
+
+                if re.search(r'(운전)', ocr_str):
+                    ocr_msg = ocr_str
+                    ocr_kind = "운전면허증"
+                    joo = re.search('r(\d{7,13})|(\d{4,6}-\d{5,7})', ocr_msg)[0]
+                    fir_joo = joo.split('-')[0]
+                    sec_joo = joo.split('-')[1]
+                elif re.search(r'(주민)', ocr_str):
+                    # if ocr_str:
+                    #     ocr_str = re.search('r(\d{7,13)|(\d{4,6}-\d{5,7})', ocr_str)[0]
+                    #     return render_template('ocr/ocr_error.html', test=ocr_str)
+                    ocr_msg = ocr_str
+                    ocr_kind = "주민등록증"
+                    joo = re.search('r(\d{7,13})|(\d{4,6}-\d{5,7})', ocr_msg)[0]
+                    fir_joo = joo.split('-')[0]
+                    sec_joo = joo.split('-')[1]
+                # 운전/주민 둘 다 없으면 공백으로 넘김
                 else:
-                    return render_template('ocr/ocr_print.html', kind=ocr_kind, g_user=g.user.username,
+                    return render_template('ocr/ocr_print.html', kind='', g_user=g.user.username,
                                            name=file.filename, fir_joo='', sec_joo='')
-                fir_joo = joo.split('-')[0]
-                sec_joo = joo.split('-')[1]
-            else:
-                ocr_msg = ocr_str
-                ocr_kind = "신분증X"
-                joo = getJoomin(ocr_msg)  # 함수를 써서 간략히 표현
-                fir_joo = joo.split('-')[0]
-                sec_joo = joo.split('-')[1]
-            return render_template('ocr/ocr_print.html', kind=ocr_kind, g_user=g.user.username,
-                                   name=file.filename, fir_joo=fir_joo, sec_joo=sec_joo)
 
-
-# 테스트용 라우트 함수
-@bp.route('/pw/', methods=['POST', 'GET'])
-@login_required
-def pw():
-    if request.method == 'POST':
-        result = request.get_json()  # 비동기 통신으로 받은 데이터
-        if result['kind'] == 'password':  # 데이터의 종류가 password 일 경우
-            return jsonify(result="success", data=result)
-        elif result['kind'] == 'joo':  # 데이터의 종류가 joo 일 경우
-            return jsonify(result="success", data=result)
-    return render_template('test.html', test=request.base_url)
-    return redirect('http://127.0.0.1:5000/ocr/pw/')
-
-    # pw = request.form["password"]
-    # user = User.query.filter_by(username=g.user.username).first()
-    # isTrue = check_password_hash(user.password, pw)
-    # return redirect(url_for('ocr.print'))
+                return render_template('ocr/ocr_print.html', kind=ocr_kind, g_user=g.user.username,
+                                       name=file.filename, fir_joo=fir_joo, sec_joo=sec_joo)
+            # 이미지 반환 중 오류발생 시
+            except Exception as e:
+                return render_template('ocr/ocr_print.html', kind='', g_user=g.user.username,
+                                       name=file.filename, fir_joo='', sec_joo='')
+    return render_template('ocr/ocr_print.html', kind='', g_user=g.user.username,
+                           name='', fir_joo='', sec_joo='')
 
 
 @bp.route('/check/', methods=['POST', 'GET'])

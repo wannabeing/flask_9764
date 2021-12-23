@@ -59,7 +59,7 @@ Signup
                 </div>
                 <!-- 입력 area -->
                 <div class="id_area_input">
-                    <input type="password" id="password1">
+                    <input type="password" id="password1" autocomplete="new-password">
                 </div>
             </div>
             <!-- 비밀번호 확인 area -->
@@ -137,6 +137,5 @@ Signup
 
 {% endblock %}
 {% block script %}
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ url_for('static', filename='js/login/login_sign.js') }}"></script>
 {% endblock %}
