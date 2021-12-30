@@ -6,17 +6,29 @@ Main
 
 {% block head %}
 <style>
+	/* nav 폰트 및 정렬 */
 	.top_nav {
 		width: 100%;
 		display: flex;
 		justify-content: space-evenly;
+		font-family: 'NanumSquare';
+    	font-size: 18px;
+    	font-weight: 700;
 	}
+	/* nav 아이콘 */
+	.top_icon:hover{
+		transform: scale(1.2);
+  		transition: transform 1s;
+		opacity: 0.8;
+	}
+	/* body 정렬 */
 	.main {
 		display: flex;
 		justify-content: center;
 		flex-direction: column;
 		align-items: center;
 	}
+	/* span 폰트 정렬 */
 	span {
 		font-family: 'NanumSquare';
     	font-size: 18px;
@@ -24,14 +36,17 @@ Main
     	margin: 0;
     	padding: 5px 3px;
 	}
+	/* 폰트 굵기 조절 */
 	.bold {
 		font-weight: 900;
 	}
+	/* div 정렬 */
 	.main_time{
 		display: flex;
 		align-items: center;
 		margin-top: 25px;
 	}
+	/* 버튼 정렬 */
 	.a_btn {
 		display: flex;
 		align-items: center;
@@ -54,17 +69,20 @@ Main
 	.a_btn:focus {
     	box-shadow: none;
 	}
+	/* 타이머 구역 설정 */
 	.area {
 		width: auto;
 		padding: 15px;
 		border-radius: 20px;
 		border: 0.8px solid #3e6595;
 	}
+	/* 타이머 폰트 설정 */
 	.timer_font {
 		font-size: 14px;
 		font-weight: 400;
 		padding: 15px;
 	}
+	/* 가리기 클래스스*/
 	.hide {
 		display: none;
 	}
@@ -74,18 +92,18 @@ Main
 {% block content %}
 <div class="top"><br>
 	<div class="top_nav">
-		<a href="{{url_for('question._list')}}">
-        <img src="{{ url_for('static',filename='images/aq.png') }}",
-			 class="basic_img"/>질문게시판
-    	</a>
-    	<a href="{{url_for('board._list')}}">
-        <img src="{{ url_for('static',filename='images/board.png') }}",
-			 class="basic_img"/>자유게시판
-    	</a>
-    	<a href="{{url_for('ocr.main_page')}}">
-        <img src="{{ url_for('static',filename='images/ocr.png') }}",
-			 class="basic_img"/>오씨알(신분증)
-    	</a>
+		<a class="top_icon" href="{{url_for('question._list')}}">
+			<img src="{{ url_for('static',filename='images/aq.png') }}",
+			 class="basic_img"/>질문게시판</a>
+    	<a class="top_icon" href="{{url_for('board._list')}}">
+			<img src="{{ url_for('static',filename='images/board.png') }}",
+			 class="basic_img"/>자유게시판</a>
+    	<a class="top_icon" href="{{url_for('ocr.main_page')}}">
+			<img src="{{ url_for('static',filename='images/ocr.png') }}",
+			 class="basic_img"/>오씨알</a>
+		<a class="top_icon" href="{{url_for('cal.main')}}">
+			<img src="{{ url_for('static',filename='images/calendar.png') }}",
+			 class="basic_img"/>캘린더</a>
 	</div>
 </div>
 <hr width="100%" color="black"/>

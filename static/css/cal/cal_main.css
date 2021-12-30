@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding : 0;
+    box-sizing: border-box;
+}
+
+.cal_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align : center;
+
+}
+
+.calendar {
+    width: 900px;
+    margin: 50px;
+}
+
+/* 년월일 및 투데이 배치 */
+.cal_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* 년월일 폰트 설정 */
+.year-month {
+    font-size: 35px;
+    font-weight: 800;
+}
+
+/* 날짜 넘기는 부분 */
+.cal_nav {
+    border-radius: 5px;
+    border: 0.8px solid #3e6595;
+}
+
+/* 버튼 디자인 */
+.nav-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  font-size: 16px;
+  line-height: 34px;
+  background-color: transparent;
+  cursor: pointer;
+}
+/* 손가락 버튼 디자인 넓이 */
+.hands-btn {
+    width: 30px;
+    cursor: pointer;
+}
+.hands-btn:hover {
+    opacity: 0.7;
+}
+/* 일-토 정렬 */
+.days {
+  display: flex;
+  margin: 25px 0 10px;
+}
+/* 일-토 넓이 설정 */
+.day {
+  width: calc(100% / 7);
+  text-align: center;
+}
+/* 날짜 정렬 */
+.dates {
+  display: flex;
+  flex-flow: row wrap;
+  height: 500px;
+  border-top: 1px solid #333333;
+  border-right: 1px solid #333333;
+}
+/* 날짜 넓이 및 폰트 설정 */
+.date {
+  width: calc(100% / 7);
+  padding: 5px;
+  text-align: right;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #333333;
+}
+
+/* 일요일 */
+.day:nth-child(7n + 1),
+.date:nth-child(7n + 1) {
+  color: #D13E3E;
+}
+/* 토요일 */
+.day:nth-child(7n),
+.date:nth-child(7n) {
+  color: #396EE2;
+}
+/* 이번 달이 아닐 경우, 회색 표시
+.other {
+  opacity: .3;
+}*/
+
+.today {
+  padding: 5px;
+  text-align: right;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  background-color: #4e4e4e;
+  color: white;
+}

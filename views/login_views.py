@@ -67,6 +67,8 @@ def signup():
 def login():
     form = UserLoginForm()
     url = request.args.get('url')   # login_required 함수에서 가져옴, 로그인창 전 url
+
+    # POST = 로그인 버튼 클릭
     if request.method == 'POST' and form.validate_on_submit():
         error = None
         user = User.query.filter_by(username=form.username.data).first()
@@ -124,7 +126,10 @@ def findPw():
             return jsonify(result="find")
         # 비밀번호 변경 클릭 시
         elif user and result['kind'] == 'change':
+            user.password = generate_password_hash(result['pw'])
+            db.session.commit()
             return jsonify(result="change")
+        # 그 이외에
         else:
             return jsonify(result="fail")
 

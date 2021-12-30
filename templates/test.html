@@ -3,58 +3,56 @@
 {% block title %}
 test
 {% endblock %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='cal.css') }}">
 {% block content %}
-<!--{{ simplemde.css }}-->
-<!--{{ simplemde.js }}-->
-  	<div>
-  	        <center>
-  	            <br>
-  	            <img src="{{ url_for('static',filename='images/aq.png') }}"
-                     width="50" style="margin-left: auto; margin-right: auto; display: block;" />
-  	            <br>
-  	            <center>
-  	                <a class="btn btn-outline-dark btn-primar btn-sm"
-                       href="{{url_for('question._list')}}">
-  	                    <h8>test</h8>
-  	                </a> <a class="btn btn-outline-dark btn-primar btn-sm"
-                              href="{{ url_for('question.create') }}">
-  	                    <h8>새로운 test</h8>
-  	                </a>
-  	                <br>
-  	            </center><br>
-            </center>
-  	        <hr width="100%" color="black" />
-    </div>
-<div class="container text-center">
-    <h5 class="my-3 border-bottom pb-2 center">TEST</h5>
-    <form method="post" class="post-form my-3">
-        {{ form.csrf_token }}
-        <!-- 오류표시 Start -->
-        {% for field, errors in form.errors.items() %}
-        <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+<link rel="stylesheet" href="{{ url_for('static', filename='cal.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c92986acdf.js" crossorigin="anonymous"></script>
+
+
+    <section class="main">
+        <h1 class="main-title">Calendar AND TodoList</h1>
+        <div class="month clearfix">
+            <span class="left">
+                <i class="fas fa-chevron-left left"></i>
+            </span>
+            <span class="right">
+                <i class="fas fa-chevron-right right"></i>
+            </span>
+            <p class="month-name"></p>
         </div>
-        {% endfor %}
-        <!-- 오류표시 End -->
-        <div class="form-group">
-            <label for="subject">제목</label>
-            <input type="text" class="form-control" name="subject" id="subject"
-                   value="{{ form.subject.data or '' }}">
+        <div class="dayCount">
+            <ul class="dayCount-list clearfix">
+                <li>MON</li>
+                <li>TUE</li>
+                <li>WED</li>
+                <li>THU</li>
+                <li>FRI</li>
+                <li>SAT</li>
+                <li>SUN</li>
+            </ul>
         </div>
-        <div>
-            <label>내용</label>
+        <ul class="day clearfix">
+
+        </ul>
+
+    </section>
+
+    <section class="todo">
+        <h1 class="todo-title">
+            Today's To Do List
+        </h1>
+        <div class="textToDo">
+            <input type="text" class="textToDo-text">
+            <button class="textToDo-button add">Add</button>
+            <button class="textToDo-button reset">Reset</button>
+            <button class="textToDo-button allreset">All reset</button>
         </div>
-        <div name="content"
-                  id="summernote" rows="10" cols="100">{{ form.content.data or '' }}</div>
-        <br><br>
-    </form>
-    <button type="submit" id="btn" class="btn btn-primary">등록하기</button>
-</div>
+        <ul class="todoList"></ul>
+    </section>
+
 {% endblock %}
 
 {% block script %}
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="{{ url_for('static', filename='js/editor_test.js') }}"></script>
+<script src="{{ url_for('static', filename='cal.js') }}"></script>
 {% endblock %}

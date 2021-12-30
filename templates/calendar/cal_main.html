@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Calendar :)
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cal/cal_main.css') }}">
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+ <div class="header">
+     <br>
+     <a class="top_icon" href="{{url_for('cal.main')}}">
+			<img src="{{ url_for('static',filename='images/calendar.png') }}",
+			 class="basic_img"/></a>
+     <h3>Calendar</h3>
+     <hr width="100%" color="black">
+ </div>
+<div class="cal_body">
+    <div class="calendar">
+        <div class="cal_header">
+            <div class="year-month"></div>
+            <div class="cal_nav">
+                <a onclick="prevMonth()"><img src="{{ url_for('static',filename='images/swipe-left.png') }}"
+                                 class="hands-btn"></a>
+                <a onclick="goToday()"><img src="{{ url_for('static',filename='images/swipe-center.png') }}"
+                                 class="hands-btn"></a>
+                <a onclick="nextMonth()"><img src="{{ url_for('static',filename='images/swipe-right.png') }}"
+                                 class="hands-btn"></a>
+            </div>
+        </div>
+        <div class="cal_main">
+            <div class="days">
+                <div class="day">일</div>
+                <div class="day">월</div>
+                <div class="day">화</div>
+                <div class="day">수</div>
+                <div class="day">목</div>
+                <div class="day">금</div>
+                <div class="day">토</div>
+            </div>
+
+            <div class="dates">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="todo">
+        <div>
+            <span>안녕</span>
+        </div>
+        <form class="todo_form">
+            <input type="text" placeholder="text">
+        </form>
+        <ul class="todo_ul">
+
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/cal/cal_main.js') }}"></script>
+{% endblock %}

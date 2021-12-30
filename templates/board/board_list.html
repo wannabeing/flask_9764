@@ -9,9 +9,10 @@
   	    <div>
 			<br>
   	        <center>
-  	            <img src="{{ url_for('static',filename='images/board.png') }}" width="50"
-                     style="margin-left: auto; margin-right: auto; display: block;" />
-  	            <h3><a href="{{url_for('board._list')}}">자유게시판</a></h3>
+
+  	            <a class="top_icon" href="{{url_for('board._list')}}">
+			<img src="{{ url_for('static',filename='images/board.png') }}",
+			 class="basic_img"/>Free board</a>
   	        </center>
   	        <hr width="100%" color="black" />
   	    </div>

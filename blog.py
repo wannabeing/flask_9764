@@ -43,7 +43,7 @@ def create_app():
     # 블루프린트
     from views import main_views, file_views, login_views, \
         question_views, answer_views, vote_views, board_views, comment_views, \
-        ocr_views
+        ocr_views, calendar_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(file_views.bp)
     app.register_blueprint(login_views.bp)
@@ -52,6 +52,7 @@ def create_app():
     app.register_blueprint(answer_views.bp)
     app.register_blueprint(board_views.bp)
     app.register_blueprint(comment_views.bp)
+    app.register_blueprint(calendar_views.bp)
     app.register_blueprint(vote_views.bp)
     app.register_blueprint(ocr_views.bp)
 
