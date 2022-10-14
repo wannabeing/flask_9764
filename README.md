@@ -25,9 +25,9 @@
 - **게시판**
 
   - summernote 라이브러리로 EDIT 페이지 구성
-  - 점프 투 플라스크![](https://wikidocs.net/book/4542)를 통해 구축
+  - 점프 투 플라스크[](https://wikidocs.net/book/4542)를 통해 구축
   
   
-- 해당 블로그 참고1![](https://blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=shino1025&logNo=221348321746)
-- 해당 블로그 참고2![](https://blog.naver.com/PostView.naver?blogId=dsz08082&logNo=221797865031&parentCategoryNo=&categoryNo=155&viewDate=&isShowPopularPosts=false&from=postList)
+- [해당 블로그 참고1](https://blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=shino1025&logNo=221348321746)
+- [해당 블로그 참고2](https://blog.naver.com/PostView.naver?blogId=dsz08082&logNo=221797865031&parentCategoryNo=&categoryNo=155&viewDate=&isShowPopularPosts=false&from=postList)
 
